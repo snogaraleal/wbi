@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<project name="client" default="build" basedir=".">
+  <!-- Arguments to GWTC -->
+  <property name="args" value="" />
+
+  <!-- Project class path -->
+  <path id="project.class.path">
+    <!-- Libraries -->
+    <fileset dir="lib" includes="**/*.jar"/>
+
+    <!-- Shared source -->
+    <pathelement location="app"/>
+
+    <!-- Client-only source -->
+    <pathelement location="client"/>
+  </path>
+
+  <!-- GWT compile -->
+  <target name="gwtc" description="GWT compile to JavaScript (production mode)">
+    <java failonerror="true" fork="true" classname="com.google.gwt.dev.Compiler">
+      <classpath>
+        <path refid="project.class.path"/>
+      </classpath>
+
+      <jvmarg value="-Xmx512M"/>
+
+      <arg line="-war"/>
+      <arg value="war"/>
+
+      <arg line="-XenableClosureCompiler"/>
+
+      <arg line="${args}"/>
+      <arg value="client"/>
+    </java>
+  </target>
+
+  <!-- Build -->
+  <target name="build" depends="gwtc" description="Build this project" />
+
+  <!-- WAR -->
+  <target name="war" depends="build" description="Create a war file">
+    <zip destfile="client.war" basedir="war"/>
+  </target>
+
+  <!-- Development mode -->
+  <target name="devmode" description="Run development mode">
+    <java failonerror="true" fork="true" classname="com.google.gwt.dev.DevMode">
+      <classpath>
+        <path refid="project.class.path"/>
+      </classpath>
+
+      <jvmarg value="-Xmx512M"/>
+      <jvmarg value="-Xdebug"/>
+      <jvmarg value="-Xrunjdwp:transport=dt_socket,address=8786,server=y,suspend=n"/>
+
+      <arg line="-startupUrl"/>
+      <arg value="http://localhost:9000/"/>
+
+      <arg line="${args}"/>
+      <arg value="client"/>
+    </java>
+  </target>
+
+  <!-- Code server -->
+  <target name="codeserver" description="Run code server">
+    <java failonerror="true" fork="true" classname="com.google.gwt.dev.codeserver.CodeServer">
+      <classpath>
+        <path refid="project.class.path"/>
+      </classpath>
+
+      <jvmarg value="-Xmx512M"/>
+      <jvmarg value="-Xdebug"/>
+      <jvmarg value="-Xrunjdwp:transport=dt_socket,address=8786,server=y,suspend=n"/>
+
+      <arg line="${args}"/>
+      <arg value="client"/>
+    </java>
+  </target>
+
+  <!-- Clean -->
+  <target name="clean" description="Cleans this project">
+    <delete dir="war" failonerror="false" />
+    <delete dir="gwt-unitCache" />
+  </target>
+</project>

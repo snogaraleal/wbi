@@ -1,0 +1,13 @@
+<ui:UiBinder
+  xmlns:ui="urn:ui:com.google.gwt.uibinder"
+  xmlns:g="urn:import:com.google.gwt.user.client.ui">
+
+  <g:FocusPanel ui:field="panel" addStyleNames="item">
+    <g:FlowPanel>
+      <g:FlowPanel ui:field="ink" addStyleNames="ink"></g:FlowPanel>
+      <g:Image ui:field="icon"></g:Image>
+      <g:Label ui:field="title" addStyleNames="title">Title Indicator 1</g:Label>
+      <g:Label ui:field="subtitle" addStyleNames="subtitle">Subtitle</g:Label>
+    </g:FlowPanel>
+  </g:FocusPanel>
+</ui:UiBinder>

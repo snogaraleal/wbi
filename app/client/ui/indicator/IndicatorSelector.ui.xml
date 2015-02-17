@@ -1,0 +1,15 @@
+<ui:UiBinder
+  xmlns:ui="urn:ui:com.google.gwt.uibinder"
+  xmlns:g="urn:import:com.google.gwt.user.client.ui"
+  xmlns:w="urn:import:client.ui.components">
+
+  <g:FlowPanel addStyleNames="selector selector-indicator">
+    <w:MaterialSearch placeholder="Search" ui:field="search"/>
+
+    <g:ScrollPanel styleName="component results">
+      <g:FlowPanel>
+        <g:FlowPanel ui:field="panel"></g:FlowPanel>
+      </g:FlowPanel>
+    </g:ScrollPanel>
+  </g:FlowPanel>
+</ui:UiBinder>

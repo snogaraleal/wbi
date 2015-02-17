@@ -1,0 +1,7 @@
+
+GET     /               controllers.Application.index()
+
+POST    /rpc/http/      controllers.rpc.HTTPController.call()
+GET     /rpc/ws/        controllers.rpc.WebSocketController.socket()
+
+GET     /*file          controllers.Assets.at(path="/public", file)

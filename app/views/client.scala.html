@@ -1,0 +1,13 @@
+@(clientHead: String)
+
+<!DOCTYPE HTML>
+<html>
+  <head @Html(clientHead)>
+    <title>World Bank Indicators</title>
+    <link rel="stylesheet" href="@routes.Assets.at("ui.css")" type="text/css"/>
+  </head>
+
+  <body>
+    <script src="@routes.Assets.at("client/client.nocache.js")" type="text/javascript"></script>
+  </body>
+</html>

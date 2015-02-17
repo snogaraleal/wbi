@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<module rename-to="client">
+  <!-- Inherit the core Web Toolkit -->
+  <inherits name="com.google.gwt.useragent.UserAgent"/>
+  <inherits name="com.google.gwt.user.User"/>
+  <inherits name="com.google.gwt.json.JSON"/>
+  <inherits name="com.google.gwt.http.HTTP"/>
+
+  <!-- Inherit client-only source -->
+  <inherits name="play"/>
+  <inherits name="java"/>
+
+  <!-- App entry point class -->
+  <entry-point class="client.Client"/>
+
+  <!-- Paths for translatable code -->
+  <source path="client"/>
+  <source path="models"/>
+
+  <!-- RPC mechanism -->
+  <source path="rpc/client"/>
+  <source path="rpc/shared"/>
+</module>

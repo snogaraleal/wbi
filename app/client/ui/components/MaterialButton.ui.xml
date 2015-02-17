@@ -1,0 +1,9 @@
+<ui:UiBinder
+  xmlns:ui="urn:ui:com.google.gwt.uibinder"
+  xmlns:g="urn:import:com.google.gwt.user.client.ui">
+
+  <g:Anchor ui:field="anchor">
+    <span class="ink" ui:field="ink"></span>
+    <span class="label" ui:field="label"></span>
+  </g:Anchor>
+</ui:UiBinder>
