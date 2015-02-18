@@ -55,8 +55,8 @@ public class IndicatorSelector extends Composite
         @Override
         public void onClick(ClickEvent event) {
             super.onClick(event);
-            IndicatorManager manager = this.selector.getCurrentManager();
-            manager.select(this.indicator);
+            IndicatorManager manager = selector.getCurrentManager();
+            manager.select(indicator);
         }
     }
 

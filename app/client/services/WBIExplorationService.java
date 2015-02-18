@@ -37,11 +37,11 @@ public class WBIExplorationService {
     }
 
     public static ClientRequest querySeriesList(
-            Long indicatorId,
+            Long indicatorId, Integer startYear, Integer endYear,
             ClientRequest.Listener<List<Series>> listener) {
         return factory
             .call("querySeriesList")
-            .setArguments(indicatorId)
+            .setArguments(indicatorId, startYear, endYear)
             .setExpected(Type.get(List.class, Type.get(Series.class)))
             .addListener(listener)
             .send();

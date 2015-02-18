@@ -2,6 +2,7 @@ package models;
 
 import java.util.List;
 import java.util.Map;
+import java.util.HashMap;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -51,11 +52,17 @@ public class Series extends Model {
 
     public Map<Integer, Point> getPointsMap() {
         if (pointsMap == null) {
+            pointsMap = new HashMap<Integer, Point>();
+
             for (Point point : points) {
                 pointsMap.put(point.getYear(), point);
             }
         }
         return pointsMap;
+    }
+
+    public void setPoints(List<Point> points) {
+        this.points = points;
     }
 
     public static String FIELD_COUNTRY = "country";

@@ -1,12 +1,16 @@
 package services;
 
 import java.util.List;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
 
 import rpc.server.Service;
 
 import models.Country;
 import models.Indicator;
 import models.Series;
+import models.Point;
 
 public class WBIExplorationService implements Service {
     private static int LIMIT = 10;
@@ -32,15 +36,43 @@ public class WBIExplorationService implements Service {
             .findList();
     }
 
-    public static List<Series> querySeriesList(Long indicatorId) {
-        return Series.objects
+    public static List<Series> querySeriesList(
+            Long indicatorId, Integer startYear, Integer endYear) {
+
+        List<Point> points = Point.objects
             .where()
-            .eq("indicator.id", indicatorId)
+            .eq("series.indicator.id", indicatorId)
+            .ge("year", startYear)
+            .le("year", endYear)
             .query()
-            .fetch("indicator", "*")
-            .fetch("country", "*")
-            .fetch("country.region", "*")
-            .fetch("points")
+            .fetch("series", "*")
+            .fetch("series.country", "*")
             .findList();
+
+        Map<Series, List<Point>> pointsBySeries =
+            new HashMap<Series, List<Point>>();
+
+        for (Point point : points) {
+            Series series = point.getSeries();
+
+            List<Point> seriesPoints = pointsBySeries.get(series);
+            if (seriesPoints == null) {
+                seriesPoints = new ArrayList<Point>();
+                pointsBySeries.put(series, seriesPoints);
+            }
+
+            seriesPoints.add(point);
+        }
+
+        List<Series> allSeries = new ArrayList<Series>();
+
+        for (Map.Entry<Series, List<Point>> entry :
+                pointsBySeries.entrySet()) {
+            Series series = entry.getKey();
+            series.setPoints(entry.getValue());
+            allSeries.add(series);
+        }
+
+        return allSeries;
     }
 }

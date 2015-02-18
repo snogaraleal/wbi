@@ -47,8 +47,8 @@ public class CountrySelector extends Composite
         @Override
         public void onClick(ClickEvent event) {
             super.onClick(event);
-            CountryManager manager = this.selector.getCurrentManager();
-            manager.toggle(this.country);
+            CountryManager manager = selector.getCurrentManager();
+            manager.toggle(country);
         }
     }
 

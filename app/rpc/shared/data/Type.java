@@ -46,6 +46,10 @@ public class Type {
         return parameterized[position];
     }
 
+    public boolean isBoolean() {
+        return typeClass == Boolean.class;
+    }
+
     public boolean isInteger() {
         return typeClass == Integer.class;
     }

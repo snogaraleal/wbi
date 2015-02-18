@@ -4,7 +4,7 @@
 
   <g:FlowPanel addStyleNames="scroll">
     <g:FlowPanel addStyleNames="component series series-table">
-      <g:Label>Table series view</g:Label>
+      <g:FlowPanel ui:field="container"></g:FlowPanel>
     </g:FlowPanel>
   </g:FlowPanel>
 </ui:UiBinder>

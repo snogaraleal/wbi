@@ -1,14 +1,22 @@
 <ui:UiBinder
   xmlns:ui="urn:ui:com.google.gwt.uibinder"
   xmlns:g="urn:import:com.google.gwt.user.client.ui"
-  xmlns:w="urn:import:client.ui.components">
+  xmlns:w="urn:import:client.ui.components"
+  xmlns:i="urn:import:client.ui.interval">
 
   <g:FlowPanel styleName="viewport">
     <g:HTMLPanel styleName="header slidedown">
       <b>World Bank</b> Indicators
     </g:HTMLPanel>
 
-    <g:FlowPanel ui:field="seriesAnchors" styleName="anchors fadein">
+    <g:FlowPanel ui:field="overlay" styleName="overlay">
+      <g:FlowPanel ui:field="seriesAnchors"
+          styleName="anchors anchors-right fadein">
+      </g:FlowPanel>
+
+      <i:IntervalSwitch ui:field="seriesInterval"
+          styleName="anchors anchors-left fadein">
+      </i:IntervalSwitch>
     </g:FlowPanel>
 
     <g:FlowPanel styleName="container fadein">

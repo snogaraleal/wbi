@@ -3,11 +3,8 @@ package client.ui.series;
 import java.util.List;
 import java.util.SortedSet;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.Composite;
-
-import models.Region;
 
 import client.managers.SeriesManager;
 
@@ -21,7 +18,7 @@ public abstract class SeriesView extends Composite
 
     @Override
     public void onUpdate(
-            List<SeriesManager.Row> rows, List<Region> regions,
+            List<SeriesManager.Row> rows,
             SortedSet<Integer> years) {
     }
 
@@ -37,6 +34,7 @@ public abstract class SeriesView extends Composite
     public void onAttach(SeriesManager manager) {
         manager.addListener(this);
         this.manager = manager;
+        onUpdate(manager.getRows(), manager.getYears());
     }
 
     @Override

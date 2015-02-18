@@ -38,12 +38,20 @@ public class RegistryServiceMethod implements Invokable {
 
         for (Method method : serviceClass.getDeclaredMethods()) {
             if (method.getName().equals(serviceMethodName)) {
-                if (Modifier.isStatic(method.getModifiers())) {
-                    return method;
-                } else {
+                int modifiers = method.getModifiers();
+
+                if (!Modifier.isStatic(modifiers)) {
                     throw new RegistryException(
                         this,
                         RegistryException.Reason.SERVICE_METHOD_NOT_STATIC);
+
+                } else if (!Modifier.isPublic(modifiers)) {
+                    throw new RegistryException(
+                        this,
+                        RegistryException.Reason.SERVICE_METHOD_NOT_PUBLIC);
+
+                } else {
+                    return method;
                 }
             }
         }

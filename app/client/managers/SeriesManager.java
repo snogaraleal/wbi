@@ -16,12 +16,14 @@ import models.Indicator;
 import models.Country;
 import models.Series;
 import models.Point;
-import models.Region;
 
 import client.services.WBIExplorationService;
 
 public class SeriesManager
-    implements Manager, IndicatorManager.Listener, CountryManager.Listener {
+    implements Manager,
+               IntervalManager.Listener,
+               IndicatorManager.Listener,
+               CountryManager.Listener {
 
     public static interface View extends Manager.View<SeriesManager> {
     }
@@ -119,49 +121,49 @@ public class SeriesManager
             }
 
             private int compareCountryName(Row a, Row b) {
-                Country aCountry = a.getSeries().getCountry();
-                Country bCountry = b.getSeries().getCountry();
+                Country countryA = a.getSeries().getCountry();
+                Country countryB = b.getSeries().getCountry();
 
-                if (aCountry == null && bCountry == null) {
+                if (countryA == null && countryB == null) {
                     return 0;
                 }
 
-                if (aCountry == null) {
+                if (countryA == null) {
                     return 1;
                 }
 
-                if (bCountry == null) {
+                if (countryB == null) {
                     return -1;
                 }
 
-                String aName = aCountry.getName();
-                String bName = bCountry.getName();
+                String nameA = countryA.getName();
+                String nameB = countryB.getName();
 
-                return aName.compareTo(bName);
+                return nameA.compareTo(nameB);
             }
 
             private int compareYear(Row a, Row b) {
                 int year = ordering.getBy();
 
-                Point aPoint = a.getSeries().getPointsMap().get(year);
-                Point bPoint = b.getSeries().getPointsMap().get(year);
+                Point pointA = a.getSeries().getPointsMap().get(year);
+                Point pointB = b.getSeries().getPointsMap().get(year);
 
-                if (aPoint == null && bPoint == null) {
+                if (pointA == null && pointB == null) {
                     return 0;
                 }
 
-                if (aPoint == null) {
+                if (pointA == null) {
                     return 1;
                 }
 
-                if (bPoint == null) {
+                if (pointB == null) {
                     return -1;
                 }
 
-                Double aValue = aPoint.getValue();
-                Double bValue = bPoint.getValue();
+                Double valueA = pointA.getValue();
+                Double valueB = pointB.getValue();
 
-                return aValue.compareTo(bValue);
+                return valueA.compareTo(valueB);
             }
 
             public int compare(Row a, Row b) {
@@ -198,24 +200,23 @@ public class SeriesManager
     }
 
     public static interface Listener {
-        void onUpdate(
-            List<Row> row, List<Region> regions,
-            SortedSet<Integer> years);
+        void onUpdate(List<Row> row, SortedSet<Integer> years);
         void onChange(Row row);
         void onOrderingChange(Ordering ordering);
     }
 
     private List<Listener> listeners = new ArrayList<Listener>();
 
+    private static int QUERY_DELAY = 100;
     private ClientRequest.Listener<List<Series>> queryRequestListener;
 
     private Ordering ordering = new Ordering();
 
     private List<Row> rows = new ArrayList<Row>();
     private Map<Country, Row> rowsByCountry = new HashMap<Country, Row>();
-    private List<Region> regions = new ArrayList<Region>();
     private SortedSet<Integer> years = new TreeSet<Integer>();
 
+    private IntervalManager intervalManager;
     private IndicatorManager indicatorManager;
     private CountryManager countryManager;
 
@@ -233,6 +234,39 @@ public class SeriesManager
                     ClientRequest.Error error) {
             }
         };
+    }
+
+    public void connect(IntervalManager intervalManager) {
+        intervalManager.addListener(this);
+        this.intervalManager = intervalManager;
+    }
+
+    public void disconnect(IntervalManager intervalManager) {
+        intervalManager.removeListener(this);
+        this.intervalManager = null;
+    }
+
+    public IntervalManager getCurrentIntervalManager() {
+        return intervalManager;
+    }
+
+    @Override
+    public void onSelect(final IntervalManager.Option option) {
+        (new Timer() {
+            @Override
+            public void run() {
+                IndicatorManager indicatorManager =
+                    getCurrentIndicatorManager();
+                Indicator indicator = indicatorManager.getSelectedIndicator();
+
+                if (indicator != null) {
+                    WBIExplorationService.querySeriesList(
+                        indicator.getId(),
+                        option.getStartYear(), option.getEndYear(),
+                        queryRequestListener);
+                }
+            }
+        }).schedule(QUERY_DELAY);
     }
 
     public void connect(IndicatorManager indicatorManager) {
@@ -259,15 +293,19 @@ public class SeriesManager
     public void onChange(Indicator indicator) {
     }
 
-    private static int QUERY_DELAY = 600;
-
     @Override
     public void onSelect(final Indicator indicator) {
         (new Timer() {
             @Override
             public void run() {
+                IntervalManager intervalManager = getCurrentIntervalManager();
+                IntervalManager.Option option =
+                    intervalManager.getSelectedOption();
+
                 WBIExplorationService.querySeriesList(
-                    indicator.getId(), queryRequestListener);
+                    indicator.getId(),
+                    option.getStartYear(), option.getEndYear(),
+                    queryRequestListener);
             }
         }).schedule(QUERY_DELAY);
     }
@@ -322,6 +360,10 @@ public class SeriesManager
         return rows;
     }
 
+    public SortedSet<Integer> getYears() {
+        return years;
+    }
+
     public void addListener(Listener listener) {
         listeners.add(listener);
     }
@@ -332,7 +374,7 @@ public class SeriesManager
 
     private void update() {
         for (Listener listener : listeners) {
-            listener.onUpdate(rows, regions, years);
+            listener.onUpdate(rows, years);
         }
     }
 
@@ -345,30 +387,20 @@ public class SeriesManager
     private void load(List<Series> seriesList) {
         rows.clear();
         rowsByCountry.clear();
-        regions.clear();
         years.clear();
 
         List<Country> selectedCountries =
             countryManager.getSelectedCountries();
 
         for (Series series : seriesList) {
-            Country country = series.getCountry();
-
-            if (country != null) {
-                Region region = country.getRegion();
-
-                if (!regions.contains(region)) {
-                    regions.add(region);
-                }
-            }
-
             for (Point point : series.getPoints()) {
                 years.add(point.getYear());
             }
 
-            boolean selected = selectedCountries.contains(country);
+            Country country = series.getCountry();
 
-            Row row = new Row(this, series, selected);
+            Row row = new Row(
+                this, series, selectedCountries.contains(country));
 
             rows.add(row);
             rowsByCountry.put(country, row);

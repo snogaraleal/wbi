@@ -11,10 +11,12 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+import client.managers.IntervalManager;
 import client.managers.IndicatorManager;
 import client.managers.CountryManager;
 import client.managers.SeriesManager;
 
+import client.ui.interval.IntervalSwitch;
 import client.ui.indicator.IndicatorSelector;
 import client.ui.country.CountrySelector;
 
@@ -34,6 +36,9 @@ public class Dashboard extends Composite {
         GWT.create(DashboardUiBinder.class);
 
     @UiField
+    FlowPanel overlay;
+
+    @UiField
     TabLayoutPanel indicatorPanel;
 
     @UiField
@@ -43,8 +48,12 @@ public class Dashboard extends Composite {
     TabLayoutPanel seriesPanel;
 
     @UiField
+    IntervalSwitch seriesInterval;
+
+    @UiField
     FlowPanel seriesAnchors;
 
+    private IntervalManager intervalManager = new IntervalManager();
     private IndicatorManager indicatorManager = new IndicatorManager();
     private CountryManager countryManager = new CountryManager();
     private SeriesManager seriesManager = new SeriesManager();
@@ -52,6 +61,9 @@ public class Dashboard extends Composite {
     public Dashboard() {
         initWidget(uiBinder.createAndBindUi(this));
 
+        seriesInterval.onAttach(intervalManager);
+
+        seriesManager.connect(intervalManager);
         seriesManager.connect(indicatorManager);
         seriesManager.connect(countryManager);
 
@@ -87,17 +99,20 @@ public class Dashboard extends Composite {
 
     private void updateAnchorsScroll(int tabIndex) {
         Widget tab = seriesPanel.getWidget(tabIndex);
-        Element seriesAnchorsElement = seriesAnchors.getElement();
+        Element overlayElement = overlay.getElement();
 
         if (tab.getElement().hasClassName(CLASS_NAME_ENABLE_SCROLL)) {
-            seriesAnchorsElement.addClassName(CLASS_NAME_ANCHORS_SCROLL);
+            overlayElement.addClassName(CLASS_NAME_ANCHORS_SCROLL);
         } else {
-            seriesAnchorsElement.removeClassName(CLASS_NAME_ANCHORS_SCROLL);
+            overlayElement.removeClassName(CLASS_NAME_ANCHORS_SCROLL);
         }
     }
 
     private void addSeriesSerializer(
             String title, SeriesManager.Serializer serializer) {
-        seriesAnchors.add(new MaterialButton(title));
+
+        MaterialButton button = new MaterialButton(title);
+        button.setAnimationEnabled(true);
+        seriesAnchors.add(button);
     }
 }

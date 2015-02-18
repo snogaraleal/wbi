@@ -9,7 +9,8 @@ public class RegistryException extends Exception {
         SERVICE_CLASS_NOT_FOUND,
         SERVICE_CLASS_NOT_ENABLED,
         SERVICE_METHOD_NOT_FOUND,
-        SERVICE_METHOD_NOT_STATIC
+        SERVICE_METHOD_NOT_STATIC,
+        SERVICE_METHOD_NOT_PUBLIC
     }
 
     public RegistryException(
@@ -86,6 +87,14 @@ public class RegistryException extends Exception {
                     "defined in service class" +
                     " '" + registryService.getServiceClassName() + "' " +
                     "must be static";
+
+            case SERVICE_METHOD_NOT_PUBLIC:
+                return
+                    "Method" +
+                    " '" + registryServiceMethod.getServiceMethodName() + "' " +
+                    "defined in service class" +
+                    " '" + registryService.getServiceClassName() + "' " +
+                    "is not public";
 
             default:
                 return GENERIC_MESSAGE;
