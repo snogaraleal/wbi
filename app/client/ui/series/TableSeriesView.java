@@ -51,7 +51,7 @@ public class TableSeriesView extends SeriesView {
 
     public static class YearColumn extends TextColumn<SeriesManager.Row> {
         public static String NONE = "";
-        public static Double RES = 100.0;
+        public static Double RES = 10.0;
 
         private int year;
 

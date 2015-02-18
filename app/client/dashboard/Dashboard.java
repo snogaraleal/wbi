@@ -20,6 +20,7 @@ import client.ui.interval.IntervalSwitch;
 import client.ui.indicator.IndicatorSelector;
 import client.ui.country.CountrySelector;
 
+import client.ui.series.SeriesView;
 import client.ui.series.TableSeriesView;
 import client.ui.series.ChartSeriesView;
 import client.ui.series.MapSeriesView;
@@ -58,6 +59,10 @@ public class Dashboard extends Composite {
     private CountryManager countryManager = new CountryManager();
     private SeriesManager seriesManager = new SeriesManager();
 
+    private TabCoordinator indicatorTabCoordinator;
+    private TabCoordinator countryTabCoordinator;
+    private TabCoordinator seriesTabCoordinator;
+
     public Dashboard() {
         initWidget(uiBinder.createAndBindUi(this));
 
@@ -67,11 +72,11 @@ public class Dashboard extends Composite {
         seriesManager.connect(indicatorManager);
         seriesManager.connect(countryManager);
 
-        TabCoordinator indicatorTabCoordinator =
+        indicatorTabCoordinator =
             new TabCoordinator(indicatorPanel, indicatorManager);
-        TabCoordinator countryTabCoordinator =
+        countryTabCoordinator =
             new TabCoordinator(countryPanel, countryManager);
-        TabCoordinator seriesTabCoordinator =
+        seriesTabCoordinator =
             new TabCoordinator(seriesPanel, seriesManager);
 
         indicatorTabCoordinator.addTab("Indicators", new IndicatorSelector());
@@ -85,26 +90,34 @@ public class Dashboard extends Composite {
         addSeriesSerializer("CSV", new CSVSeriesSerializer());
         addSeriesSerializer("JSON", new JSONSeriesSerializer());
 
-        updateAnchorsScroll(seriesPanel.getSelectedIndex());
+        autoEnableScroll(seriesPanel.getSelectedIndex());
         seriesPanel.addSelectionHandler(new SelectionHandler<Integer>() {
             @Override
             public void onSelection(SelectionEvent<Integer> event) { 
-                updateAnchorsScroll(event.getSelectedItem());
+                autoEnableScroll(event.getSelectedItem());
             }
         });
     }
 
-    private static String CLASS_NAME_ENABLE_SCROLL = "scroll";
-    private static String CLASS_NAME_ANCHORS_SCROLL = "scroll";
+    private static String CLASS_NAME_OVERLAY_SCROLL = "overlay-scroll";
 
-    private void updateAnchorsScroll(int tabIndex) {
-        Widget tab = seriesPanel.getWidget(tabIndex);
+    private void autoEnableScroll(int tabIndex) {
         Element overlayElement = overlay.getElement();
 
-        if (tab.getElement().hasClassName(CLASS_NAME_ENABLE_SCROLL)) {
-            overlayElement.addClassName(CLASS_NAME_ANCHORS_SCROLL);
+        if (tabIndex == 0) {
+            overlayElement.addClassName(CLASS_NAME_OVERLAY_SCROLL);
         } else {
-            overlayElement.removeClassName(CLASS_NAME_ANCHORS_SCROLL);
+            overlayElement.removeClassName(CLASS_NAME_OVERLAY_SCROLL);
+        }
+
+        SeriesView view = (SeriesView) seriesTabCoordinator.getView(0);
+
+        if (view != null) {
+            if (tabIndex == 0) {
+                view.setScrollEnabled(true);
+            } else {
+                view.setScrollEnabled(false);
+            }
         }
     }
 

@@ -32,6 +32,10 @@ public class TabCoordinator implements SelectionHandler<Integer> {
         panel.add(widget, title);
     }
 
+    public Manager.View getView(int index) {
+        return viewsByWidget.get(panel.getWidget(index));
+    }
+
     @Override
     public void onSelection(SelectionEvent<Integer> event) { 
         Widget widget = panel.getWidget(event.getSelectedItem());
