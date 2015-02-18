@@ -77,15 +77,18 @@ public class Model extends play.db.ebean.Model implements Serializable {
 
     public static String FIELD_ID = "id";
 
+    @Override
     public Object get(String field) {
         if (field == FIELD_ID) return id;
         return null;
     }
 
+    @Override
     public void set(String field, Object value) {
         if (field == FIELD_ID) id = (Long) value;
     }
 
+    @Override
     public Map<String, Type> fields() {
         Map<String, Type> fields = new HashMap<String, Type>();
         fields.put(FIELD_ID, Type.get(Long.class));

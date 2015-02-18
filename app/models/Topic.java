@@ -14,6 +14,7 @@ public class Topic extends Model {
         new Finder<Topic>(Topic.class);
 
     protected int ident;
+
     protected String name;
 
     public Topic() {
@@ -38,12 +39,14 @@ public class Topic extends Model {
     public static String FIELD_IDENT = "ident";
     public static String FIELD_NAME = "name";
 
+    @Override
     public Object get(String field) {
         if (field == FIELD_IDENT) return ident;
         if (field == FIELD_NAME) return name;
         return super.get(field);
     }
 
+    @Override
     public void set(String field, Object value) {
         super.set(field, value);
         if (field == FIELD_IDENT) ident = (Integer) value;
@@ -52,6 +55,7 @@ public class Topic extends Model {
 
     private static Map<String, Type> fields;
 
+    @Override
     public Map<String, Type> fields() {
         if (fields == null) {
             fields = super.fields();

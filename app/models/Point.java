@@ -14,8 +14,11 @@ public class Point extends Model {
     public static Finder<Point> objects =
         new Finder<Point>(Point.class);
 
-    @ManyToOne protected Series series;
+    @ManyToOne
+    protected Series series;
+
     protected int year;
+
     protected double value;
 
     public Point() {
@@ -45,12 +48,14 @@ public class Point extends Model {
     public static String FIELD_YEAR = "year";
     public static String FIELD_VALUE = "value";
 
+    @Override
     public Object get(String field) {
         if (field == FIELD_YEAR) return year;
         if (field == FIELD_VALUE) return value;
         return super.get(field);
     }
 
+    @Override
     public void set(String field, Object value) {
         super.set(field, value);
         if (field == FIELD_YEAR) year = (Integer) value;
@@ -59,6 +64,7 @@ public class Point extends Model {
 
     private static Map<String, Type> fields;
 
+    @Override
     public Map<String, Type> fields() {
         if (fields == null) {
             fields = super.fields();

@@ -23,10 +23,16 @@ public class Indicator extends Model {
     }
 
     protected String ident;
+
     protected String name;
+
     protected Status status;
-    @ManyToMany protected List<Topic> topics;
-    @ManyToOne protected Source source;
+
+    @ManyToMany
+    protected List<Topic> topics;
+
+    @ManyToOne
+    protected Source source;
 
     public Indicator() {
         super();
@@ -95,6 +101,7 @@ public class Indicator extends Model {
     public static String FIELD_TOPICS = "topics";
     public static String FIELD_SOURCE = "source";
 
+    @Override
     public Object get(String field) {
         if (field == FIELD_IDENT) return ident;
         if (field == FIELD_NAME) return name;
@@ -104,6 +111,7 @@ public class Indicator extends Model {
         return super.get(field);
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public void set(String field, Object value) {
         super.set(field, value);
@@ -116,6 +124,7 @@ public class Indicator extends Model {
 
     private static Map<String, Type> fields;
 
+    @Override
     public Map<String, Type> fields() {
         if (fields == null) {
             fields = super.fields();

@@ -17,9 +17,14 @@ public class Series extends Model {
     public static Finder<Series> objects =
         new Finder<Series>(Series.class);
 
-    @ManyToOne protected Indicator indicator;
-    @ManyToOne protected Country country;
-    @OneToMany protected List<Point> points;
+    @ManyToOne
+    protected Indicator indicator;
+
+    @ManyToOne
+    protected Country country;
+
+    @OneToMany
+    protected List<Point> points;
 
     public Series() {
         super();
@@ -68,12 +73,14 @@ public class Series extends Model {
     public static String FIELD_COUNTRY = "country";
     public static String FIELD_POINTS = "points";
 
+    @Override
     public Object get(String field) {
         if (field == FIELD_COUNTRY) return country;
         if (field == FIELD_POINTS) return points;
         return super.get(field);
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public void set(String field, Object value) {
         super.set(field, value);
@@ -83,6 +90,7 @@ public class Series extends Model {
 
     private static Map<String, Type> fields;
 
+    @Override
     public Map<String, Type> fields() {
         if (fields == null) {
             fields = super.fields();

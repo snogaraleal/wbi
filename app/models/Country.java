@@ -15,8 +15,11 @@ public class Country extends Model {
         new Finder<Country>(Country.class);
 
     protected String iso;
+
     protected String name;
-    @ManyToOne protected Region region;
+
+    @ManyToOne
+    protected Region region;
 
     public Country() {
         super();
@@ -46,6 +49,7 @@ public class Country extends Model {
     public static String FIELD_NAME = "name";
     public static String FIELD_REGION = "region";
 
+    @Override
     public Object get(String field) {
         if (field == FIELD_ISO) return iso;
         if (field == FIELD_NAME) return name;
@@ -53,6 +57,7 @@ public class Country extends Model {
         return super.get(field);
     }
 
+    @Override
     public void set(String field, Object value) {
         super.set(field, value);
         if (field == FIELD_ISO) iso = (String) value;
@@ -62,6 +67,7 @@ public class Country extends Model {
 
     private static Map<String, Type> fields;
 
+    @Override
     public Map<String, Type> fields() {
         if (fields == null) {
             fields = super.fields();
