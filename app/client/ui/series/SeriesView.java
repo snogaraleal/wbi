@@ -13,7 +13,7 @@ import client.managers.SeriesManager;
 public abstract class SeriesView extends Composite
     implements SeriesManager.View, SeriesManager.Listener {
 
-    private SeriesManager manager;
+    protected SeriesManager manager;
 
     public SeriesView() {
     }
@@ -21,7 +21,8 @@ public abstract class SeriesView extends Composite
     @Override
     public void onUpdate(
             List<SeriesManager.Row> rows,
-            SortedSet<Integer> years) {
+            SortedSet<Integer> years,
+            SeriesManager.Ordering ordering) {
     }
 
     @Override
@@ -29,14 +30,10 @@ public abstract class SeriesView extends Composite
     }
 
     @Override
-    public void onOrderingChange(SeriesManager.Ordering ordering) {
-    }
-
-    @Override
     public void onAttach(SeriesManager manager) {
         manager.addListener(this);
         this.manager = manager;
-        onUpdate(manager.getRows(), manager.getYears());
+        onUpdate(manager.getRows(), manager.getYears(), manager.getOrdering());
     }
 
     @Override

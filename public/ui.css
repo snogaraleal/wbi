@@ -407,7 +407,7 @@ html, body, button, a, input {
   z-index: 10;
   background: rgba(255, 255, 255, 0.8);
 
-  margin: 12px;
+  margin: 10px;
 
           transition: all 200ms ease;
   -webkit-transition: all 200ms ease;
@@ -420,7 +420,7 @@ html, body, button, a, input {
 }
 
 .overlay .anchors {
-  padding: 6px;
+  padding: 8px;
 }
 
 .overlay .anchors > * {

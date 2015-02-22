@@ -9,6 +9,9 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.cellview.client.CellTable;
+import com.google.gwt.user.cellview.client.Column;
+import com.google.gwt.user.cellview.client.ColumnSortEvent;
+import com.google.gwt.user.cellview.client.ColumnSortList;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -19,14 +22,19 @@ import models.Point;
 
 import client.managers.SeriesManager;
 
-public class TableSeriesView extends SeriesView {
-    public static class NameColumn extends TextColumn<SeriesManager.Row> {
+public class TableSeriesView extends SeriesView
+    implements ColumnSortEvent.Handler {
+
+    public static class CountryNameColumn
+            extends TextColumn<SeriesManager.Row> {
+
         public static String HEADER = "Country";
         public static String NONE = "Unknown";
 
-        public NameColumn() {
+        public CountryNameColumn() {
             super();
             setSortable(true);
+            setDefaultSortAscending(true);
         }
 
         @Override
@@ -39,11 +47,11 @@ public class TableSeriesView extends SeriesView {
             }
         }
 
-        private static NameColumn column;
+        private static CountryNameColumn column;
 
-        public static NameColumn get() {
+        public static CountryNameColumn get() {
             if (column == null) {
-                column = new NameColumn();
+                column = new CountryNameColumn();
             }
             return column;
         }
@@ -59,6 +67,10 @@ public class TableSeriesView extends SeriesView {
             super();
             this.year = year;
             setSortable(true);
+        }
+
+        public int getYear() {
+            return year;
         }
 
         @Override
@@ -109,38 +121,80 @@ public class TableSeriesView extends SeriesView {
         initWidget(uiBinder.createAndBindUi(this));
     }
 
+    private void updateColumnSortList(
+            ColumnSortList columnSortList,
+            SeriesManager.Ordering ordering) {
+
+        Column<?, ?> column;
+        int by = ordering.getBy();
+
+        if (by == SeriesManager.Ordering.BY_COUNTRY_NAME) {
+            column = CountryNameColumn.get();
+        } else {
+            column = YearColumn.get(by);
+        }
+
+        ColumnSortList.ColumnSortInfo columnSortInfo =
+            new ColumnSortList.ColumnSortInfo(column, ordering.isAscending());
+
+        columnSortList.clear();
+        columnSortList.push(columnSortInfo);
+    }
+
+    @Override
+    public void onColumnSort(ColumnSortEvent event) {
+        SeriesManager.Ordering.Direction direction;
+        if (event.isSortAscending()) {
+            direction = SeriesManager.Ordering.Direction.ASC;
+        } else {
+            direction = SeriesManager.Ordering.Direction.DESC;
+        }
+
+        Column<?, ?> column = event.getColumn();
+
+        if (column instanceof CountryNameColumn) {
+            manager.setOrdering(new SeriesManager.Ordering(
+                SeriesManager.Ordering.BY_COUNTRY_NAME, direction));
+        }
+
+        if (column instanceof YearColumn) {
+            manager.setOrdering(new SeriesManager.Ordering(
+                ((YearColumn) column).getYear(), direction));
+        }
+    }
+
     @Override
     public void onUpdate(
             List<SeriesManager.Row> rows,
-            SortedSet<Integer> years) {
+            SortedSet<Integer> years,
+            SeriesManager.Ordering ordering) {
 
-        super.onUpdate(rows, years);
+        super.onUpdate(rows, years, ordering);
 
         table = new Table(rows.size());
 
         container.clear();
         container.add(table);
 
-        table.addColumn(NameColumn.get(), NameColumn.HEADER);
+        table.addColumn(CountryNameColumn.get(), CountryNameColumn.HEADER);
 
         for (Integer year : years) {
             table.addColumn(YearColumn.get(year), year.toString());
         }
+
+        table.addColumnSortHandler(this);
 
         ListDataProvider<SeriesManager.Row> provider =
             new ListDataProvider<SeriesManager.Row>();
 
         provider.addDataDisplay(table);
         provider.setList(rows);
+
+        updateColumnSortList(table.getColumnSortList(), ordering);
     }
 
     @Override
     public void onChange(SeriesManager.Row row) {
         super.onChange(row);
-    }
-
-    @Override
-    public void onOrderingChange(SeriesManager.Ordering ordering) {
-        super.onOrderingChange(ordering);
     }
 }

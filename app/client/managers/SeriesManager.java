@@ -113,6 +113,14 @@ public class SeriesManager
             return direction;
         }
 
+        public boolean isAscending() {
+            return direction == Direction.ASC;
+        }
+
+        public boolean isDescending() {
+            return direction == Direction.DESC;
+        }
+
         public static class Comparator implements java.util.Comparator<Row> {
             private Ordering ordering;
 
@@ -153,11 +161,11 @@ public class SeriesManager
                 }
 
                 if (pointA == null) {
-                    return 1;
+                    return -1;
                 }
 
                 if (pointB == null) {
-                    return -1;
+                    return 1;
                 }
 
                 Double valueA = pointA.getValue();
@@ -200,9 +208,11 @@ public class SeriesManager
     }
 
     public static interface Listener {
-        void onUpdate(List<Row> row, SortedSet<Integer> years);
+        void onUpdate(
+            List<Row> row,
+            SortedSet<Integer> years,
+            Ordering ordering);
         void onChange(Row row);
-        void onOrderingChange(Ordering ordering);
     }
 
     private List<Listener> listeners = new ArrayList<Listener>();
@@ -364,6 +374,10 @@ public class SeriesManager
         return years;
     }
 
+    public Ordering getOrdering() {
+        return ordering;
+    }
+
     public void addListener(Listener listener) {
         listeners.add(listener);
     }
@@ -374,7 +388,7 @@ public class SeriesManager
 
     private void update() {
         for (Listener listener : listeners) {
-            listener.onUpdate(rows, years);
+            listener.onUpdate(rows, years, ordering);
         }
     }
 
@@ -412,10 +426,6 @@ public class SeriesManager
 
     public void setOrdering(Ordering ordering) {
         this.ordering = ordering;
-
-        for (Listener listener : listeners) {
-            listener.onOrderingChange(ordering);
-        }
 
         Collections.sort(rows, ordering.createComparator());
         update();
