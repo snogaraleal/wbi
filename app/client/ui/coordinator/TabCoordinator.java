@@ -1,4 +1,4 @@
-package client.dashboard;
+package client.ui.coordinator;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -10,19 +10,18 @@ import com.google.gwt.user.client.ui.Widget;
 
 import client.managers.Manager;
 
-@SuppressWarnings({"rawtypes", "unchecked"})
-public class TabCoordinator implements SelectionHandler<Integer> {
+@SuppressWarnings({"rawtypes"})
+public class TabCoordinator extends SimpleCoordinator
+    implements SelectionHandler<Integer> {
+
     private TabLayoutPanel panel;
-    private Manager manager;
 
     private Map<Widget, Manager.View> viewsByWidget =
         new HashMap<Widget, Manager.View>();
-    private Manager.View currentView;
 
-    public TabCoordinator(TabLayoutPanel panel, Manager manager) {
+    public TabCoordinator(Manager manager, TabLayoutPanel panel) {
+        super(manager);
         this.panel = panel;
-        this.manager = manager;
-
         this.panel.addSelectionHandler(this);
     }
 
@@ -40,12 +39,6 @@ public class TabCoordinator implements SelectionHandler<Integer> {
     public void onSelection(SelectionEvent<Integer> event) { 
         Widget widget = panel.getWidget(event.getSelectedItem());
         Manager.View view = viewsByWidget.get(widget);
-
-        if (currentView != null) {
-            currentView.onDetach(manager);
-        }
-
-        currentView = view;
-        currentView.onAttach(manager);
+        setView(view);
     }
 }

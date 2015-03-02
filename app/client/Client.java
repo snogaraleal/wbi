@@ -6,6 +6,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import client.dashboard.Dashboard;
 
 public class Client implements EntryPoint {
+    @Override
     public void onModuleLoad() {
         ClientConf.configureRPC();
 

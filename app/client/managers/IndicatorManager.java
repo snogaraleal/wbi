@@ -31,6 +31,7 @@ public class IndicatorManager implements Manager {
 
     private String lastQuery;
     private ClientRequest lastSearchRequest;
+    private List<Indicator> lastSearchIndicators;
 
     private Indicator selectedIndicator;
 
@@ -59,6 +60,8 @@ public class IndicatorManager implements Manager {
             public void onSuccess(
                     ClientRequest request,
                     List<Indicator> list) {
+
+                lastSearchIndicators = list;
 
                 for (Listener listener : listeners) {
                     listener.onSearch(list, selectedIndicator);
@@ -111,6 +114,10 @@ public class IndicatorManager implements Manager {
     }
 
     public void addListener(Listener listener) {
+        if (lastSearchIndicators != null) {
+            listener.onSearch(lastSearchIndicators, selectedIndicator);
+        }
+
         listeners.add(listener);
     }
 

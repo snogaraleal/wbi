@@ -33,7 +33,6 @@ public abstract class SeriesView extends Composite
     public void onAttach(SeriesManager manager) {
         manager.addListener(this);
         this.manager = manager;
-        onUpdate(manager.getRows(), manager.getYears(), manager.getOrdering());
     }
 
     @Override

@@ -27,6 +27,9 @@ import client.ui.series.MapSeriesView;
 
 import client.ui.components.MaterialButton;
 
+import client.ui.coordinator.SimpleCoordinator;
+import client.ui.coordinator.TabCoordinator;
+
 import client.serializers.XMLSeriesSerializer;
 import client.serializers.CSVSeriesSerializer;
 import client.serializers.JSONSeriesSerializer;
@@ -59,6 +62,7 @@ public class Dashboard extends Composite {
     private CountryManager countryManager = new CountryManager();
     private SeriesManager seriesManager = new SeriesManager();
 
+    private SimpleCoordinator intervalCoordinator;
     private TabCoordinator indicatorTabCoordinator;
     private TabCoordinator countryTabCoordinator;
     private TabCoordinator seriesTabCoordinator;
@@ -66,18 +70,19 @@ public class Dashboard extends Composite {
     public Dashboard() {
         initWidget(uiBinder.createAndBindUi(this));
 
-        seriesInterval.onAttach(intervalManager);
-
         seriesManager.connect(intervalManager);
         seriesManager.connect(indicatorManager);
         seriesManager.connect(countryManager);
 
+        intervalCoordinator = new SimpleCoordinator(intervalManager);
         indicatorTabCoordinator =
-            new TabCoordinator(indicatorPanel, indicatorManager);
+            new TabCoordinator(indicatorManager, indicatorPanel);
         countryTabCoordinator =
-            new TabCoordinator(countryPanel, countryManager);
+            new TabCoordinator(countryManager, countryPanel);
         seriesTabCoordinator =
-            new TabCoordinator(seriesPanel, seriesManager);
+            new TabCoordinator(seriesManager, seriesPanel);
+
+        intervalCoordinator.setView(seriesInterval);
 
         indicatorTabCoordinator.addTab("Indicators", new IndicatorSelector());
         countryTabCoordinator.addTab("Countries", new CountrySelector());

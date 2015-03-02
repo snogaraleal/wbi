@@ -28,6 +28,7 @@ public class CountryManager implements Manager {
 
     private String lastQuery;
     private ClientRequest lastSearchRequest;
+    private List<Country> lastSearchCountries;
 
     private List<Country> selectedCountries = new ArrayList<Country>();
 
@@ -36,6 +37,8 @@ public class CountryManager implements Manager {
             public void onSuccess(
                     ClientRequest request,
                     List<Country> list) {
+
+                lastSearchCountries = list;
 
                 for (Listener listener : listeners) {
                     listener.onSearch(list, selectedCountries);
@@ -54,6 +57,10 @@ public class CountryManager implements Manager {
     }
 
     public void addListener(Listener listener) {
+        if (lastSearchCountries != null) {
+            listener.onSearch(lastSearchCountries, selectedCountries);
+        }
+
         listeners.add(listener);
     }
 

@@ -20,10 +20,11 @@ import models.Point;
 import client.services.WBIExplorationService;
 
 public class SeriesManager
-    implements Manager,
-               IntervalManager.Listener,
-               IndicatorManager.Listener,
-               CountryManager.Listener {
+    implements
+        Manager,
+        IntervalManager.Listener,
+        IndicatorManager.Listener,
+        CountryManager.Listener {
 
     public static interface View extends Manager.View<SeriesManager> {
     }
@@ -379,6 +380,7 @@ public class SeriesManager
     }
 
     public void addListener(Listener listener) {
+        listener.onUpdate(rows, years, ordering);
         listeners.add(listener);
     }
 

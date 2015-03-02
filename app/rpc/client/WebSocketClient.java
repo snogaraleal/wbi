@@ -68,6 +68,8 @@ public class WebSocketClient extends Client implements WebSocket.Listener {
         for (ClientRequest clientRequest : waitingForSocket.keySet()) {
             send(clientRequest);
         }
+
+        waitingForSocket.clear();
     }
 
     @Override

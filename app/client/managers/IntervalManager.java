@@ -51,6 +51,10 @@ public class IntervalManager implements Manager {
     }
 
     public void addListener(Listener listener) {
+        if (selectedOption != null) {
+            listener.onSelect(selectedOption);
+        }
+
         listeners.add(listener);
     }
 

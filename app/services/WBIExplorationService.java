@@ -21,8 +21,8 @@ public class WBIExplorationService implements Service {
             .icontains("name", query)
             .orderBy("name")
             .setMaxRows(LIMIT)
-            .fetch("source", "*")
-            .fetch("topics", "*")
+            .fetch("source")
+            .fetch("topics")
             .findList();
     }
 
@@ -45,8 +45,9 @@ public class WBIExplorationService implements Service {
             .ge("year", startYear)
             .le("year", endYear)
             .query()
-            .fetch("series", "*")
-            .fetch("series.country", "*")
+            .fetch("series")
+            .fetch("series.country")
+            .fetch("series.country.region")
             .findList();
 
         Map<Series, List<Point>> pointsBySeries =
