@@ -6,8 +6,8 @@
     <g:FlowPanel>
       <g:FlowPanel ui:field="ink" addStyleNames="ink"></g:FlowPanel>
       <g:Image ui:field="icon"></g:Image>
-      <g:Label ui:field="title" addStyleNames="title">Title Indicator 1</g:Label>
-      <g:Label ui:field="subtitle" addStyleNames="subtitle">Subtitle</g:Label>
+      <g:Label ui:field="title" addStyleNames="title"></g:Label>
+      <g:Label ui:field="subtitle" addStyleNames="subtitle"></g:Label>
     </g:FlowPanel>
   </g:FocusPanel>
 </ui:UiBinder>

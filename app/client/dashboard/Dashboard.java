@@ -25,6 +25,7 @@ import client.ui.series.TableSeriesView;
 import client.ui.series.ChartSeriesView;
 import client.ui.series.MapSeriesView;
 
+import client.ui.components.VectorMap;
 import client.ui.components.MaterialButton;
 
 import client.ui.coordinator.SimpleCoordinator;
@@ -89,7 +90,10 @@ public class Dashboard extends Composite {
 
         seriesTabCoordinator.addTab("Table", new TableSeriesView());
         seriesTabCoordinator.addTab("Chart", new ChartSeriesView());
-        seriesTabCoordinator.addTab("Map", new MapSeriesView());
+        seriesTabCoordinator.addTab(
+            "Map: World", new MapSeriesView(VectorMap.Visual.WORLD));
+        seriesTabCoordinator.addTab(
+            "Map: Europe", new MapSeriesView(VectorMap.Visual.EUROPE));
 
         addSeriesSerializer("XML", new XMLSeriesSerializer());
         addSeriesSerializer("CSV", new CSVSeriesSerializer());
@@ -104,7 +108,7 @@ public class Dashboard extends Composite {
         });
     }
 
-    private static String CLASS_NAME_OVERLAY_SCROLL = "overlay-scroll";
+    private static final String CLASS_NAME_OVERLAY_SCROLL = "overlay-scroll";
 
     private void autoEnableScroll(int tabIndex) {
         Element overlayElement = overlay.getElement();

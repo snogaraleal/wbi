@@ -21,17 +21,35 @@ import client.ClientConf;
 public class MaterialItem extends Composite
     implements HasClickHandlers, ClickHandler {
 
-    public static class Icon {
-        public static String DOWNLOAD =
-            ClientConf.asset("icon/ic_download.svg");
-        public static String DELETE =
-            ClientConf.asset("icon/ic_delete.svg");
+    public static enum Icon {
+        DOWNLOAD(ClientConf.asset("icon/ic_download.svg")),
+        DELETE(ClientConf.asset("icon/ic_delete.svg"));
+
+        private String url;
+
+        private Icon(String url) {
+            this.url = url;
+        }
+
+        public String getUrl() {
+            return url;
+        }
     }
 
-    public static class Class {
-        public static String ANIMATE = "animate";
-        public static String ACTIVE = "active";
-        public static String LOADING = "loading";
+    public static enum Class {
+        ANIMATE("animate"),
+        ACTIVE("active"),
+        LOADING("loading");
+
+        private String name;
+
+        private Class(String name) {
+            this.name = name;
+        }
+
+        public String getName() {
+            return name;
+        }
     }
 
     interface MaterialItemUiBinder
@@ -86,7 +104,7 @@ public class MaterialItem extends Composite
         if (animationEnabled) {
             Element inkElement = ink.getElement();
 
-            inkElement.removeClassName(Class.ANIMATE);
+            inkElement.removeClassName(Class.ANIMATE.getName());
 
             Style style = inkElement.getStyle();
             int size = panel.getOffsetWidth();
@@ -99,7 +117,7 @@ public class MaterialItem extends Composite
             style.setLeft(event.getX(), Style.Unit.PX);
             style.setTop(event.getY(), Style.Unit.PX);
 
-            inkElement.addClassName(Class.ANIMATE);
+            inkElement.addClassName(Class.ANIMATE.getName());
         }
     }
 
@@ -116,20 +134,20 @@ public class MaterialItem extends Composite
         subtitle.setText(text);
     }
 
-    public void setIcon(String url) {
-        icon.setUrl(url);
+    public void setIcon(Icon icon) {
+        this.icon.setUrl(icon.getUrl());
     }
 
     public void setIconVisible(boolean iconVisible) {
         icon.setVisible(iconVisible);
     }
 
-    private void toggleClass(String className, boolean toggle) {
+    private void toggleClass(Class cls, boolean toggle) {
         Element panelElement = panel.getElement();
         if (toggle) {
-            panelElement.addClassName(className);
+            panelElement.addClassName(cls.getName());
         } else {
-            panelElement.removeClassName(className);
+            panelElement.removeClassName(cls.getName());
         }
     }
 

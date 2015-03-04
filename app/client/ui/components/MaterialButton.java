@@ -1,6 +1,7 @@
 package client.ui.components;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -17,8 +18,20 @@ import com.google.gwt.user.client.ui.Widget;
 public class MaterialButton
     extends Composite implements HasText, HasClickHandlers, ClickHandler {
 
-    private static String CLASS_NAME_ANIMATE = "animate";
-    private static String CLASS_NAME_SELECTED = "selected";
+    public static enum Class {
+        ANIMATE("animate"),
+        SELECTED("selected");
+
+        private String name;
+
+        private Class(String name) {
+            this.name = name;
+        }
+
+        public String getName() {
+            return name;
+        }
+    }
 
     interface MaterialButtonUiBinder
         extends UiBinder<Widget, MaterialButton> {}
@@ -34,7 +47,7 @@ public class MaterialButton
     @UiField
     SpanElement ink;
 
-    private static boolean DEFAULT_ANIMATION_ENABLED = false;
+    private static final boolean DEFAULT_ANIMATION_ENABLED = false;
     private boolean animationEnabled;
 
     public MaterialButton() {
@@ -60,7 +73,7 @@ public class MaterialButton
     @Override
     public void onClick(ClickEvent event) {
         if (animationEnabled) {
-            ink.removeClassName(CLASS_NAME_ANIMATE);
+            ink.removeClassName(Class.ANIMATE.getName());
 
             Style style = ink.getStyle();
             int size = anchor.getOffsetWidth();
@@ -73,7 +86,7 @@ public class MaterialButton
             style.setLeft(event.getX(), Style.Unit.PX);
             style.setTop(event.getY(), Style.Unit.PX);
 
-            ink.addClassName(CLASS_NAME_ANIMATE);
+            ink.addClassName(Class.ANIMATE.getName());
         }
     }
 
@@ -92,11 +105,16 @@ public class MaterialButton
         return label.getInnerText();
     }
 
-    public void setSelected(boolean selected) {
-        if (selected) {
-            anchor.getElement().addClassName(CLASS_NAME_SELECTED);
+    private void toggleClass(Class cls, boolean toggle) {
+        Element anchorElement = anchor.getElement();
+        if (toggle) {
+            anchorElement.addClassName(cls.getName());
         } else {
-            anchor.getElement().removeClassName(CLASS_NAME_SELECTED);
+            anchorElement.removeClassName(cls.getName());
         }
+    }
+
+    public void setSelected(boolean selected) {
+        toggleClass(Class.SELECTED, selected);
     }
 }

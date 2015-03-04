@@ -46,8 +46,8 @@ public abstract class SeriesView extends Composite
         return this;
     }
 
-    private static String CLASS_NAME_SCROLL = "series-scroll";
-    private static int SCROLL_DELAY = 300;
+    private static final String CLASS_NAME_SCROLL = "series-scroll";
+    private static final int SCROLL_DELAY = 300;
 
     public void setScrollEnabled(final boolean enabled) {
         final Element element = (Element) getElement().getFirstChild();
