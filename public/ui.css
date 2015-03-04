@@ -424,7 +424,7 @@ html, body, button, a, input {
 }
 
 .overlay .anchors > * {
-  margin-bottom: 2px;
+  margin-bottom: 1px;
 
           transition: all 200ms ease;
   -webkit-transition: all 200ms ease;
@@ -437,7 +437,7 @@ html, body, button, a, input {
 }
 
 .overlay .anchors.anchors-right > * {
-  margin-left: 6px;
+  margin-left: 5px;
 }
 
 .overlay .anchors.anchors-left {
@@ -445,7 +445,7 @@ html, body, button, a, input {
 }
 
 .overlay .anchors.anchors-left > * {
-  margin-right: 6px;
+  margin-right: 5px;
 
   border: solid 1px #EEE;
   background-color: #FFF;

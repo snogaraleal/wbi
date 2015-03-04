@@ -36,6 +36,7 @@ public class ScriptUtils {
 
             @Override
             public void onSuccess(Void result) {
+                ScriptInjector.fromString("jQuery.noConflict();").inject();
                 load(script, callback);
             }
         });
