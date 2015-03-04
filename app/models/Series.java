@@ -53,6 +53,21 @@ public class Series extends Model {
         return points;
     }
 
+    public Double getAverage() {
+        if (points.isEmpty()) {
+            return null;
+        }
+
+        double average = 0.0;
+
+        for (Point point : points) {
+            average += point.getValue();
+        }
+
+        average /= points.size();
+        return average;
+    }
+
     private Map<Integer, Point> pointsMap;
 
     public Map<Integer, Point> getPointsMap() {

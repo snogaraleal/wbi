@@ -4,11 +4,16 @@ import java.util.Map;
 
 import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.DivElement;
+import com.google.gwt.json.client.JSONNumber;
+import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
+
+import client.ui.components.utils.Script;
 
 import client.ClientConf;
 
@@ -47,16 +52,28 @@ public class VectorMap extends Composite {
     @UiField
     DivElement div;
 
-    public static final String BASE_SCRIPT =
+    private static final String BASE_SCRIPT =
         ClientConf.asset("jvectormap/jvectormap-2.0.1.min.js");
-
-    private Map<String, Double> data;
 
     public VectorMap() {
         initWidget(uiBinder.createAndBindUi(this));
     }
 
-    public void setVisual(final Visual visual) {
+    private JavaScriptObject mapToJSObject(Map<String, Double> data) {
+        if (data == null) {
+            return null;
+        }
+
+        JSONObject jsonObject = new JSONObject();
+
+        for (Map.Entry<String, Double> entry : data.entrySet()) {
+            jsonObject.put(entry.getKey(), new JSONNumber(entry.getValue()));
+        }
+
+        return jsonObject.getJavaScriptObject();
+    }
+
+    public void create(final Visual visual, final Map<String, Double> data) {
         final Callback<Void, Exception> visualScriptCallback =
             new Callback<Void, Exception>() {
                 @Override
@@ -65,7 +82,7 @@ public class VectorMap extends Composite {
 
                 @Override
                 public void onSuccess(Void result) {
-                    create();
+                    create(visual.getName(), mapToJSObject(data));
                 }
             };
 
@@ -77,18 +94,56 @@ public class VectorMap extends Composite {
 
                 @Override
                 public void onSuccess(Void result) {
-                    ScriptUtils.load(visual.getScript(), visualScriptCallback);
+                    Script.load(visual.getScript(), visualScriptCallback);
                 }
             };
 
-        ScriptUtils.loadWithJQuery(BASE_SCRIPT, baseScriptCallback);
+        Script.loadWithJQuery(BASE_SCRIPT, baseScriptCallback);
     }
 
-    public void setData(Map<String, Double> data) {
-        this.data = data;
-        create();
-    }
+    private native void create(String visualName, JavaScriptObject data) /*-{
+        if (this.map) {
+            this.map.remove();
+        }
 
-    private void create() {
-    }
+        var div = $wnd.jQuery(this.@client.ui.components.VectorMap::div);
+
+        div.vectorMap({
+            map: visualName,
+            backgroundColor: 'transparent',
+            zoomOnScroll: false,
+            regionStyle: {
+              initial: {
+                fill: '#DDDDDD'
+              },
+              hover: {
+                cursor: 'pointer',
+              }
+            },
+            series: {
+              regions: [{
+                values: data,
+                scale: ['#DDDDDD', '#666666'],
+                normalizeFunction: 'linear'
+              }]
+            },
+            onRegionTipShow: function(event, label, code) {
+              if (data[code] != undefined) {
+                label.html(
+                    label.text() + ' (' +
+                    Math.floor(data[code] * 10) / 10 + ')');
+              }
+            },
+        });
+
+        var map = div.children('.jvectormap-container').data('mapObject');
+
+        div.css('opacity', 0);
+        setTimeout(function () {
+            map.updateSize();
+            div.css('opacity', 1);
+        }.bind(this), 0);
+
+        this.map = map;
+    }-*/;
 }

@@ -1,4 +1,4 @@
-package client.ui.components;
+package client.ui.components.utils;
 
 import java.util.Set;
 import java.util.HashSet;
@@ -8,11 +8,11 @@ import com.google.gwt.core.client.ScriptInjector;
 
 import client.ClientConf;
 
-public class ScriptUtils {
-    private static Set<String> loadedScripts = new HashSet<String>();
-
-    public static final String JQUERY =
+public class Script {
+    private static final String JQUERY =
         ClientConf.asset("jquery/jquery-2.1.3.min.js");
+
+    private static Set<String> loadedScripts = new HashSet<String>();
 
     public static void load(
             String script, Callback<Void, Exception> callback) {
@@ -22,7 +22,11 @@ public class ScriptUtils {
             return;
         }
 
-        ScriptInjector.fromUrl(script).setCallback(callback).inject();
+        ScriptInjector.fromUrl(script)
+            .setWindow(ScriptInjector.TOP_WINDOW)
+            .setCallback(callback)
+            .inject();
+
         loadedScripts.add(script);
     }
 
@@ -36,7 +40,10 @@ public class ScriptUtils {
 
             @Override
             public void onSuccess(Void result) {
-                ScriptInjector.fromString("jQuery.noConflict();").inject();
+                ScriptInjector.fromString("jQuery.noConflict();")
+                    .setWindow(ScriptInjector.TOP_WINDOW)
+                    .inject();
+
                 load(script, callback);
             }
         });
