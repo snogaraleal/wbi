@@ -59,7 +59,7 @@ public class SeriesManager
             return series;
         }
 
-        public boolean getSelected() {
+        public boolean isSelected() {
             return selected;
         }
 
@@ -68,7 +68,7 @@ public class SeriesManager
             manager.change(this);
         }
 
-        public boolean getVisible() {
+        public boolean isVisible() {
             return visible;
         }
 
@@ -437,7 +437,7 @@ public class SeriesManager
         for (Row row : rows) {
             boolean visible = filter.matches(row);
 
-            if (visible != row.getVisible()) {
+            if (visible != row.isVisible()) {
                 row.setVisible(visible);
             }
         }

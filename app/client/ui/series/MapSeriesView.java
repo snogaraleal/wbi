@@ -25,8 +25,6 @@ public class MapSeriesView extends SeriesView {
     @UiField
     VectorMap vectorMap;
 
-    private VectorMap.Visual visual;
-
     public MapSeriesView() {
         super();
         initWidget(uiBinder.createAndBindUi(this));
@@ -34,7 +32,7 @@ public class MapSeriesView extends SeriesView {
 
     public MapSeriesView(VectorMap.Visual visual) {
         this();
-        this.visual = visual;
+        vectorMap.setVisual(visual);
     }
 
     @Override
@@ -52,7 +50,7 @@ public class MapSeriesView extends SeriesView {
             data.put(series.getCountry().getISO(), series.getAverage());
         }
 
-        vectorMap.create(visual, data);
+        vectorMap.setData(data);
     }
 
     @Override

@@ -44,6 +44,12 @@ public class VectorMap extends Composite {
         }
     }
 
+    public static enum Status {
+        NEW,
+        LOADING,
+        READY
+    }
+
     interface VectorMapUiBinder
         extends UiBinder<Widget, VectorMap> {}
     private static VectorMapUiBinder uiBinder =
@@ -55,25 +61,37 @@ public class VectorMap extends Composite {
     private static final String BASE_SCRIPT =
         ClientConf.asset("jvectormap/jvectormap-2.0.1.min.js");
 
+    private Visual visual;
+    private Status status = Status.NEW;
+
     public VectorMap() {
         initWidget(uiBinder.createAndBindUi(this));
     }
 
-    private JavaScriptObject mapToJSObject(Map<String, Double> data) {
-        if (data == null) {
-            return null;
-        }
-
-        JSONObject jsonObject = new JSONObject();
-
-        for (Map.Entry<String, Double> entry : data.entrySet()) {
-            jsonObject.put(entry.getKey(), new JSONNumber(entry.getValue()));
-        }
-
-        return jsonObject.getJavaScriptObject();
+    public VectorMap(Visual visual) {
+        this();
+        setVisual(visual);
     }
 
-    public void create(final Visual visual, final Map<String, Double> data) {
+    public void setVisual(Visual visual) {
+        this.visual = visual;
+    }
+
+    private void loadVisual(final Runnable callback) {
+        switch (status) {
+            case NEW:
+                break;
+
+            case LOADING:
+                return;
+
+            case READY:
+                callback.run();
+                return;
+        }
+
+        status = Status.LOADING;
+
         final Callback<Void, Exception> visualScriptCallback =
             new Callback<Void, Exception>() {
                 @Override
@@ -82,7 +100,10 @@ public class VectorMap extends Composite {
 
                 @Override
                 public void onSuccess(Void result) {
-                    create(visual.getName(), mapToJSObject(data));
+                    loadVisual(visual.getName());
+
+                    status = Status.READY;
+                    callback.run();
                 }
             };
 
@@ -101,49 +122,82 @@ public class VectorMap extends Composite {
         Script.loadWithJQuery(BASE_SCRIPT, baseScriptCallback);
     }
 
-    private native void create(String visualName, JavaScriptObject data) /*-{
-        if (this.map) {
-            this.map.remove();
+    private native void loadVisual(String visualName) /*-{
+        (function (that, $, jvm) {
+            var div = $(that.@client.ui.components.VectorMap::div);
+
+            that.map = new jvm.Map({
+                container: div,
+                map: visualName,
+                backgroundColor: 'transparent',
+                zoomOnScroll: false,
+                regionStyle: {
+                    initial: {
+                        fill: '#DDDDDD'
+                    },
+                    hover: {
+                        cursor: 'pointer',
+                    }
+                },
+                series: {
+                    regions: [{
+                        values: {},
+                        scale: ['#DDDDDD', '#666666'],
+                        normalizeFunction: 'linear'
+                    }],
+                },
+                onRegionTipShow: function(event, label, code) {
+                    var data = that.series.values;
+
+                    if (data[code] != undefined) {
+                        label.html(
+                            label.text() + ' (' +
+                            Math.floor(data[code] * 10) / 10 + ')');
+                    }
+                },
+            });
+
+            that.series = that.map.series.regions[0];
+        })(this, $wnd.jQuery, $wnd.jvm);
+    }-*/;
+
+    private JavaScriptObject mapToJSObject(Map<String, Double> data) {
+        if (data == null) {
+            return null;
         }
 
-        var div = $wnd.jQuery(this.@client.ui.components.VectorMap::div);
+        JSONObject jsonObject = new JSONObject();
 
-        div.vectorMap({
-            map: visualName,
-            backgroundColor: 'transparent',
-            zoomOnScroll: false,
-            regionStyle: {
-              initial: {
-                fill: '#DDDDDD'
-              },
-              hover: {
-                cursor: 'pointer',
-              }
-            },
-            series: {
-              regions: [{
-                values: data,
-                scale: ['#DDDDDD', '#666666'],
-                normalizeFunction: 'linear'
-              }]
-            },
-            onRegionTipShow: function(event, label, code) {
-              if (data[code] != undefined) {
-                label.html(
-                    label.text() + ' (' +
-                    Math.floor(data[code] * 10) / 10 + ')');
-              }
-            },
+        for (Map.Entry<String, Double> entry : data.entrySet()) {
+            jsonObject.put(entry.getKey(), new JSONNumber(entry.getValue()));
+        }
+
+        return jsonObject.getJavaScriptObject();
+    }
+
+    public void setData(final Map<String, Double> data) {
+        loadVisual(new Runnable() {
+            @Override
+            public void run() {
+                setData(mapToJSObject(data));
+            }
         });
+    }
 
-        var map = div.children('.jvectormap-container').data('mapObject');
+    private native void setData(JavaScriptObject data) /*-{
+        (function (that, $, jvm) {
+            var div = $(that.@client.ui.components.VectorMap::div);
 
-        div.css('opacity', 0);
-        setTimeout(function () {
-            map.updateSize();
-            div.css('opacity', 1);
-        }.bind(this), 0);
+            that.series.params.min = undefined;
+            that.series.params.max = undefined;
+            that.series.setValues(data);
 
-        this.map = map;
+            div.css('opacity', 0);
+
+            setTimeout(function () {
+                that.map.updateSize();
+                div.css('opacity', 1);
+            }, 0);
+        })(this, $wnd.jQuery, $wnd.jvm);
     }-*/;
 }

@@ -78,7 +78,7 @@ public class CountrySelector extends Composite
         searchInputTimer = new Timer() {
             @Override
             public void run() {
-                if (searchInputText != null && searchInputText.length() > 0) {
+                if (searchInputText != null && !searchInputText.isEmpty()) {
                     manager.search(searchInputText);
                 }
             }
@@ -91,11 +91,16 @@ public class CountrySelector extends Composite
             public void onKeyUp(KeyUpEvent event) {
                 searchInputText = search.getText().trim();
 
-                if (searchInputText.length() == 0) {
+                if (searchInputText.isEmpty()) {
                     manager.clearSearch();
 
                     panel.clear();
                     map.clear();
+
+                    List<Country> selectedCountries =
+                        manager.getSelectedCountries();
+
+                    onSearch(selectedCountries, selectedCountries);
                 }
             }
         });

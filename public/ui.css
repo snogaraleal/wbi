@@ -405,7 +405,7 @@ html, body, button, a, input {
   right: 25%;
 
   z-index: 10;
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.9);
 
   margin: 10px;
 
@@ -679,11 +679,6 @@ html, body, button, a, input {
   height: 100%;
 }
 
-
-/*
- * Table
- */
-
 .series.series-table table {
   width: 100%;
 }
@@ -705,6 +700,19 @@ html, body, button, a, input {
   -webkit-text-shadow: none !important;
      -moz-text-shadow: none !important;
           text-shadow: none !important;
+}
+
+.com-google-gwt-user-cellview-client-CellTable-Style-cellTableSelectedRow,
+.com-google-gwt-user-cellview-client-CellTable-Style-cellTableSelectedRowCell {
+  background-color: #00BCD4 !important;
+}
+
+.com-google-gwt-user-cellview-client-CellTable-Style-cellTableSelectedRowCell {
+  border: solid 2px #00BCD4 !important;
+}
+
+.com-google-gwt-user-cellview-client-CellTable-Style-cellTableKeyboardSelectedCell {
+  border-color: #d7dde8 !important;
 }
 
 

@@ -7,9 +7,7 @@
     <w:MaterialSearch placeholder="Search" ui:field="search"/>
 
     <g:ScrollPanel styleName="component results">
-      <g:FlowPanel>
-        <g:FlowPanel ui:field="panel"></g:FlowPanel>
-      </g:FlowPanel>
+      <g:FlowPanel ui:field="panel"></g:FlowPanel>
     </g:ScrollPanel>
   </g:FlowPanel>
 </ui:UiBinder>

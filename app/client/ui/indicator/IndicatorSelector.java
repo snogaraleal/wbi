@@ -3,6 +3,7 @@ package client.ui.indicator;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Arrays;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -86,7 +87,7 @@ public class IndicatorSelector extends Composite
         searchInputTimer = new Timer() {
             @Override
             public void run() {
-                if (searchInputText != null && searchInputText.length() > 0) {
+                if (searchInputText != null && !searchInputText.isEmpty()) {
                     manager.search(searchInputText);
                 }
             }
@@ -99,11 +100,18 @@ public class IndicatorSelector extends Composite
             public void onKeyUp(KeyUpEvent event) {
                 searchInputText = search.getText().trim();
 
-                if (searchInputText.length() == 0) {
+                if (searchInputText.isEmpty()) {
                     manager.clearSearch();
 
                     panel.clear();
                     map.clear();
+
+                    Indicator selectedIndicator =
+                        manager.getSelectedIndicator();
+
+                    onSearch(
+                        Arrays.asList(selectedIndicator),
+                        selectedIndicator);
                 }
             }
         });

@@ -16,6 +16,8 @@ import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.ListDataProvider;
+import com.google.gwt.view.client.MultiSelectionModel;
+import com.google.gwt.view.client.SelectionModel;
 
 import models.Country;
 import models.Point;
@@ -115,6 +117,7 @@ public class TableSeriesView extends SeriesView
     FlowPanel container;
 
     private Table table;
+    private SelectionModel<SeriesManager.Row> selectionModel;
 
     public TableSeriesView() {
         super();
@@ -184,17 +187,26 @@ public class TableSeriesView extends SeriesView
 
         table.addColumnSortHandler(this);
 
+        updateColumnSortList(table.getColumnSortList(), ordering);
+
         ListDataProvider<SeriesManager.Row> provider =
             new ListDataProvider<SeriesManager.Row>();
 
         provider.addDataDisplay(table);
         provider.setList(rows);
 
-        updateColumnSortList(table.getColumnSortList(), ordering);
+        selectionModel = new MultiSelectionModel<SeriesManager.Row>();
+        table.setSelectionModel(selectionModel, null);
+
+        for (SeriesManager.Row row : rows) {
+            selectionModel.setSelected(row, row.isSelected());
+        }
     }
 
     @Override
     public void onChange(SeriesManager.Row row) {
         super.onChange(row);
+
+        selectionModel.setSelected(row, row.isSelected());
     }
 }
