@@ -1,13 +1,13 @@
 package rpc.server.controllers.play;
 
-import com.fasterxml.jackson.databind.JsonNode;
-
 import play.mvc.Result;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
+import rpc.server.GlobalHandler;
 import rpc.shared.call.CallRequest;
 import rpc.shared.call.CallResponse;
 import rpc.shared.call.InvalidPayload;
-import rpc.server.GlobalHandler;
 
 public class BaseHTTPController extends BaseController {
     public static Result call() {

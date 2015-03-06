@@ -1,8 +1,8 @@
 package rpc.shared.data;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
 
 import com.google.gwt.core.shared.GwtIncompatible;
 
@@ -87,6 +87,7 @@ public class Type {
         return typeClass.isInstance(object);
     }
 
+    @Override
     public String toString() {
         if (parameterized == null) {
             return typeClass.toString();

@@ -1,8 +1,8 @@
 package models;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -53,6 +53,10 @@ public class Series extends Model {
         return points;
     }
 
+    public void setPoints(List<Point> points) {
+        this.points = points;
+    }
+
     public Double getAverage() {
         if (points.isEmpty()) {
             return null;
@@ -79,10 +83,6 @@ public class Series extends Model {
             }
         }
         return pointsMap;
-    }
-
-    public void setPoints(List<Point> points) {
-        this.points = points;
     }
 
     public static String FIELD_COUNTRY = "country";

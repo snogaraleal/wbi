@@ -1,7 +1,7 @@
 package client.managers;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 import rpc.client.ClientRequest;
 
@@ -34,6 +34,7 @@ public class CountryManager implements Manager {
 
     public CountryManager() {
         searchRequestListener = new ClientRequest.Listener<List<Country>>() {
+            @Override
             public void onSuccess(
                     ClientRequest request,
                     List<Country> list) {
@@ -45,6 +46,7 @@ public class CountryManager implements Manager {
                 }
             }
 
+            @Override
             public void onFailure(
                     ClientRequest request,
                     ClientRequest.Error error) {

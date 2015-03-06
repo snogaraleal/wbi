@@ -80,7 +80,7 @@ public class WBIManagementService implements Service {
             updateIndicatorStatus(indicator, Indicator.Status.LOADING);
 
             Utils.runTask(
-                (Runnable) new IndicatorLoadAndUpdateTask(indicator));
+                new IndicatorLoadAndUpdateTask(indicator));
         }
 
         return indicator;
@@ -93,7 +93,7 @@ public class WBIManagementService implements Service {
             updateIndicatorStatus(indicator, Indicator.Status.LOADING);
 
             Utils.runTask(
-                (Runnable) new IndicatorUnloadAndUpdateTask(indicator));
+                new IndicatorUnloadAndUpdateTask(indicator));
         }
 
         return indicator;

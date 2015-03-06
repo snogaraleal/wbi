@@ -1,7 +1,7 @@
 package models;
 
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;

@@ -1,7 +1,7 @@
 package client.managers;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 public class IntervalManager implements Manager {
     public static interface View extends Manager.View<IntervalManager> {
@@ -24,6 +24,7 @@ public class IntervalManager implements Manager {
             return endYear;
         }
 
+        @Override
         public String toString() {
             return startYear + " " + endYear;
         }

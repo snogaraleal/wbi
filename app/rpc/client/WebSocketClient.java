@@ -1,15 +1,15 @@
 package rpc.client;
 
-import java.util.Map;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
-import rpc.shared.data.Serializer;
-import rpc.shared.data.SerializerException;
+import rpc.client.websocket.WebSocket;
 import rpc.shared.call.CallRequest;
 import rpc.shared.call.CallResponse;
 import rpc.shared.call.InvalidPayload;
-import rpc.client.websocket.WebSocket;
+import rpc.shared.data.Serializer;
+import rpc.shared.data.SerializerException;
 
 public class WebSocketClient extends Client implements WebSocket.Listener {
     private WebSocket socket;

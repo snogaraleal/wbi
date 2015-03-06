@@ -1,7 +1,7 @@
 package rpc.client; 
 
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
 
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
@@ -9,11 +9,11 @@ import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.RequestException;
 import com.google.gwt.http.client.Response;
 
-import rpc.shared.data.Serializer;
-import rpc.shared.data.SerializerException;
 import rpc.shared.call.CallRequest;
 import rpc.shared.call.CallResponse;
 import rpc.shared.call.InvalidPayload;
+import rpc.shared.data.Serializer;
+import rpc.shared.data.SerializerException;
 
 public class HTTPClient extends Client implements RequestCallback {
     private RequestBuilder builder;

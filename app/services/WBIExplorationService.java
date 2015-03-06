@@ -1,16 +1,16 @@
 package services;
 
-import java.util.List;
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import rpc.server.Service;
 
 import models.Country;
 import models.Indicator;
-import models.Series;
 import models.Point;
+import models.Series;
 
 public class WBIExplorationService implements Service {
     private static int LIMIT = 10;

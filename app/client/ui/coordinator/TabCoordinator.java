@@ -1,7 +1,7 @@
 package client.ui.coordinator;
 
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
 
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;

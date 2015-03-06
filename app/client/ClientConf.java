@@ -1,17 +1,17 @@
 package client;
 
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
 
 import com.google.gwt.dom.client.Document;
 
-import models.ModelSerializableFactoryProvider;
-
 import rpc.client.Client;
+import rpc.client.data.JSONSerializer;
 import rpc.shared.data.Serializer;
 import rpc.shared.data.SerializerException;
-import rpc.client.data.JSONSerializer;
 import rpc.shared.data.Type;
+
+import models.ModelSerializableFactoryProvider;
 
 public class ClientConf {
     public static String HEAD_ATTR = "data-conf";

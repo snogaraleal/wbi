@@ -1,15 +1,15 @@
 package client.managers;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 import rpc.client.ClientRequest;
 
 import models.Indicator;
 
+import client.managers.watcher.IndicatorWatcher;
 import client.services.WBIExplorationService;
 import client.services.WBIManagementService;
-import client.managers.watcher.IndicatorWatcher;
 
 public class IndicatorManager implements Manager {
     public static interface View extends Manager.View<IndicatorManager> {
@@ -42,6 +42,7 @@ public class IndicatorManager implements Manager {
 
         watcher = IndicatorWatcher.create();
         watcher.addListener(new IndicatorWatcher.Listener() {
+            @Override
             public void onChange(Indicator indicator) {
                 change(indicator);
 
@@ -57,6 +58,7 @@ public class IndicatorManager implements Manager {
         watcher.start();
 
         searchRequestListener = new ClientRequest.Listener<List<Indicator>>() {
+            @Override
             public void onSuccess(
                     ClientRequest request,
                     List<Indicator> list) {
@@ -68,6 +70,7 @@ public class IndicatorManager implements Manager {
                 }
             }
 
+            @Override
             public void onFailure(
                     ClientRequest request,
                     ClientRequest.Error error) {
@@ -75,6 +78,7 @@ public class IndicatorManager implements Manager {
         };
 
         loadRequestListener = new ClientRequest.Listener<Indicator>() {
+            @Override
             public void onSuccess(
                     ClientRequest request,
                     Indicator indicator) {
@@ -85,6 +89,7 @@ public class IndicatorManager implements Manager {
                     indicator, Indicator.Status.READY);
             }
 
+            @Override
             public void onFailure(
                     ClientRequest request,
                     ClientRequest.Error error) {
@@ -92,6 +97,7 @@ public class IndicatorManager implements Manager {
         };
 
         unloadRequestListener = new ClientRequest.Listener<Indicator>() {
+            @Override
             public void onSuccess(
                     ClientRequest request,
                     Indicator indicator) {
@@ -102,6 +108,7 @@ public class IndicatorManager implements Manager {
                     indicator, Indicator.Status.AVAILABLE);
             }
 
+            @Override
             public void onFailure(
                     ClientRequest request,
                     ClientRequest.Error error) {

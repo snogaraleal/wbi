@@ -16,8 +16,8 @@ public class Global extends GlobalSettings {
 
         ServerConf.configureRPC();
 
-        Utils.runTask((Runnable) new CountryPopulateTask());
-        Utils.runTask((Runnable) new IndicatorPopulateTask());
+        Utils.runTask(new CountryPopulateTask());
+        Utils.runTask(new IndicatorPopulateTask());
     }
 
     @Override
@@ -25,6 +25,7 @@ public class Global extends GlobalSettings {
         super.onStop(app);
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public <T extends EssentialFilter> Class<T>[] filters() {
         return new Class[] {

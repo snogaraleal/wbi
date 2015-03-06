@@ -1,15 +1,15 @@
 package rpc.server.controllers.play;
 
-import play.libs.F;
-import play.mvc.WebSocket;
-
 import akka.actor.ActorRef;
 import akka.actor.Props;
 import akka.actor.UntypedActor;
 
+import play.libs.F;
+import play.mvc.WebSocket;
+
+import rpc.server.GlobalHandler;
 import rpc.shared.call.CallRequest;
 import rpc.shared.call.CallResponse;
-import rpc.server.GlobalHandler;
 
 public class BaseWebSocketController extends BaseController {
     public static class WebSocketActor extends UntypedActor {
@@ -23,6 +23,7 @@ public class BaseWebSocketController extends BaseController {
             this.out = out;
         }
 
+        @Override
         public void onReceive(Object message) throws Exception {
             if (message instanceof String) {
                 CallRequest request =
@@ -38,6 +39,7 @@ public class BaseWebSocketController extends BaseController {
 
     public static WebSocket<String> socket() {
         return WebSocket.withActor(new F.Function<ActorRef, Props>() {
+            @Override
             public Props apply(ActorRef out) throws Throwable {
                 return WebSocketActor.props(out);
             }

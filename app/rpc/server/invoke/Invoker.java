@@ -1,7 +1,7 @@
 package rpc.server.invoke;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 import rpc.shared.data.Serializer;
 import rpc.shared.data.SerializerException;

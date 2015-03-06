@@ -1,13 +1,12 @@
 package rpc.server.registry;
 
-import java.util.List;
-
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.List;
 
-import rpc.shared.data.Type;
 import rpc.server.data.Reflect;
 import rpc.server.invoke.Invokable;
+import rpc.shared.data.Type;
 
 public class RegistryServiceMethod implements Invokable {
     private RegistryService registryService;

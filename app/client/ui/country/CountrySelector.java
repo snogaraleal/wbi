@@ -1,8 +1,8 @@
 package client.ui.country;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -18,8 +18,8 @@ import com.google.gwt.user.client.ui.Widget;
 import models.Country;
 
 import client.managers.CountryManager;
-import client.ui.components.MaterialSearch;
 import client.ui.components.MaterialItem;
+import client.ui.components.MaterialSearch;
 
 public class CountrySelector extends Composite
     implements CountryManager.View, CountryManager.Listener {

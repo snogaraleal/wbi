@@ -1,7 +1,7 @@
 package rpc.shared.data.factory;
 
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
 
 import rpc.shared.data.Serializable;
 import rpc.shared.data.Type;

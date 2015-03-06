@@ -11,29 +11,24 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-import client.managers.IntervalManager;
-import client.managers.IndicatorManager;
 import client.managers.CountryManager;
+import client.managers.IndicatorManager;
+import client.managers.IntervalManager;
 import client.managers.SeriesManager;
-
-import client.ui.interval.IntervalSwitch;
-import client.ui.indicator.IndicatorSelector;
-import client.ui.country.CountrySelector;
-
-import client.ui.series.SeriesView;
-import client.ui.series.TableSeriesView;
-import client.ui.series.ChartSeriesView;
-import client.ui.series.MapSeriesView;
-
-import client.ui.components.VectorMap;
-import client.ui.components.MaterialButton;
-
-import client.ui.coordinator.SimpleCoordinator;
-import client.ui.coordinator.TabCoordinator;
-
-import client.serializers.XMLSeriesSerializer;
 import client.serializers.CSVSeriesSerializer;
 import client.serializers.JSONSeriesSerializer;
+import client.serializers.XMLSeriesSerializer;
+import client.ui.components.MaterialButton;
+import client.ui.components.VectorMap;
+import client.ui.coordinator.SimpleCoordinator;
+import client.ui.coordinator.TabCoordinator;
+import client.ui.country.CountrySelector;
+import client.ui.indicator.IndicatorSelector;
+import client.ui.interval.IntervalSwitch;
+import client.ui.series.ChartSeriesView;
+import client.ui.series.MapSeriesView;
+import client.ui.series.SeriesView;
+import client.ui.series.TableSeriesView;
 
 public class Dashboard extends Composite {
     interface DashboardUiBinder extends UiBinder<Widget, Dashboard> {}

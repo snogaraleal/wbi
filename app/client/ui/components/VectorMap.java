@@ -13,9 +13,8 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
-import client.ui.components.utils.Script;
-
 import client.ClientConf;
+import client.ui.components.utils.Script;
 
 public class VectorMap extends Composite {
     public static enum Visual {

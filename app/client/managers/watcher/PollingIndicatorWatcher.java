@@ -1,7 +1,7 @@
 package client.managers.watcher;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.google.gwt.user.client.Timer;
 
@@ -24,6 +24,7 @@ public class PollingIndicatorWatcher extends IndicatorWatcher {
         this.interval = interval;
 
         pollRequestListener = new ClientRequest.Listener<List<Indicator>> () {
+            @Override
             public void onSuccess(
                     ClientRequest request,
                     List<Indicator> indicators) {
@@ -33,6 +34,7 @@ public class PollingIndicatorWatcher extends IndicatorWatcher {
                 }
             }
 
+            @Override
             public void onFailure(
                     ClientRequest request,
                     ClientRequest.Error error) {

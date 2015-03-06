@@ -1,16 +1,16 @@
 package rpc.client;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
-import rpc.shared.data.Type;
-import rpc.shared.data.Serializer;
-import rpc.shared.data.SerializerException;
+import rpc.client.call.DefaultCallRequestClientSerializer;
+import rpc.client.call.DefaultCallResponseClientSerializer;
 import rpc.shared.call.CallRequest;
 import rpc.shared.call.CallResponse;
 import rpc.shared.call.InvalidPayload;
-import rpc.client.call.DefaultCallRequestClientSerializer;
-import rpc.client.call.DefaultCallResponseClientSerializer;
+import rpc.shared.data.Serializer;
+import rpc.shared.data.SerializerException;
+import rpc.shared.data.Type;
 
 public abstract class Client {
     public static class Configuration {

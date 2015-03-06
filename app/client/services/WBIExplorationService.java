@@ -2,9 +2,9 @@ package client.services;
 
 import java.util.List;
 
-import rpc.shared.data.Type;
 import rpc.client.ClientRequest;
 import rpc.client.ClientRequestFactory;
+import rpc.shared.data.Type;
 
 import models.Country;
 import models.Indicator;

@@ -1,16 +1,17 @@
 package controllers;
 
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
 
 import play.mvc.Http.Request;
 
-import rpc.shared.data.Serializer;
+import rpc.server.GlobalHandler;
 import rpc.server.data.JSONSerializer;
 import rpc.server.invoke.Invoker;
-import rpc.server.GlobalHandler;
+import rpc.shared.data.Serializer;
 
 import models.ModelSerializableFactoryProvider;
+
 import client.ClientConf;
 
 public class ServerConf {

@@ -1,21 +1,21 @@
 package data.api;
 
-import java.util.List;
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import models.Region;
 import models.Country;
+import models.Indicator;
+import models.Point;
+import models.Region;
+import models.Series;
 import models.Source;
 import models.Topic;
-import models.Indicator;
-import models.Series;
-import models.Point;
 
 public class WorldBank {
     public static class API {

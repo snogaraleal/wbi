@@ -5,8 +5,9 @@ import play.mvc.Result;
 
 import rpc.shared.data.SerializerException;
 
-import client.ClientConf;
 import views.html.client;
+
+import client.ClientConf;
 
 public class Application extends Controller {
     private static String clientHead;

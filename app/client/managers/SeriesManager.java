@@ -1,10 +1,10 @@
 package client.managers;
 
-import java.util.List;
 import java.util.ArrayList;
-import java.util.Map;
-import java.util.HashMap;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -12,10 +12,10 @@ import com.google.gwt.user.client.Timer;
 
 import rpc.client.ClientRequest;
 
-import models.Indicator;
 import models.Country;
-import models.Series;
+import models.Indicator;
 import models.Point;
+import models.Series;
 
 import client.services.WBIExplorationService;
 
@@ -175,6 +175,7 @@ public class SeriesManager
                 return valueA.compareTo(valueB);
             }
 
+            @Override
             public int compare(Row a, Row b) {
                 int value;
 
@@ -233,6 +234,7 @@ public class SeriesManager
 
     public SeriesManager() {
         queryRequestListener = new ClientRequest.Listener<List<Series>>() {
+            @Override
             public void onSuccess(
                     ClientRequest request,
                     List<Series> series) {
@@ -240,6 +242,7 @@ public class SeriesManager
                 load(series);
             }
 
+            @Override
             public void onFailure(
                     ClientRequest request,
                     ClientRequest.Error error) {

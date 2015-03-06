@@ -1,7 +1,7 @@
 package rpc.server.registry;
 
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
 
 public class Registry {
     private Map<String, RegistryService> registryServices =

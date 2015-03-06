@@ -1,9 +1,9 @@
 package client.ui.indicator;
 
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
-import java.util.Arrays;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -19,8 +19,8 @@ import com.google.gwt.user.client.ui.Widget;
 import models.Indicator;
 
 import client.managers.IndicatorManager;
-import client.ui.components.MaterialSearch;
 import client.ui.components.MaterialItem;
+import client.ui.components.MaterialSearch;
 
 public class IndicatorSelector extends Composite
     implements IndicatorManager.View, IndicatorManager.Listener {

@@ -1,9 +1,9 @@
 package client.ui.series;
 
-import java.util.List;
-import java.util.SortedSet;
-import java.util.Map;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.SortedSet;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -13,7 +13,6 @@ import com.google.gwt.user.client.ui.Widget;
 import models.Series;
 
 import client.managers.SeriesManager;
-
 import client.ui.components.VectorMap;
 
 public class MapSeriesView extends SeriesView {

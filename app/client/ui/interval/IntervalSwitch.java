@@ -1,7 +1,7 @@
 package client.ui.interval;
 
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;

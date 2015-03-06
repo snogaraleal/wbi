@@ -1,10 +1,9 @@
 package rpc.server.data;
 
-import java.util.List;
-import java.util.ArrayList;
-
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
+import java.util.ArrayList;
+import java.util.List;
 
 import rpc.shared.data.Type;
 

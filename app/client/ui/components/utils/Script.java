@@ -1,7 +1,7 @@
 package client.ui.components.utils;
 
-import java.util.Set;
 import java.util.HashSet;
+import java.util.Set;
 
 import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.ScriptInjector;

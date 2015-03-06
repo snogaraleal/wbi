@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.SortedSet;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.user.client.ui.Widget;
 
 import client.managers.SeriesManager;
 
