@@ -187,6 +187,8 @@ public class VectorMap extends Composite {
         (function (that, $, jvm) {
             var div = $(that.@client.ui.components.VectorMap::div);
 
+            that.map.reset();
+
             that.series.params.min = undefined;
             that.series.params.max = undefined;
             that.series.setValues(data);

@@ -221,6 +221,7 @@ public class SeriesManager
 
     private static int QUERY_DELAY = 100;
     private ClientRequest.Listener<List<Series>> queryRequestListener;
+    private Timer queryTimer;
 
     private Ordering ordering = new Ordering();
 
@@ -248,6 +249,23 @@ public class SeriesManager
                     ClientRequest.Error error) {
             }
         };
+
+        queryTimer = new Timer() {
+            @Override
+            public void run() {
+                Indicator indicator =
+                    getCurrentIndicatorManager().getSelectedIndicator();
+                IntervalManager.Option option =
+                    getCurrentIntervalManager().getSelectedOption();
+
+                if (indicator != null && option != null) {
+                    WBIExplorationService.querySeriesList(
+                        indicator.getId(),
+                        option.getStartYear(), option.getEndYear(),
+                        queryRequestListener);
+                }
+            }
+        };
     }
 
     public void connect(IntervalManager intervalManager) {
@@ -265,22 +283,9 @@ public class SeriesManager
     }
 
     @Override
-    public void onSelect(final IntervalManager.Option option) {
-        (new Timer() {
-            @Override
-            public void run() {
-                IndicatorManager indicatorManager =
-                    getCurrentIndicatorManager();
-                Indicator indicator = indicatorManager.getSelectedIndicator();
-
-                if (indicator != null) {
-                    WBIExplorationService.querySeriesList(
-                        indicator.getId(),
-                        option.getStartYear(), option.getEndYear(),
-                        queryRequestListener);
-                }
-            }
-        }).schedule(QUERY_DELAY);
+    public void onSelect(IntervalManager.Option option) {
+        queryTimer.cancel();
+        queryTimer.schedule(QUERY_DELAY);
     }
 
     public void connect(IndicatorManager indicatorManager) {
@@ -309,19 +314,8 @@ public class SeriesManager
 
     @Override
     public void onSelect(final Indicator indicator) {
-        (new Timer() {
-            @Override
-            public void run() {
-                IntervalManager intervalManager = getCurrentIntervalManager();
-                IntervalManager.Option option =
-                    intervalManager.getSelectedOption();
-
-                WBIExplorationService.querySeriesList(
-                    indicator.getId(),
-                    option.getStartYear(), option.getEndYear(),
-                    queryRequestListener);
-            }
-        }).schedule(QUERY_DELAY);
+        queryTimer.cancel();
+        queryTimer.schedule(QUERY_DELAY);
     }
 
     public void connect(CountryManager countryManager) {

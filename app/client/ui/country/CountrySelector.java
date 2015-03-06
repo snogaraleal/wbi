@@ -61,7 +61,7 @@ public class CountrySelector extends Composite
 
     private CountryManager manager;
 
-    private static int SEARCH_INPUT_DELAY = 1000;
+    private static int SEARCH_INPUT_DELAY = 300;
 
     private String searchInputText;
     private Timer searchInputTimer;
@@ -84,12 +84,11 @@ public class CountrySelector extends Composite
             }
         };
 
-        searchInputTimer.scheduleRepeating(SEARCH_INPUT_DELAY);
-
         search.addKeyUpHandler(new KeyUpHandler() {
             @Override
             public void onKeyUp(KeyUpEvent event) {
                 searchInputText = search.getText().trim();
+                searchInputTimer.cancel();
 
                 if (searchInputText.isEmpty()) {
                     manager.clearSearch();
@@ -101,6 +100,9 @@ public class CountrySelector extends Composite
                         manager.getSelectedCountries();
 
                     onSearch(selectedCountries, selectedCountries);
+
+                } else {
+                    searchInputTimer.schedule(SEARCH_INPUT_DELAY);
                 }
             }
         });
@@ -128,9 +130,17 @@ public class CountrySelector extends Composite
 
     @Override
     public void onAdd(Country country) {
-        Item item = map.get(country);
-        if (item != null) {
+        if (searchInputText.isEmpty()) {
+            Item item = new Item(this, country);
             item.setActive(true);
+
+            panel.add(item);
+            map.put(country, item);
+        } else {
+            Item item = map.get(country);
+            if (item != null) {
+                item.setActive(true);
+            }
         }
     }
 

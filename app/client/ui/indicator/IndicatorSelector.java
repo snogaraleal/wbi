@@ -70,7 +70,7 @@ public class IndicatorSelector extends Composite
 
     private IndicatorManager manager;
 
-    private static int SEARCH_INPUT_DELAY = 1000;
+    private static int SEARCH_INPUT_DELAY = 300;
 
     private String searchInputText;
     private Timer searchInputTimer;
@@ -93,12 +93,11 @@ public class IndicatorSelector extends Composite
             }
         };
 
-        searchInputTimer.scheduleRepeating(SEARCH_INPUT_DELAY);
-
         search.addKeyUpHandler(new KeyUpHandler() {
             @Override
             public void onKeyUp(KeyUpEvent event) {
                 searchInputText = search.getText().trim();
+                searchInputTimer.cancel();
 
                 if (searchInputText.isEmpty()) {
                     manager.clearSearch();
@@ -114,6 +113,8 @@ public class IndicatorSelector extends Composite
                             Arrays.asList(selectedIndicator),
                             selectedIndicator);
                     }
+                } else {
+                    searchInputTimer.schedule(SEARCH_INPUT_DELAY);
                 }
             }
         });
@@ -149,13 +150,17 @@ public class IndicatorSelector extends Composite
 
     @Override
     public void onSelect(Indicator indicator) {
-        for (Item item : map.values()) {
-            item.setActive(false);
-        }
+        if (searchInputText.isEmpty()) {
+            onSearch(Arrays.asList(indicator), indicator);
+        } else {
+            for (Item item : map.values()) {
+                item.setActive(false);
+            }
 
-        Item item = map.get(indicator);
-        if (item != null) {
-            item.setActive(true);
+            Item item = map.get(indicator);
+            if (item != null) {
+                item.setActive(true);
+            }
         }
     }
 
