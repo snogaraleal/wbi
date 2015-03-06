@@ -130,17 +130,17 @@ public class CountrySelector extends Composite
 
     @Override
     public void onAdd(Country country) {
-        if (searchInputText.isEmpty()) {
-            Item item = new Item(this, country);
-            item.setActive(true);
-
-            panel.add(item);
-            map.put(country, item);
-        } else {
-            Item item = map.get(country);
-            if (item != null) {
+        Item item = map.get(country);
+        if (item == null) {
+            if (searchInputText.isEmpty()) {
+                item = new Item(this, country);
                 item.setActive(true);
+
+                panel.add(item);
+                map.put(country, item);
             }
+        } else {
+            item.setActive(true);
         }
     }
 

@@ -2,7 +2,6 @@ package client.ui.components;
 
 import java.util.Map;
 
-import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.DivElement;
@@ -20,11 +19,11 @@ public class VectorMap extends Composite {
     public static enum Visual {
         EUROPE(
             "europe_mill_en",
-            ClientConf.asset("jvectormap/jvectormap-europe-mill-en.js")),
+            ClientConf.asset("js/jvectormap/jvectormap-europe-mill-en.js")),
 
         WORLD(
             "world_mill_en",
-            ClientConf.asset("jvectormap/jvectormap-world-mill-en.js"));
+            ClientConf.asset("js/jvectormap/jvectormap-world-mill-en.js"));
 
         private String name;
         private String script;
@@ -43,12 +42,6 @@ public class VectorMap extends Composite {
         }
     }
 
-    public static enum Status {
-        NEW,
-        LOADING,
-        READY
-    }
-
     interface VectorMapUiBinder
         extends UiBinder<Widget, VectorMap> {}
     private static VectorMapUiBinder uiBinder =
@@ -57,11 +50,14 @@ public class VectorMap extends Composite {
     @UiField
     DivElement div;
 
-    private static final String BASE_SCRIPT =
-        ClientConf.asset("jvectormap/jvectormap-2.0.1.min.js");
+    public static final String BASE_SCRIPT =
+        ClientConf.asset("js/jvectormap/jvectormap-2.0.1.min.js");
+    public static final Script.Manager BASE_SCRIPT_MANAGER =
+        new Script.Manager(BASE_SCRIPT, Script.JQUERY);
 
     private Visual visual;
-    private Status status = Status.NEW;
+    private Script.Manager visualScriptManager;
+    private boolean visualLoaded = false;
 
     public VectorMap() {
         initWidget(uiBinder.createAndBindUi(this));
@@ -74,51 +70,22 @@ public class VectorMap extends Composite {
 
     public void setVisual(Visual visual) {
         this.visual = visual;
+        visualScriptManager = new Script.Manager(
+            visual.getScript(), BASE_SCRIPT_MANAGER);
     }
 
     private void loadVisual(final Runnable callback) {
-        switch (status) {
-            case NEW:
-                break;
-
-            case LOADING:
-                return;
-
-            case READY:
-                callback.run();
-                return;
-        }
-
-        status = Status.LOADING;
-
-        final Callback<Void, Exception> visualScriptCallback =
-            new Callback<Void, Exception>() {
-                @Override
-                public void onFailure(Exception exception) {
-                }
-
-                @Override
-                public void onSuccess(Void result) {
+        visualScriptManager.load(new Runnable() {
+            @Override
+            public void run() {
+                if (!visualLoaded) {
                     loadVisual(visual.getName());
-
-                    status = Status.READY;
-                    callback.run();
-                }
-            };
-
-        final Callback<Void, Exception> baseScriptCallback =
-            new Callback<Void, Exception>() {
-                @Override
-                public void onFailure(Exception exception) {
+                    visualLoaded = true;
                 }
 
-                @Override
-                public void onSuccess(Void result) {
-                    Script.load(visual.getScript(), visualScriptCallback);
-                }
-            };
-
-        Script.loadWithJQuery(BASE_SCRIPT, baseScriptCallback);
+                callback.run();
+            }
+        });
     }
 
     private native void loadVisual(String visualName) /*-{
