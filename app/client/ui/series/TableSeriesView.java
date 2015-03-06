@@ -20,7 +20,6 @@ import com.google.gwt.view.client.MultiSelectionModel;
 import com.google.gwt.view.client.SelectionModel;
 
 import models.Country;
-import models.Point;
 
 import client.managers.SeriesManager;
 
@@ -77,11 +76,11 @@ public class TableSeriesView extends SeriesView
 
         @Override
         public String getValue(SeriesManager.Row row) {
-            Point point = row.getSeries().getPointsMap().get(year);
+            Double point = row.getSeries().getPointsMap().get(year);
             if (point == null) {
                 return NONE;
             } else {
-                return ((Double)(((int)(point.getValue() * RES)) / RES)) + "";
+                return ((Double)(((int)(point * RES)) / RES)) + "";
             }
         }
 

@@ -102,7 +102,7 @@ public class VectorMap extends Composite {
                         fill: '#DDDDDD'
                     },
                     hover: {
-                        cursor: 'pointer',
+                        cursor: 'pointer'
                     }
                 },
                 series: {
@@ -120,32 +120,32 @@ public class VectorMap extends Composite {
                             label.text() + ' (' +
                             Math.floor(data[code] * 10) / 10 + ')');
                     }
-                },
+                }
             });
 
             that.series = that.map.series.regions[0];
         })(this, $wnd.jQuery, $wnd.jvm);
     }-*/;
 
-    private JavaScriptObject mapToJSObject(Map<String, Double> data) {
+    private JavaScriptObject dataToJSObject(Map<String, Double> data) {
         if (data == null) {
             return null;
         }
 
-        JSONObject jsonObject = new JSONObject();
+        JSONObject dataObject = new JSONObject();
 
         for (Map.Entry<String, Double> entry : data.entrySet()) {
-            jsonObject.put(entry.getKey(), new JSONNumber(entry.getValue()));
+            dataObject.put(entry.getKey(), new JSONNumber(entry.getValue()));
         }
 
-        return jsonObject.getJavaScriptObject();
+        return dataObject.getJavaScriptObject();
     }
 
     public void setData(final Map<String, Double> data) {
         loadVisual(new Runnable() {
             @Override
             public void run() {
-                setData(mapToJSObject(data));
+                setData(dataToJSObject(data));
             }
         });
     }
@@ -160,12 +160,9 @@ public class VectorMap extends Composite {
             that.series.params.max = undefined;
             that.series.setValues(data);
 
-            div.css('opacity', 0);
-
             setTimeout(function () {
                 that.map.updateSize();
-                div.css('opacity', 1);
-            }, 0);
+            });
         })(this, $wnd.jQuery, $wnd.jvm);
     }-*/;
 }

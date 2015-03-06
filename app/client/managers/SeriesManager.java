@@ -154,8 +154,8 @@ public class SeriesManager
             private int compareYear(Row a, Row b) {
                 int year = ordering.getBy();
 
-                Point pointA = a.getSeries().getPointsMap().get(year);
-                Point pointB = b.getSeries().getPointsMap().get(year);
+                Double pointA = a.getSeries().getPointsMap().get(year);
+                Double pointB = b.getSeries().getPointsMap().get(year);
 
                 if (pointA == null && pointB == null) {
                     return 0;
@@ -169,10 +169,7 @@ public class SeriesManager
                     return 1;
                 }
 
-                Double valueA = pointA.getValue();
-                Double valueB = pointB.getValue();
-
-                return valueA.compareTo(valueB);
+                return pointA.compareTo(pointB);
             }
 
             @Override

@@ -72,14 +72,14 @@ public class Series extends Model {
         return average;
     }
 
-    private Map<Integer, Point> pointsMap;
+    private Map<Integer, Double> pointsMap;
 
-    public Map<Integer, Point> getPointsMap() {
+    public Map<Integer, Double> getPointsMap() {
         if (pointsMap == null) {
-            pointsMap = new HashMap<Integer, Point>();
+            pointsMap = new HashMap<Integer, Double>();
 
             for (Point point : points) {
-                pointsMap.put(point.getYear(), point);
+                pointsMap.put(point.getYear(), point.getValue());
             }
         }
         return pointsMap;
