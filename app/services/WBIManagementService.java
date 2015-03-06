@@ -11,7 +11,7 @@ import models.Indicator;
 
 import data.tasks.IndicatorLoadTask;
 import data.tasks.IndicatorUnloadTask;
-import data.tasks.Utils;
+import data.tasks.TaskUtils;
 
 public class WBIManagementService implements Service {
     private static void updateIndicatorStatus(
@@ -79,8 +79,7 @@ public class WBIManagementService implements Service {
         if (indicator.isAvailable()) {
             updateIndicatorStatus(indicator, Indicator.Status.LOADING);
 
-            Utils.runTask(
-                new IndicatorLoadAndUpdateTask(indicator));
+            TaskUtils.runTask(new IndicatorLoadAndUpdateTask(indicator));
         }
 
         return indicator;
@@ -92,8 +91,7 @@ public class WBIManagementService implements Service {
         if (indicator.isReady()) {
             updateIndicatorStatus(indicator, Indicator.Status.LOADING);
 
-            Utils.runTask(
-                new IndicatorUnloadAndUpdateTask(indicator));
+            TaskUtils.runTask(new IndicatorUnloadAndUpdateTask(indicator));
         }
 
         return indicator;

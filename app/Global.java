@@ -5,7 +5,7 @@ import play.filters.gzip.GzipFilter;
 
 import data.tasks.CountryPopulateTask;
 import data.tasks.IndicatorPopulateTask;
-import data.tasks.Utils;
+import data.tasks.TaskUtils;
 
 import controllers.ServerConf;
 
@@ -16,8 +16,8 @@ public class Global extends GlobalSettings {
 
         ServerConf.configureRPC();
 
-        Utils.runTask(new CountryPopulateTask());
-        Utils.runTask(new IndicatorPopulateTask());
+        TaskUtils.runTask(new CountryPopulateTask());
+        TaskUtils.runTask(new IndicatorPopulateTask());
     }
 
     @Override
