@@ -6,7 +6,7 @@
 
   <g:FlowPanel styleName="viewport">
     <g:HTMLPanel styleName="header slidedown">
-      <b>World Bank</b> Indicators
+      Indicator Explorer
     </g:HTMLPanel>
 
     <g:FlowPanel ui:field="overlay" styleName="overlay">

@@ -109,9 +109,11 @@ public class IndicatorSelector extends Composite
                     Indicator selectedIndicator =
                         manager.getSelectedIndicator();
 
-                    onSearch(
-                        Arrays.asList(selectedIndicator),
-                        selectedIndicator);
+                    if (selectedIndicator != null) {
+                        onSearch(
+                            Arrays.asList(selectedIndicator),
+                            selectedIndicator);
+                    }
                 }
             }
         });

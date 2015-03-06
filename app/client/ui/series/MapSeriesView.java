@@ -10,6 +10,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Widget;
 
+import models.Country;
 import models.Series;
 
 import client.managers.SeriesManager;
@@ -46,7 +47,11 @@ public class MapSeriesView extends SeriesView {
 
         for (SeriesManager.Row row : rows) {
             Series series = row.getSeries();
-            data.put(series.getCountry().getISO(), series.getAverage());
+            Country country = series.getCountry();
+
+            if (country != null) {
+                data.put(country.getISO(), series.getAverage());
+            }
         }
 
         vectorMap.setData(data);
