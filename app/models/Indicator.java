@@ -9,10 +9,9 @@ import javax.persistence.ManyToOne;
 
 import rpc.shared.data.Type;
 
+@SuppressWarnings("serial")
 @Entity
 public class Indicator extends Model {
-    private static final long serialVersionUID = 146833399501199887L;
-
     public static Finder<Indicator> objects =
         new Finder<Indicator>(Indicator.class);
 
@@ -111,8 +110,8 @@ public class Indicator extends Model {
         return super.get(field);
     }
 
-    @Override
     @SuppressWarnings("unchecked")
+    @Override
     public void set(String field, Object value) {
         super.set(field, value);
         if (field == FIELD_IDENT) ident = (String) value;

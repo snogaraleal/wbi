@@ -6,10 +6,9 @@ import javax.persistence.Entity;
 
 import rpc.shared.data.Type;
 
+@SuppressWarnings("serial")
 @Entity
 public class Region extends Model {
-    private static final long serialVersionUID = 4567433027504632946L;
-
     public static Finder<Region> objects =
         new Finder<Region>(Region.class);
 

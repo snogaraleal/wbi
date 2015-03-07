@@ -25,8 +25,8 @@ public class Global extends GlobalSettings {
         super.onStop(app);
     }
 
-    @Override
     @SuppressWarnings("unchecked")
+    @Override
     public <T extends EssentialFilter> Class<T>[] filters() {
         return new Class[] {
             GzipFilter.class

@@ -5,7 +5,6 @@ import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 
-import client.managers.HistoryManager.Fragment;
 import client.managers.HistoryManager;
 
 public class SeriesPanelHistory extends HistoryManager.BaseHistory
@@ -25,12 +24,14 @@ public class SeriesPanelHistory extends HistoryManager.BaseHistory
     }
 
     public void disconnect() {
-        handlerRegistration.removeHandler();
-        panel = null;
+        assert this.panel != null;
+
+        this.handlerRegistration.removeHandler();
+        this.panel = null;
     }
 
     @Override
-    public void onChange(Fragment fragment) {
+    public void onChange(HistoryManager.State state) {
     }
 
     @Override

@@ -1,8 +1,7 @@
 package rpc.shared.data;
 
+@SuppressWarnings("serial")
 public class SerializerException extends Exception {
-    private static final long serialVersionUID = -2735613790117819342L;
-
     public static enum Error {
         NOT_SERIALIZABLE,
         NOT_DESERIALIZABLE

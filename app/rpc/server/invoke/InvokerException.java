@@ -1,8 +1,7 @@
 package rpc.server.invoke;
 
+@SuppressWarnings("serial")
 public class InvokerException extends Exception {
-    private static final long serialVersionUID = 7935064452648071758L;
-
     private static String GENERIC_MESSAGE = "Exception during invocation";
 
     public static enum Reason {

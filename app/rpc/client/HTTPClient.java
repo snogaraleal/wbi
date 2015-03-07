@@ -64,8 +64,8 @@ public class HTTPClient extends Client implements RequestCallback {
         }
     }
 
-    @Override
     @SuppressWarnings({"rawtypes", "unchecked"})
+    @Override
     public void onResponseReceived(Request request, Response response) {
         ClientRequest clientRequest = pendingByRequest.get(request);
 

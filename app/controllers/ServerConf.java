@@ -10,13 +10,12 @@ import rpc.server.data.JSONSerializer;
 import rpc.server.invoke.Invoker;
 import rpc.shared.data.Serializer;
 
-import models.ModelSerializableFactoryProvider;
-
 import client.ClientConf;
+import client.GlobalSerializableFactoryProvider;
 
 public class ServerConf {
     public static Serializer defaultSerializer =
-        new JSONSerializer(ModelSerializableFactoryProvider.get());
+        new JSONSerializer(GlobalSerializableFactoryProvider.get());
 
     public static void configureRPC() {
         GlobalHandler.setDefaultInvoker(new Invoker(defaultSerializer));

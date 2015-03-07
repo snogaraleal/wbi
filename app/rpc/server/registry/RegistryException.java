@@ -2,9 +2,8 @@ package rpc.server.registry;
 
 import rpc.server.Service;
 
+@SuppressWarnings("serial")
 public class RegistryException extends Exception {
-    private static final long serialVersionUID = -5397511621044183395L;
-
     public static enum Reason {
         SERVICE_CLASS_NOT_FOUND,
         SERVICE_CLASS_NOT_ENABLED,

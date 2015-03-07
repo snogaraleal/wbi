@@ -12,6 +12,8 @@ import models.Indicator;
 import models.Point;
 import models.Series;
 
+import client.managers.HistoryManager;
+
 public class WBIExplorationService implements Service {
     private static int LIMIT = 10;
 
@@ -75,5 +77,11 @@ public class WBIExplorationService implements Service {
         }
 
         return allSeries;
+    }
+
+    public static HistoryManager.State.Data getStateData(
+            HistoryManager.State state) {
+
+        return null;
     }
 }

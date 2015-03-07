@@ -268,6 +268,8 @@ public class SeriesManager
     }
 
     public void disconnectIntervalManager() {
+        assert this.intervalManager != null;
+
         this.intervalManager.removeListener(this);
         this.intervalManager = null;
     }
@@ -290,6 +292,8 @@ public class SeriesManager
     }
 
     public void disconnectIndicatorManager() {
+        assert this.indicatorManager != null;
+
         this.indicatorManager.removeListener(this);
         this.indicatorManager = null;
     }
@@ -322,6 +326,8 @@ public class SeriesManager
     }
 
     public void disconnectCountryManager() {
+        assert this.countryManager != null;
+
         this.countryManager.removeListener(this);
         this.countryManager = null;
     }

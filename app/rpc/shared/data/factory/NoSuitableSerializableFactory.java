@@ -2,9 +2,8 @@ package rpc.shared.data.factory;
 
 import rpc.shared.data.Type;
 
+@SuppressWarnings("serial")
 public class NoSuitableSerializableFactory extends Exception {
-    private static final long serialVersionUID = -574287770192848989L;
-
     private static String message = "Serializable factory provider required";
 
     public NoSuitableSerializableFactory(Type type) {

@@ -6,10 +6,9 @@ import javax.persistence.Entity;
 
 import rpc.shared.data.Type;
 
+@SuppressWarnings("serial")
 @Entity
 public class Topic extends Model {
-    private static final long serialVersionUID = -6908673654362184955L;
-
     public static Finder<Topic> objects =
         new Finder<Topic>(Topic.class);
 

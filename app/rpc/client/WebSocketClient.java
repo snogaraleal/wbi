@@ -72,8 +72,8 @@ public class WebSocketClient extends Client implements WebSocket.Listener {
         waitingForSocket.clear();
     }
 
-    @Override
     @SuppressWarnings({"rawtypes", "unchecked"})
+    @Override
     public void onMessage(WebSocket socket, String message) {
         CallResponse callResponse;
 

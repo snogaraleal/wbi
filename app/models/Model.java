@@ -11,10 +11,9 @@ import javax.persistence.MappedSuperclass;
 import rpc.shared.data.Serializable;
 import rpc.shared.data.Type;
 
+@SuppressWarnings("serial")
 @MappedSuperclass
 public class Model extends play.db.ebean.Model implements Serializable {
-    private static final long serialVersionUID = -6487868681272642072L;
-
     @Id
     @GeneratedValue(strategy=GenerationType.SEQUENCE)
     Long id;
@@ -67,8 +66,6 @@ public class Model extends play.db.ebean.Model implements Serializable {
 
     public static class Finder<T>
         extends play.db.ebean.Model.Finder<Long, T> {
-
-        private static final long serialVersionUID = 1L;
 
         public Finder(Class<T> type) {
             super(Long.class, type);

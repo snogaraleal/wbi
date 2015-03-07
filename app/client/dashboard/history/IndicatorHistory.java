@@ -4,7 +4,6 @@ import java.util.List;
 
 import models.Indicator;
 
-import client.managers.HistoryManager.Fragment;
 import client.managers.HistoryManager;
 import client.managers.IndicatorManager;
 
@@ -24,12 +23,14 @@ public class IndicatorHistory extends HistoryManager.BaseHistory
     }
 
     public void disconnect() {
-        manager.removeListener(this);
-        manager = null;
+        assert this.manager != null;
+
+        this.manager.removeListener(this);
+        this.manager = null;
     }
 
     @Override
-    public void onChange(Fragment fragment) {
+    public void onChange(HistoryManager.State state) {
     }
 
     @Override

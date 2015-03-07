@@ -58,17 +58,23 @@ public class Dashboard extends Composite {
     @UiField
     FlowPanel seriesAnchors;
 
+    private HistoryManager historyManager = new HistoryManager();
+
+    private IntervalManager intervalManager = new IntervalManager();
+    private IndicatorManager indicatorManager = new IndicatorManager();
+    private CountryManager countryManager = new CountryManager();
+    private SeriesManager seriesManager = new SeriesManager();
+
     public Dashboard() {
         initWidget(uiBinder.createAndBindUi(this));
 
-        HistoryManager historyManager = new HistoryManager();
+        initIntervalComponents();
+        initIndicatorComponents();
+        initCountryComponents();
+        initSeriesComponents();
+    }
 
-        /*
-         * Interval
-         */
-
-        IntervalManager intervalManager = new IntervalManager();
-
+    private void initIntervalComponents() {
         SimpleCoordinator<IntervalManager> intervalCoordinator =
             new SimpleCoordinator<IntervalManager>(intervalManager);
 
@@ -78,13 +84,9 @@ public class Dashboard extends Composite {
         intervalHistory.connect(intervalManager);
 
         historyManager.addListener(intervalHistory);
+    }
 
-        /*
-         * Indicator
-         */
-
-        IndicatorManager indicatorManager = new IndicatorManager();
-
+    private void initIndicatorComponents() {
         TabCoordinator<IndicatorManager> indicatorTabCoordinator =
             new TabCoordinator<IndicatorManager>(
                 indicatorManager, indicatorPanel);
@@ -95,13 +97,9 @@ public class Dashboard extends Composite {
         indicatorHistory.connect(indicatorManager);
 
         historyManager.addListener(indicatorHistory);
+    }
 
-        /*
-         * Country
-         */
-
-        CountryManager countryManager = new CountryManager();
-
+    private void initCountryComponents() {
         TabCoordinator<CountryManager> countryTabCoordinator =
             new TabCoordinator<CountryManager>(countryManager, countryPanel);
 
@@ -111,13 +109,9 @@ public class Dashboard extends Composite {
         countryHistory.connect(countryManager);
 
         historyManager.addListener(countryHistory);
+    }
 
-        /*
-         * Series
-         */
-
-        SeriesManager seriesManager = new SeriesManager();
-
+    private void initSeriesComponents() {
         seriesManager.connect(intervalManager);
         seriesManager.connect(indicatorManager);
         seriesManager.connect(countryManager);
@@ -159,6 +153,14 @@ public class Dashboard extends Composite {
         });
     }
 
+    private void addSeriesSerializer(
+            String title, SeriesManager.Serializer serializer) {
+
+        MaterialButton button = new MaterialButton(title);
+        button.setAnimationEnabled(true);
+        seriesAnchors.add(button);
+    }
+
     private static final String CLASS_NAME_OVERLAY_SCROLL = "overlay-scroll";
 
     private void autoEnableScroll(
@@ -181,13 +183,5 @@ public class Dashboard extends Composite {
                 view.setScrollEnabled(false);
             }
         }
-    }
-
-    private void addSeriesSerializer(
-            String title, SeriesManager.Serializer serializer) {
-
-        MaterialButton button = new MaterialButton(title);
-        button.setAnimationEnabled(true);
-        seriesAnchors.add(button);
     }
 }

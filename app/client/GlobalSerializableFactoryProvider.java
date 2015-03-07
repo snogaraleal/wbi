@@ -1,14 +1,24 @@
-package models;
+package client;
 
 import rpc.shared.data.Serializable;
 import rpc.shared.data.Type;
 import rpc.shared.data.factory.SerializableFactory;
 import rpc.shared.data.factory.SerializableFactoryProvider;
 
-public class ModelSerializableFactoryProvider
+import models.Country;
+import models.Indicator;
+import models.Point;
+import models.Region;
+import models.Series;
+import models.Source;
+import models.Topic;
+
+import client.managers.HistoryManager;
+
+public class GlobalSerializableFactoryProvider
     extends SerializableFactoryProvider {
 
-    private ModelSerializableFactoryProvider() {
+    private GlobalSerializableFactoryProvider() {
         super();
 
         addFactory(Type.get(Topic.class), new SerializableFactory() {
@@ -59,13 +69,31 @@ public class ModelSerializableFactoryProvider
                 return new Series();
             }
         });
+
+        addFactory(
+            Type.get(HistoryManager.State.class),
+            new SerializableFactory() {
+                @Override
+                public Serializable make() {
+                    return new HistoryManager.State();
+                }
+            });
+
+        addFactory(
+            Type.get(HistoryManager.State.Data.class),
+            new SerializableFactory() {
+                @Override
+                public Serializable make() {
+                    return new HistoryManager.State.Data();
+                }
+            });
     }
 
-    private static ModelSerializableFactoryProvider provider = null;
+    private static GlobalSerializableFactoryProvider provider = null;
 
-    public static ModelSerializableFactoryProvider get() {
+    public static GlobalSerializableFactoryProvider get() {
         if (provider == null) {
-            provider = new ModelSerializableFactoryProvider();
+            provider = new GlobalSerializableFactoryProvider();
         }
 
         return provider;

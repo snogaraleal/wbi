@@ -11,8 +11,6 @@ import rpc.shared.data.Serializer;
 import rpc.shared.data.SerializerException;
 import rpc.shared.data.Type;
 
-import models.ModelSerializableFactoryProvider;
-
 public class ClientConf {
     public static String HEAD_ATTR = "data-conf";
 
@@ -25,7 +23,7 @@ public class ClientConf {
     }
 
     public static Serializer defaultSerializer =
-        new JSONSerializer(ModelSerializableFactoryProvider.get());
+        new JSONSerializer(GlobalSerializableFactoryProvider.get());
 
     @SuppressWarnings("unchecked")
     private static Map<String, Object> loadClientConf() {

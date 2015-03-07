@@ -6,9 +6,8 @@ import java.util.List;
 import rpc.shared.data.Type;
 
 public class ClientRequest<T> {
+    @SuppressWarnings("serial")
     public static class Error extends Exception {
-        private static final long serialVersionUID = -5117839803700358410L;
-
         public Error(Throwable caught) {
             super(caught);
         }

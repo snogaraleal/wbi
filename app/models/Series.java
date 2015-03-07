@@ -10,10 +10,9 @@ import javax.persistence.OneToMany;
 
 import rpc.shared.data.Type;
 
+@SuppressWarnings("serial")
 @Entity
 public class Series extends Model {
-    private static final long serialVersionUID = 4994996456229543876L;
-
     public static Finder<Series> objects =
         new Finder<Series>(Series.class);
 
@@ -95,8 +94,8 @@ public class Series extends Model {
         return super.get(field);
     }
 
-    @Override
     @SuppressWarnings("unchecked")
+    @Override
     public void set(String field, Object value) {
         super.set(field, value);
         if (field == FIELD_COUNTRY) country = (Country) value;

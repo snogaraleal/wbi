@@ -1,8 +1,6 @@
 package client.dashboard.history;
 
-import client.managers.HistoryManager.Fragment;
 import client.managers.HistoryManager;
-import client.managers.IntervalManager.Option;
 import client.managers.IntervalManager;
 
 public class IntervalHistory extends HistoryManager.BaseHistory
@@ -21,15 +19,17 @@ public class IntervalHistory extends HistoryManager.BaseHistory
     }
 
     public void disconnect() {
-        manager.removeListener(this);
-        manager = null;
+        assert this.manager != null;
+
+        this.manager.removeListener(this);
+        this.manager = null;
     }
 
     @Override
-    public void onChange(Fragment fragment) {
+    public void onChange(HistoryManager.State state) {
     }
 
     @Override
-    public void onSelect(Option option) {
+    public void onSelect(IntervalManager.Option option) {
     }
 }

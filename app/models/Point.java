@@ -7,10 +7,9 @@ import javax.persistence.ManyToOne;
 
 import rpc.shared.data.Type;
 
+@SuppressWarnings("serial")
 @Entity
 public class Point extends Model {
-    private static final long serialVersionUID = 1632353203256250119L;
-
     public static Finder<Point> objects =
         new Finder<Point>(Point.class);
 
