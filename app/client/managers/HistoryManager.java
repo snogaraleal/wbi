@@ -127,7 +127,7 @@ public class HistoryManager implements Manager {
             this.data = data;
         }
 
-        public void getData(Callback<Data, Void> callback) {
+        public void getData(final Callback<Data, Void> callback) {
             if (data != null) {
                 callback.onSuccess(data);
                 return;

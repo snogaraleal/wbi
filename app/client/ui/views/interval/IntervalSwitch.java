@@ -1,4 +1,4 @@
-package client.ui.interval;
+package client.ui.views.interval;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -84,15 +84,19 @@ public class IntervalSwitch extends Composite
 
     @Override
     public void onAttach(IntervalManager manager) {
-        manager.addListener(this);
+        assert this.manager == null;
+
         this.manager = manager;
+        this.manager.addListener(this);
 
         onSelect(manager.getSelectedOption());
     }
 
     @Override
-    public void onDetach(IntervalManager manager) {
-        manager.removeListener(this);
+    public void onDetach() {
+        assert this.manager != null;
+
+        this.manager.removeListener(this);
         this.manager = null;
     }
 

@@ -1,4 +1,4 @@
-package client.ui.indicator;
+package client.ui.views.indicator;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -166,13 +166,17 @@ public class IndicatorSelector extends Composite
 
     @Override
     public void onAttach(IndicatorManager manager) {
-        manager.addListener(this);
+        assert this.manager == null;
+
         this.manager = manager;
+        this.manager.addListener(this);
     }
 
     @Override
-    public void onDetach(IndicatorManager manager) {
-        manager.removeListener(this);
+    public void onDetach() {
+        assert this.manager != null;
+
+        this.manager.removeListener(this);
         this.manager = null;
     }
 

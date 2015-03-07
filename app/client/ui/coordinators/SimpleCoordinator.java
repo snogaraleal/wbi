@@ -1,4 +1,4 @@
-package client.ui.coordinator;
+package client.ui.coordinators;
 
 import client.managers.Manager;
 
@@ -16,7 +16,7 @@ public class SimpleCoordinator<T extends Manager> {
 
     public void setView(Manager.View<T> view) {
         if (currentView != null) {
-            currentView.onDetach(manager);
+            currentView.onDetach();
         }
 
         currentView = view;

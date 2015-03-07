@@ -1,4 +1,4 @@
-package client.ui.coordinator;
+package client.ui.coordinators;
 
 import java.util.HashMap;
 import java.util.Map;

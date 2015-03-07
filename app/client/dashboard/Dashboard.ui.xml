@@ -2,7 +2,7 @@
   xmlns:ui="urn:ui:com.google.gwt.uibinder"
   xmlns:g="urn:import:com.google.gwt.user.client.ui"
   xmlns:w="urn:import:client.ui.components"
-  xmlns:i="urn:import:client.ui.interval">
+  xmlns:i="urn:import:client.ui.views.interval">
 
   <g:FlowPanel styleName="viewport">
     <g:HTMLPanel styleName="header slidedown">

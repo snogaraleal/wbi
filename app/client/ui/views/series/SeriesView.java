@@ -1,4 +1,4 @@
-package client.ui.series;
+package client.ui.views.series;
 
 import java.util.List;
 import java.util.SortedSet;
@@ -31,13 +31,17 @@ public abstract class SeriesView extends Composite
 
     @Override
     public void onAttach(SeriesManager manager) {
-        manager.addListener(this);
+        assert this.manager == null;
+
         this.manager = manager;
+        this.manager.addListener(this);
     }
 
     @Override
-    public void onDetach(SeriesManager manager) {
-        manager.removeListener(this);
+    public void onDetach() {
+        assert this.manager != null;
+
+        this.manager.removeListener(this);
         this.manager = null;
     }
 

@@ -1,4 +1,4 @@
-package client.ui.country;
+package client.ui.views.country;
 
 import java.util.HashMap;
 import java.util.List;
@@ -160,13 +160,17 @@ public class CountrySelector extends Composite
 
     @Override
     public void onAttach(CountryManager manager) {
-        manager.addListener(this);
+        assert this.manager == null;
+
         this.manager = manager;
+        this.manager.addListener(this);
     }
 
     @Override
-    public void onDetach(CountryManager manager) {
-        manager.removeListener(this);
+    public void onDetach() {
+        assert this.manager != null;
+
+        this.manager.removeListener(this);
         this.manager = null;
     }
 

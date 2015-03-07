@@ -1,4 +1,4 @@
-package client.dashboard.history;
+package client.history;
 
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;

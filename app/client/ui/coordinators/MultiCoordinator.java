@@ -1,4 +1,4 @@
-package client.ui.coordinator;
+package client.ui.coordinators;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -27,7 +27,7 @@ public class MultiCoordinator<T extends Manager> {
     public void removeView(Manager.View<T> view) {
         if (views.contains(view)) {
             views.remove(view);
-            view.onDetach(manager);
+            view.onDetach();
         }
     }
 }

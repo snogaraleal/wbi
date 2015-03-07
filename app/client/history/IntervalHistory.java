@@ -1,4 +1,4 @@
-package client.dashboard.history;
+package client.history;
 
 import client.managers.HistoryManager;
 import client.managers.IntervalManager;

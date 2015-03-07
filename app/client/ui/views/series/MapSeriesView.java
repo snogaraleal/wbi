@@ -1,4 +1,4 @@
-package client.ui.series;
+package client.ui.views.series;
 
 import java.util.HashMap;
 import java.util.List;
