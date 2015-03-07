@@ -30,7 +30,7 @@ public class IndicatorManager implements Manager {
     private ClientRequest.Listener<Indicator> unloadRequestListener;
 
     private String lastQuery;
-    private ClientRequest lastSearchRequest;
+    private ClientRequest<List<Indicator>> lastSearchRequest;
     private List<Indicator> lastSearchIndicators;
 
     private Indicator selectedIndicator;
@@ -59,10 +59,7 @@ public class IndicatorManager implements Manager {
 
         searchRequestListener = new ClientRequest.Listener<List<Indicator>>() {
             @Override
-            public void onSuccess(
-                    ClientRequest request,
-                    List<Indicator> list) {
-
+            public void onSuccess(List<Indicator> list) {
                 lastSearchIndicators = list;
 
                 for (Listener listener : listeners) {
@@ -71,18 +68,13 @@ public class IndicatorManager implements Manager {
             }
 
             @Override
-            public void onFailure(
-                    ClientRequest request,
-                    ClientRequest.Error error) {
+            public void onFailure(ClientRequest.Error error) {
             }
         };
 
         loadRequestListener = new ClientRequest.Listener<Indicator>() {
             @Override
-            public void onSuccess(
-                    ClientRequest request,
-                    Indicator indicator) {
-
+            public void onSuccess(Indicator indicator) {
                 change(indicator);
 
                 watcher.watchUntilStatusEquals(
@@ -90,18 +82,13 @@ public class IndicatorManager implements Manager {
             }
 
             @Override
-            public void onFailure(
-                    ClientRequest request,
-                    ClientRequest.Error error) {
+            public void onFailure(ClientRequest.Error error) {
             }
         };
 
         unloadRequestListener = new ClientRequest.Listener<Indicator>() {
             @Override
-            public void onSuccess(
-                    ClientRequest request,
-                    Indicator indicator) {
-
+            public void onSuccess(Indicator indicator) {
                 change(indicator);
 
                 watcher.watchUntilStatusEquals(
@@ -109,9 +96,7 @@ public class IndicatorManager implements Manager {
             }
 
             @Override
-            public void onFailure(
-                    ClientRequest request,
-                    ClientRequest.Error error) {
+            public void onFailure(ClientRequest.Error error) {
             }
         };
     }

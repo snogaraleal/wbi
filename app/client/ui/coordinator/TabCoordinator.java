@@ -10,35 +10,34 @@ import com.google.gwt.user.client.ui.Widget;
 
 import client.managers.Manager;
 
-@SuppressWarnings({"rawtypes"})
-public class TabCoordinator extends SimpleCoordinator
+public class TabCoordinator<T extends Manager> extends SimpleCoordinator<T>
     implements SelectionHandler<Integer> {
 
     private TabLayoutPanel panel;
 
-    private Map<Widget, Manager.View> viewsByWidget =
-        new HashMap<Widget, Manager.View>();
+    private Map<Widget, Manager.View<T>> viewsByWidget =
+        new HashMap<Widget, Manager.View<T>>();
 
-    public TabCoordinator(Manager manager, TabLayoutPanel panel) {
+    public TabCoordinator(T manager, TabLayoutPanel panel) {
         super(manager);
         this.panel = panel;
         this.panel.addSelectionHandler(this);
     }
 
-    public void addTab(String title, Manager.View view) {
+    public void addTab(String title, Manager.View<T> view) {
         Widget widget = view.getWidget();
         viewsByWidget.put(widget, view);
         panel.add(widget, title);
     }
 
-    public Manager.View getView(int index) {
+    public Manager.View<T> getView(int index) {
         return viewsByWidget.get(panel.getWidget(index));
     }
 
     @Override
     public void onSelection(SelectionEvent<Integer> event) { 
         Widget widget = panel.getWidget(event.getSelectedItem());
-        Manager.View view = viewsByWidget.get(widget);
+        Manager.View<T> view = viewsByWidget.get(widget);
         setView(view);
     }
 }

@@ -5,10 +5,10 @@ import java.util.List;
 
 import rpc.shared.data.Type;
 
-@SuppressWarnings({"rawtypes", "unchecked"})
-public class ClientRequest {
-    @SuppressWarnings("serial")
+public class ClientRequest<T> {
     public static class Error extends Exception {
+        private static final long serialVersionUID = -5117839803700358410L;
+
         public Error(Throwable caught) {
             super(caught);
         }
@@ -19,8 +19,8 @@ public class ClientRequest {
     }
 
     public static interface Listener<T> {
-        void onSuccess(ClientRequest request, T object);
-        void onFailure(ClientRequest request, Error error);
+        void onSuccess(T object);
+        void onFailure(Error error);
     }
 
     private String className;
@@ -29,7 +29,7 @@ public class ClientRequest {
     private Object[] arguments;
     private Type expected;
 
-    private List<Listener> listeners = new ArrayList<Listener>();
+    private List<Listener<T>> listeners = new ArrayList<Listener<T>>();
 
     public ClientRequest(String className, String methodName) {
         this.className = className;
@@ -44,7 +44,7 @@ public class ClientRequest {
         return methodName;
     }
 
-    public ClientRequest setArguments(Object... arguments) {
+    public ClientRequest<T> setArguments(Object... arguments) {
         this.arguments = arguments;
         return this;
     }
@@ -53,7 +53,7 @@ public class ClientRequest {
         return arguments;
     }
 
-    public ClientRequest setExpected(Type expected) {
+    public ClientRequest<T> setExpected(Type expected) {
         this.expected = expected;
         return this;
     }
@@ -62,38 +62,38 @@ public class ClientRequest {
         return expected;
     }
 
-    public ClientRequest addListener(Listener listener) {
+    public ClientRequest<T> addListener(Listener<T> listener) {
         listeners.add(listener);
         return this;
     }
 
-    public ClientRequest send(Client client) {
+    public ClientRequest<T> send(Client client) {
         client.send(this);
         return this;
     }
 
-    public ClientRequest send() {
+    public ClientRequest<T> send() {
         return send(Client.get());
     }
 
-    public ClientRequest cancel(Client client) {
+    public ClientRequest<T> cancel(Client client) {
         client.cancel(this);
         return this;
     }
 
-    public ClientRequest cancel() {
+    public ClientRequest<T> cancel() {
         return cancel(Client.get());
     }
 
-    public void finish(Object object) {
-        for (Listener listener : listeners) {
-            listener.onSuccess(this, object);
+    public void finish(T object) {
+        for (Listener<T> listener : listeners) {
+            listener.onSuccess(object);
         }
     }
 
     public void finish(Error error) {
-        for (Listener listener : listeners) {
-            listener.onFailure(this, error);
+        for (Listener<T> listener : listeners) {
+            listener.onFailure(error);
         }
     }
 }

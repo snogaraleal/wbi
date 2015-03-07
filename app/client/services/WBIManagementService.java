@@ -3,42 +3,38 @@ package client.services;
 import java.util.List;
 
 import rpc.client.ClientRequest;
-import rpc.client.ClientRequestFactory;
 import rpc.shared.data.Type;
 
 import models.Indicator;
 
 public class WBIManagementService {
-    private static ClientRequestFactory factory =
-        new ClientRequestFactory("services.WBIManagementService");
+    public static final String CLASS_NAME = "services.WBIManagementService";
 
-    public static ClientRequest poll(
+    public static ClientRequest<List<Indicator>> poll(
             List<Long> indicatorIds,
             ClientRequest.Listener<List<Indicator>> listener) {
-        return factory
-            .call("poll")
+
+        return new ClientRequest<List<Indicator>>(CLASS_NAME, "poll")
             .setArguments(indicatorIds)
             .setExpected(Type.get(List.class, Type.get(Indicator.class)))
             .addListener(listener)
             .send();
     }
 
-    public static ClientRequest load(
-            Long indicatorId,
-            ClientRequest.Listener<Indicator> listener) {
-        return factory
-            .call("load")
+    public static ClientRequest<Indicator> load(
+            Long indicatorId, ClientRequest.Listener<Indicator> listener) {
+
+        return new ClientRequest<Indicator>(CLASS_NAME, "load")
             .setArguments(indicatorId)
             .setExpected(Type.get(Indicator.class))
             .addListener(listener)
             .send();
     }
 
-    public static ClientRequest unload(
-            Long indicatorId,
-            ClientRequest.Listener<Indicator> listener) {
-        return factory
-            .call("unload")
+    public static ClientRequest<Indicator> unload(
+            Long indicatorId, ClientRequest.Listener<Indicator> listener) {
+
+        return new ClientRequest<Indicator>(CLASS_NAME, "unload")
             .setArguments(indicatorId)
             .setExpected(Type.get(Indicator.class))
             .addListener(listener)

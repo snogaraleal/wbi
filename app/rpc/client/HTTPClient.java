@@ -18,10 +18,10 @@ import rpc.shared.data.SerializerException;
 public class HTTPClient extends Client implements RequestCallback {
     private RequestBuilder builder;
 
-    private Map<ClientRequest, Request> pendingByClientRequest =
-        new HashMap<ClientRequest, Request>();
-    private Map<Request, ClientRequest> pendingByRequest =
-        new HashMap<Request, ClientRequest>();
+    private Map<ClientRequest<?>, Request> pendingByClientRequest =
+        new HashMap<ClientRequest<?>, Request>();
+    private Map<Request, ClientRequest<?>> pendingByRequest =
+        new HashMap<Request, ClientRequest<?>>();
 
     public HTTPClient(Serializer serializer, String url) {
         super(serializer);
@@ -30,7 +30,7 @@ public class HTTPClient extends Client implements RequestCallback {
     }
 
     @Override
-    public void send(ClientRequest clientRequest) {
+    public void send(ClientRequest<?> clientRequest) {
         String body;
 
         try {
@@ -53,7 +53,7 @@ public class HTTPClient extends Client implements RequestCallback {
     }
 
     @Override
-    public void cancel(ClientRequest clientRequest) {
+    public void cancel(ClientRequest<?> clientRequest) {
         Request request = pendingByClientRequest.get(clientRequest);
 
         if (request != null) {
@@ -65,6 +65,7 @@ public class HTTPClient extends Client implements RequestCallback {
     }
 
     @Override
+    @SuppressWarnings({"rawtypes", "unchecked"})
     public void onResponseReceived(Request request, Response response) {
         ClientRequest clientRequest = pendingByRequest.get(request);
 
@@ -98,7 +99,7 @@ public class HTTPClient extends Client implements RequestCallback {
 
     @Override
     public void onError(Request request, Throwable exception) {
-        ClientRequest clientRequest = pendingByRequest.get(request);
+        ClientRequest<?> clientRequest = pendingByRequest.get(request);
 
         pendingByClientRequest.remove(clientRequest);
         pendingByRequest.remove(request);

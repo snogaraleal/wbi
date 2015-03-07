@@ -2,20 +2,19 @@ package client.ui.coordinator;
 
 import client.managers.Manager;
 
-@SuppressWarnings({"rawtypes", "unchecked"})
-public class SimpleCoordinator {
-    private Manager manager;
-    private Manager.View currentView;
+public class SimpleCoordinator<T extends Manager> {
+    private T manager;
+    private Manager.View<T> currentView;
 
-    public SimpleCoordinator(Manager manager) {
+    public SimpleCoordinator(T manager) {
         this.manager = manager;
     }
 
-    public Manager getManager() {
+    public T getManager() {
         return manager;
     }
 
-    public void setView(Manager.View view) {
+    public void setView(Manager.View<T> view) {
         if (currentView != null) {
             currentView.onDetach(manager);
         }
@@ -25,7 +24,7 @@ public class SimpleCoordinator {
         view.onAttach(manager);
     }
 
-    public Manager.View getCurrentView() {
+    public Manager.View<T> getCurrentView() {
         return currentView;
     }
 }

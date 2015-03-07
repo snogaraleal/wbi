@@ -27,7 +27,7 @@ public class CountryManager implements Manager {
     private ClientRequest.Listener<List<Country>> searchRequestListener;
 
     private String lastQuery;
-    private ClientRequest lastSearchRequest;
+    private ClientRequest<List<Country>> lastSearchRequest;
     private List<Country> lastSearchCountries;
 
     private List<Country> selectedCountries = new ArrayList<Country>();
@@ -35,10 +35,7 @@ public class CountryManager implements Manager {
     public CountryManager() {
         searchRequestListener = new ClientRequest.Listener<List<Country>>() {
             @Override
-            public void onSuccess(
-                    ClientRequest request,
-                    List<Country> list) {
-
+            public void onSuccess(List<Country> list) {
                 lastSearchCountries = list;
 
                 for (Listener listener : listeners) {
@@ -47,9 +44,7 @@ public class CountryManager implements Manager {
             }
 
             @Override
-            public void onFailure(
-                    ClientRequest request,
-                    ClientRequest.Error error) {
+            public void onFailure(ClientRequest.Error error) {
             }
         };
     }

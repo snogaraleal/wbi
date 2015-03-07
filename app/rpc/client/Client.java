@@ -82,10 +82,10 @@ public abstract class Client {
         this.serializer = serializer;
     }
 
-    public abstract void send(ClientRequest clientRequest);
-    public abstract void cancel(ClientRequest clientRequest);
+    public abstract void send(ClientRequest<?> clientRequest);
+    public abstract void cancel(ClientRequest<?> clientRequest);
 
-    protected CallRequest buildCallRequest(ClientRequest clientRequest)
+    protected CallRequest buildCallRequest(ClientRequest<?> clientRequest)
         throws SerializerException {
 
         List<String> argumentPayloadList = new ArrayList<String>();

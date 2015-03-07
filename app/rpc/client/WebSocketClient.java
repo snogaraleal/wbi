@@ -14,10 +14,10 @@ import rpc.shared.data.SerializerException;
 public class WebSocketClient extends Client implements WebSocket.Listener {
     private WebSocket socket;
 
-    private Map<ClientRequest, CallRequest> waitingForSocket =
-        new HashMap<ClientRequest, CallRequest>();
-    private Map<String, ClientRequest> pendingByToken =
-        new HashMap<String, ClientRequest>();
+    private Map<ClientRequest<?>, CallRequest> waitingForSocket =
+        new HashMap<ClientRequest<?>, CallRequest>();
+    private Map<String, ClientRequest<?>> pendingByToken =
+        new HashMap<String, ClientRequest<?>>();
 
     public WebSocketClient(Serializer serializer, String url) {
         super(serializer);
@@ -31,7 +31,7 @@ public class WebSocketClient extends Client implements WebSocket.Listener {
     }
 
     @Override
-    public void send(ClientRequest clientRequest) {
+    public void send(ClientRequest<?> clientRequest) {
         try {
             CallRequest callRequest = waitingForSocket.get(clientRequest);
             if (callRequest == null) {
@@ -51,12 +51,12 @@ public class WebSocketClient extends Client implements WebSocket.Listener {
     }
 
     @Override
-    public void cancel(ClientRequest clientRequest) {
-        Iterator<Map.Entry<String, ClientRequest>> iterator =
+    public void cancel(ClientRequest<?> clientRequest) {
+        Iterator<Map.Entry<String, ClientRequest<?>>> iterator =
             pendingByToken.entrySet().iterator();
 
         while (iterator.hasNext()) {
-            Map.Entry<String, ClientRequest> entry = iterator.next();
+            Map.Entry<String, ClientRequest<?>> entry = iterator.next();
             if (entry.getValue() == clientRequest) {
                 iterator.remove();
             }
@@ -65,7 +65,7 @@ public class WebSocketClient extends Client implements WebSocket.Listener {
 
     @Override
     public void onOpen(WebSocket socket) {
-        for (ClientRequest clientRequest : waitingForSocket.keySet()) {
+        for (ClientRequest<?> clientRequest : waitingForSocket.keySet()) {
             send(clientRequest);
         }
 
@@ -73,6 +73,7 @@ public class WebSocketClient extends Client implements WebSocket.Listener {
     }
 
     @Override
+    @SuppressWarnings({"rawtypes", "unchecked"})
     public void onMessage(WebSocket socket, String message) {
         CallResponse callResponse;
 
@@ -106,7 +107,7 @@ public class WebSocketClient extends Client implements WebSocket.Listener {
 
     @Override
     public void onError(WebSocket socket, String reason) {
-        for (ClientRequest clientRequest : pendingByToken.values()) {
+        for (ClientRequest<?> clientRequest : pendingByToken.values()) {
             clientRequest.finish(new ClientRequest.Error(reason));
         }
 
@@ -115,7 +116,7 @@ public class WebSocketClient extends Client implements WebSocket.Listener {
 
     @Override
     public void onClose(WebSocket socket, String reason, boolean clean) {
-        for (ClientRequest clientRequest : pendingByToken.values()) {
+        for (ClientRequest<?> clientRequest : pendingByToken.values()) {
             clientRequest.finish(new ClientRequest.Error(reason));
         }
 

@@ -58,10 +58,10 @@ public class Dashboard extends Composite {
     private CountryManager countryManager = new CountryManager();
     private SeriesManager seriesManager = new SeriesManager();
 
-    private SimpleCoordinator intervalCoordinator;
-    private TabCoordinator indicatorTabCoordinator;
-    private TabCoordinator countryTabCoordinator;
-    private TabCoordinator seriesTabCoordinator;
+    private SimpleCoordinator<IntervalManager> intervalCoordinator;
+    private TabCoordinator<IndicatorManager> indicatorTabCoordinator;
+    private TabCoordinator<CountryManager> countryTabCoordinator;
+    private TabCoordinator<SeriesManager> seriesTabCoordinator;
 
     public Dashboard() {
         initWidget(uiBinder.createAndBindUi(this));
@@ -70,13 +70,15 @@ public class Dashboard extends Composite {
         seriesManager.connect(indicatorManager);
         seriesManager.connect(countryManager);
 
-        intervalCoordinator = new SimpleCoordinator(intervalManager);
+        intervalCoordinator =
+            new SimpleCoordinator<IntervalManager>(intervalManager);
         indicatorTabCoordinator =
-            new TabCoordinator(indicatorManager, indicatorPanel);
+            new TabCoordinator<IndicatorManager>(
+                indicatorManager, indicatorPanel);
         countryTabCoordinator =
-            new TabCoordinator(countryManager, countryPanel);
+            new TabCoordinator<CountryManager>(countryManager, countryPanel);
         seriesTabCoordinator =
-            new TabCoordinator(seriesManager, seriesPanel);
+            new TabCoordinator<SeriesManager>(seriesManager, seriesPanel);
 
         intervalCoordinator.setView(seriesInterval);
 

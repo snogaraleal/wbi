@@ -233,17 +233,12 @@ public class SeriesManager
     public SeriesManager() {
         queryRequestListener = new ClientRequest.Listener<List<Series>>() {
             @Override
-            public void onSuccess(
-                    ClientRequest request,
-                    List<Series> series) {
-
+            public void onSuccess(List<Series> series) {
                 load(series);
             }
 
             @Override
-            public void onFailure(
-                    ClientRequest request,
-                    ClientRequest.Error error) {
+            public void onFailure(ClientRequest.Error error) {
             }
         };
 

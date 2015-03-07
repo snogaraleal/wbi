@@ -23,21 +23,16 @@ public class PollingIndicatorWatcher extends IndicatorWatcher {
 
         this.interval = interval;
 
-        pollRequestListener = new ClientRequest.Listener<List<Indicator>> () {
+        pollRequestListener = new ClientRequest.Listener<List<Indicator>>() {
             @Override
-            public void onSuccess(
-                    ClientRequest request,
-                    List<Indicator> indicators) {
-
+            public void onSuccess(List<Indicator> indicators) {
                 for (Indicator indicator : indicators) {
                     change(indicator);
                 }
             }
 
             @Override
-            public void onFailure(
-                    ClientRequest request,
-                    ClientRequest.Error error) {
+            public void onFailure(ClientRequest.Error error) {
             }
         };
 
