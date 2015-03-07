@@ -667,6 +667,7 @@ html, body, button, a, input {
 }
 
 .series.series-chart {
+  padding-right: 20px;
 }
 
 .series.series-chart > *,
@@ -676,16 +677,24 @@ html, body, button, a, input {
 }
 
 .series.series-chart > * {
-  padding: 20px;
-  box-sizing: border-box;
+  padding-top: 20px;
 }
 
-.series.series-chart .legendColorBox > div {
+.series.series-chart .legend > div,
+.series.series-chart .legend > table {
+  top: -24px !important;
+}
+
+.series.series-chart .legend .legendLabel {
+  padding-right: 10px;
+}
+
+.series.series-chart .legend .legendColorBox > div {
   padding: 0 !important;
   border: none !important;
 }
 
-.series.series-chart .legendColorBox > div > div {
+.series.series-chart .legend .legendColorBox > div > div {
   -webkit-border-radius: 6px;
      -moz-border-radius: 6px;
           border-radius: 6px;

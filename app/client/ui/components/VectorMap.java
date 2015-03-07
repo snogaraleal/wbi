@@ -42,8 +42,7 @@ public class VectorMap extends Composite {
         }
     }
 
-    interface VectorMapUiBinder
-        extends UiBinder<Widget, VectorMap> {}
+    interface VectorMapUiBinder extends UiBinder<Widget, VectorMap> {}
     private static VectorMapUiBinder uiBinder =
         GWT.create(VectorMapUiBinder.class);
 

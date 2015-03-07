@@ -67,8 +67,7 @@ public class Chart extends Composite {
         }
     }
 
-    interface ChartUiBinder
-        extends UiBinder<Widget, Chart> {}
+    interface ChartUiBinder extends UiBinder<Widget, Chart> {}
     private static ChartUiBinder uiBinder =
         GWT.create(ChartUiBinder.class);
 
@@ -77,7 +76,7 @@ public class Chart extends Composite {
 
     public static final String BASE_SCRIPT =
         ClientConf.asset("js/flot/jquery.flot.min.js");
-    public static final Script.Manager baseScriptManager =
+    public static final Script.Manager BASE_SCRIPT_MANAGER =
         new Script.Manager(BASE_SCRIPT, Script.JQUERY);
 
     public Chart() {
@@ -85,7 +84,7 @@ public class Chart extends Composite {
     }
 
     private void load(Runnable callback) {
-        baseScriptManager.load(callback);
+        BASE_SCRIPT_MANAGER.load(callback);
     }
 
     private JavaScriptObject seriesToJSObject(Series series) {
@@ -141,8 +140,12 @@ public class Chart extends Composite {
                         margin: 20,
                         labelMargin: 20,
                         axisMargin: 20,
+                        margin: 20,
                         borderColor: 'transparent',
                         hoverable: true
+                    },
+                    legend: {
+                        noColumns: 6
                     }
                 });
             });
