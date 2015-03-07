@@ -261,12 +261,14 @@ public class SeriesManager
     }
 
     public void connect(IntervalManager intervalManager) {
-        intervalManager.addListener(this);
+        assert this.intervalManager == null;
+
         this.intervalManager = intervalManager;
+        this.intervalManager.addListener(this);
     }
 
-    public void disconnect(IntervalManager intervalManager) {
-        intervalManager.removeListener(this);
+    public void disconnectIntervalManager() {
+        this.intervalManager.removeListener(this);
         this.intervalManager = null;
     }
 
@@ -281,12 +283,14 @@ public class SeriesManager
     }
 
     public void connect(IndicatorManager indicatorManager) {
-        indicatorManager.addListener(this);
+        assert this.indicatorManager == null;
+
         this.indicatorManager = indicatorManager;
+        this.indicatorManager.addListener(this);
     }
 
-    public void disconnect(IndicatorManager indicatorManager) {
-        indicatorManager.removeListener(this);
+    public void disconnectIndicatorManager() {
+        this.indicatorManager.removeListener(this);
         this.indicatorManager = null;
     }
 
@@ -311,12 +315,14 @@ public class SeriesManager
     }
 
     public void connect(CountryManager countryManager) {
-        countryManager.addListener(this);
+        assert this.countryManager == null;
+
         this.countryManager = countryManager;
+        this.countryManager.addListener(this);
     }
 
-    public void disconnect(CountryManager countryManager) {
-        countryManager.removeListener(this);
+    public void disconnectCountryManager() {
+        this.countryManager.removeListener(this);
         this.countryManager = null;
     }
 

@@ -11,7 +11,12 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+import client.dashboard.history.CountryHistory;
+import client.dashboard.history.IndicatorHistory;
+import client.dashboard.history.IntervalHistory;
+import client.dashboard.history.SeriesPanelHistory;
 import client.managers.CountryManager;
+import client.managers.HistoryManager;
 import client.managers.IndicatorManager;
 import client.managers.IntervalManager;
 import client.managers.SeriesManager;
@@ -53,61 +58,112 @@ public class Dashboard extends Composite {
     @UiField
     FlowPanel seriesAnchors;
 
-    private IntervalManager intervalManager = new IntervalManager();
-    private IndicatorManager indicatorManager = new IndicatorManager();
-    private CountryManager countryManager = new CountryManager();
-    private SeriesManager seriesManager = new SeriesManager();
-
-    private SimpleCoordinator<IntervalManager> intervalCoordinator;
-    private TabCoordinator<IndicatorManager> indicatorTabCoordinator;
-    private TabCoordinator<CountryManager> countryTabCoordinator;
-    private TabCoordinator<SeriesManager> seriesTabCoordinator;
-
     public Dashboard() {
         initWidget(uiBinder.createAndBindUi(this));
+
+        HistoryManager historyManager = new HistoryManager();
+
+        /*
+         * Interval
+         */
+
+        IntervalManager intervalManager = new IntervalManager();
+
+        SimpleCoordinator<IntervalManager> intervalCoordinator =
+            new SimpleCoordinator<IntervalManager>(intervalManager);
+
+        intervalCoordinator.setView(seriesInterval);
+
+        IntervalHistory intervalHistory = new IntervalHistory();
+        intervalHistory.connect(intervalManager);
+
+        historyManager.addListener(intervalHistory);
+
+        /*
+         * Indicator
+         */
+
+        IndicatorManager indicatorManager = new IndicatorManager();
+
+        TabCoordinator<IndicatorManager> indicatorTabCoordinator =
+            new TabCoordinator<IndicatorManager>(
+                indicatorManager, indicatorPanel);
+
+        indicatorTabCoordinator.addTab("Indicators", new IndicatorSelector());
+
+        IndicatorHistory indicatorHistory = new IndicatorHistory();
+        indicatorHistory.connect(indicatorManager);
+
+        historyManager.addListener(indicatorHistory);
+
+        /*
+         * Country
+         */
+
+        CountryManager countryManager = new CountryManager();
+
+        TabCoordinator<CountryManager> countryTabCoordinator =
+            new TabCoordinator<CountryManager>(countryManager, countryPanel);
+
+        countryTabCoordinator.addTab("Countries", new CountrySelector());
+
+        CountryHistory countryHistory = new CountryHistory();
+        countryHistory.connect(countryManager);
+
+        historyManager.addListener(countryHistory);
+
+        /*
+         * Series
+         */
+
+        SeriesManager seriesManager = new SeriesManager();
 
         seriesManager.connect(intervalManager);
         seriesManager.connect(indicatorManager);
         seriesManager.connect(countryManager);
 
-        intervalCoordinator =
-            new SimpleCoordinator<IntervalManager>(intervalManager);
-        indicatorTabCoordinator =
-            new TabCoordinator<IndicatorManager>(
-                indicatorManager, indicatorPanel);
-        countryTabCoordinator =
-            new TabCoordinator<CountryManager>(countryManager, countryPanel);
-        seriesTabCoordinator =
+        final TabCoordinator<SeriesManager> seriesTabCoordinator =
             new TabCoordinator<SeriesManager>(seriesManager, seriesPanel);
 
-        intervalCoordinator.setView(seriesInterval);
-
-        indicatorTabCoordinator.addTab("Indicators", new IndicatorSelector());
-        countryTabCoordinator.addTab("Countries", new CountrySelector());
-
-        seriesTabCoordinator.addTab("Table", new TableSeriesView());
-        seriesTabCoordinator.addTab("Chart", new ChartSeriesView());
+        seriesTabCoordinator.addTab(
+            "Table", new TableSeriesView());
+        seriesTabCoordinator.addTab(
+            "Chart", new ChartSeriesView());
         seriesTabCoordinator.addTab(
             "Map: World", new MapSeriesView(VectorMap.Visual.WORLD));
         seriesTabCoordinator.addTab(
             "Map: Europe", new MapSeriesView(VectorMap.Visual.EUROPE));
 
+        // Serializers
+
         addSeriesSerializer("XML", new XMLSeriesSerializer());
         addSeriesSerializer("CSV", new CSVSeriesSerializer());
         addSeriesSerializer("JSON", new JSONSeriesSerializer());
 
-        autoEnableScroll(seriesPanel.getSelectedIndex());
+        /*
+         * Tabs
+         */
+
+        SeriesPanelHistory seriesPanelHistory = new SeriesPanelHistory();
+        seriesPanelHistory.connect(seriesPanel);
+
+        historyManager.addListener(seriesPanelHistory);
+
+        autoEnableScroll(seriesTabCoordinator, seriesPanel.getSelectedIndex());
+
         seriesPanel.addSelectionHandler(new SelectionHandler<Integer>() {
             @Override
             public void onSelection(SelectionEvent<Integer> event) { 
-                autoEnableScroll(event.getSelectedItem());
+                autoEnableScroll(seriesTabCoordinator, event.getSelectedItem());
             }
         });
     }
 
     private static final String CLASS_NAME_OVERLAY_SCROLL = "overlay-scroll";
 
-    private void autoEnableScroll(int tabIndex) {
+    private void autoEnableScroll(
+            TabCoordinator<SeriesManager> seriesTabCoordinator, int tabIndex) {
+
         Element overlayElement = overlay.getElement();
 
         if (tabIndex == 0) {
