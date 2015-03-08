@@ -6,6 +6,22 @@ import java.util.List;
 import rpc.shared.data.Type;
 
 public class ClientRequest<T> {
+    public static interface GlobalListener {
+        void onSend(ClientRequest<?> clientRequest);
+        void onFinish(ClientRequest<?> clientRequest);
+    }
+
+    private static List<GlobalListener> globalListeners =
+        new ArrayList<GlobalListener>();
+
+    public static void addGlobalListener(GlobalListener listener) {
+        globalListeners.add(listener);
+    }
+
+    public static void removeGlobalListener(GlobalListener listener) {
+        globalListeners.remove(listener);
+    }
+
     @SuppressWarnings("serial")
     public static class Error extends Exception {
         public Error(Throwable caught) {
@@ -67,6 +83,10 @@ public class ClientRequest<T> {
     }
 
     public ClientRequest<T> send(Client client) {
+        for (GlobalListener listener : globalListeners) {
+            listener.onSend(this);
+        }
+
         client.send(this);
         return this;
     }
@@ -85,12 +105,20 @@ public class ClientRequest<T> {
     }
 
     public void finish(T object) {
+        for (GlobalListener listener : globalListeners) {
+            listener.onFinish(this);
+        }
+
         for (Listener<T> listener : listeners) {
             listener.onSuccess(object);
         }
     }
 
     public void finish(Error error) {
+        for (GlobalListener listener : globalListeners) {
+            listener.onFinish(this);
+        }
+
         for (Listener<T> listener : listeners) {
             listener.onFailure(error);
         }

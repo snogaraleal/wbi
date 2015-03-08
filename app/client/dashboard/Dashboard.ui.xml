@@ -4,7 +4,7 @@
   xmlns:w="urn:import:client.ui.components"
   xmlns:i="urn:import:client.ui.views.interval">
 
-  <g:FlowPanel styleName="viewport">
+  <g:FlowPanel styleName="viewport" ui:field="viewport">
     <g:HTMLPanel styleName="header slidedown">
       Indicator Explorer
     </g:HTMLPanel>

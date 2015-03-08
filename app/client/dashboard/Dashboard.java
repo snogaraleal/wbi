@@ -11,6 +11,8 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+import rpc.client.ClientRequest;
+
 import client.history.CountryHistory;
 import client.history.IndicatorHistory;
 import client.history.IntervalHistory;
@@ -23,6 +25,7 @@ import client.managers.models.SeriesManager;
 import client.serializers.CSVSeriesSerializer;
 import client.serializers.JSONSeriesSerializer;
 import client.serializers.XMLSeriesSerializer;
+import client.ui.GlobalLoadingIndicator;
 import client.ui.components.MaterialButton;
 import client.ui.components.VectorMap;
 import client.ui.coordinators.SimpleCoordinator;
@@ -39,6 +42,9 @@ public class Dashboard extends Composite {
     interface DashboardUiBinder extends UiBinder<Widget, Dashboard> {}
     private static DashboardUiBinder uiBinder =
         GWT.create(DashboardUiBinder.class);
+
+    @UiField
+    FlowPanel viewport;
 
     @UiField
     FlowPanel overlay;
@@ -68,10 +74,28 @@ public class Dashboard extends Composite {
     public Dashboard() {
         initWidget(uiBinder.createAndBindUi(this));
 
+        setupLoadingIndicator();
+
         initIntervalComponents();
         initIndicatorComponents();
         initCountryComponents();
         initSeriesComponents();
+    }
+
+    private void setupLoadingIndicator() {
+        viewport.add(GlobalLoadingIndicator.get());
+
+        ClientRequest.addGlobalListener(new ClientRequest.GlobalListener() {
+            @Override
+            public void onSend(ClientRequest<?> clientRequest) {
+                GlobalLoadingIndicator.start();
+            }
+
+            @Override
+            public void onFinish(ClientRequest<?> clientRequest) {
+                GlobalLoadingIndicator.finish();
+            }
+        });
     }
 
     private void initIntervalComponents() {

@@ -213,7 +213,7 @@ html, body, button, a, input {
 
 
 /*
- * Loading animation
+ * Progress animation
  */
 
 @-webkit-keyframes loading {
@@ -250,7 +250,70 @@ html, body, button, a, input {
   100% {
     background-position: 50px 50px;
   }
-}  
+}
+
+
+/*
+ * Spinner
+ */
+
+@-webkit-keyframes rotation {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(359deg);
+  }
+}
+
+@-moz-keyframes rotation {
+  from {
+    -moz-transform: rotate(0deg);
+  }
+  to {
+    -moz-transform: rotate(359deg);
+  }
+}
+
+@-o-keyframes rotation {
+  from {
+    -o-transform: rotate(0deg);
+  }
+  to {
+    -o-transform: rotate(359deg);
+  }
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}
+
+.spinner {
+  height: 16px;
+  width: 16px;
+  position: fixed;
+  z-index: 100;
+
+  margin: 10px;
+  top: 0;
+  right: 0;
+
+  -webkit-animation: rotation .6s infinite linear;
+     -moz-animation: rotation .6s infinite linear;
+       -o-animation: rotation .6s infinite linear;
+          animation: rotation .6s infinite linear;
+
+  border-left: 3px solid #FFF;
+  border-right: 3px solid #FFF;
+  border-bottom: 3px solid #FFF;
+  border-top: 3px solid transparent;
+  border-radius: 100%;
+}
 
 
 /*
@@ -401,7 +464,7 @@ html, body, button, a, input {
   left: 25%;
   right: 25%;
 
-  z-index: 10;
+  z-index: 100;
   background: rgba(255, 255, 255, 0.9);
 
   margin: 10px;
