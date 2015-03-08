@@ -275,8 +275,8 @@ public class HistoryState implements Serializable {
             });
     }
 
-    public static String FIELD_INDICATOR_IDENT = "indicator";
-    public static String FIELD_COUNTRY_ISO_LIST = "countries";
+    public static final String FIELD_INDICATOR_IDENT = "indicator";
+    public static final String FIELD_COUNTRY_ISO_LIST = "countries";
 
     @Override
     public Object get(String field) {

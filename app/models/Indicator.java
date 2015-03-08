@@ -94,11 +94,11 @@ public class Indicator extends Model {
         return source;
     }
 
-    public static String FIELD_IDENT = "ident";
-    public static String FIELD_NAME = "name";
-    public static String FIELD_STATUS = "status";
-    public static String FIELD_TOPICS = "topics";
-    public static String FIELD_SOURCE = "source";
+    public static final String FIELD_IDENT = "ident";
+    public static final String FIELD_NAME = "name";
+    public static final String FIELD_STATUS = "status";
+    public static final String FIELD_TOPICS = "topics";
+    public static final String FIELD_SOURCE = "source";
 
     @Override
     public Object get(String field) {

@@ -84,8 +84,8 @@ public class Series extends Model {
         return pointsMap;
     }
 
-    public static String FIELD_COUNTRY = "country";
-    public static String FIELD_POINTS = "points";
+    public static final String FIELD_COUNTRY = "country";
+    public static final String FIELD_POINTS = "points";
 
     @Override
     public Object get(String field) {

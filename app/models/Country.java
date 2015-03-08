@@ -44,9 +44,9 @@ public class Country extends Model {
         return region;
     }
 
-    public static String FIELD_ISO = "iso";
-    public static String FIELD_NAME = "name";
-    public static String FIELD_REGION = "region";
+    public static final String FIELD_ISO = "iso";
+    public static final String FIELD_NAME = "name";
+    public static final String FIELD_REGION = "region";
 
     @Override
     public Object get(String field) {

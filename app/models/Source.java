@@ -35,8 +35,8 @@ public class Source extends Model {
         return name;
     }
 
-    public static String FIELD_IDENT = "ident";
-    public static String FIELD_NAME = "name";
+    public static final String FIELD_IDENT = "ident";
+    public static final String FIELD_NAME = "name";
 
     @Override
     public Object get(String field) {

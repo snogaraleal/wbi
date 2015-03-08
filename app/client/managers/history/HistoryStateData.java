@@ -32,8 +32,8 @@ public class HistoryStateData implements Serializable {
         return countries;
     }
 
-    public static String FIELD_INDICATOR = "indicator";
-    public static String FIELD_COUNTRIES = "countries";
+    public static final String FIELD_INDICATOR = "indicator";
+    public static final String FIELD_COUNTRIES = "countries";
 
     @Override
     public Object get(String field) {

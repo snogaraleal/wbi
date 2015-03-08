@@ -44,8 +44,8 @@ public class Point extends Model {
         return value;
     }
 
-    public static String FIELD_YEAR = "year";
-    public static String FIELD_VALUE = "value";
+    public static final String FIELD_YEAR = "year";
+    public static final String FIELD_VALUE = "value";
 
     @Override
     public Object get(String field) {
