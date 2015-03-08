@@ -7,6 +7,7 @@ import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.ScriptInjector;
 
 import client.ClientConf;
+import client.ui.GlobalLoadingIndicator;
 
 public class Script {
     private static Set<String> loadedScripts = new HashSet<String>();
@@ -63,14 +64,19 @@ public class Script {
 
             status = Status.LOADING;
 
+            GlobalLoadingIndicator.start();
+
             final Callback<Void, Exception> scriptCallback =
                 new Callback<Void, Exception>() {
                     @Override
                     public void onFailure(Exception exception) {
+                        GlobalLoadingIndicator.finish();
                     }
 
                     @Override
                     public void onSuccess(Void result) {
+                        GlobalLoadingIndicator.finish();
+
                         status = Status.READY;
 
                         callback.run();
