@@ -97,6 +97,10 @@ public class IntervalManager implements Manager {
     }
 
     public void select(Option option) {
+        if (option.equals(selectedOption)) {
+            return;
+        }
+
         selectedOption = option;
 
         for (Listener listener : listeners) {

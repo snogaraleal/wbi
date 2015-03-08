@@ -2,10 +2,13 @@ package client.history;
 
 import java.util.List;
 
+import com.google.gwt.core.client.Callback;
+
 import models.Indicator;
 
 import client.managers.history.HistoryManager;
 import client.managers.history.HistoryState;
+import client.managers.history.HistoryStateData;
 import client.managers.models.IndicatorManager;
 
 public class IndicatorHistory extends HistoryManager.BaseHistory
@@ -32,6 +35,24 @@ public class IndicatorHistory extends HistoryManager.BaseHistory
 
     @Override
     public void onChange(HistoryState state) {
+        String indicatorIdent = state.getIndicatorIdent();
+
+        if (indicatorIdent != null) {
+            state.getData(new Callback<HistoryStateData, Void>() {
+                @Override
+                public void onSuccess(HistoryStateData data) {
+                    Indicator indicator = data.getIndicator();
+
+                    if (indicator != null) {
+                        manager.select(indicator);
+                    }
+                }
+
+                @Override
+                public void onFailure(Void reason) {
+                }
+            });
+        }
     }
 
     @Override
@@ -46,5 +67,8 @@ public class IndicatorHistory extends HistoryManager.BaseHistory
 
     @Override
     public void onSelect(Indicator indicator) {
+        HistoryState state = historyManager.getCurrentState();
+        state.setIndicatorIdent(indicator.getIdent());
+        historyManager.setState(state);
     }
 }

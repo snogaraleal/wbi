@@ -21,8 +21,8 @@ public class WBIExplorationService implements Service {
     public static List<Indicator> queryIndicatorList(String query) {
         return Indicator.objects
             .where()
-            .icontains("name", query)
-            .orderBy("name")
+                .icontains("name", query)
+                .orderBy("name")
             .setMaxRows(LIMIT)
             .fetch("source")
             .fetch("topics")
@@ -32,8 +32,8 @@ public class WBIExplorationService implements Service {
     public static List<Country> queryCountryList(String query) {
         return Country.objects
             .where()
-            .icontains("name", query)
-            .orderBy("name")
+                .icontains("name", query)
+                .orderBy("name")
             .setMaxRows(LIMIT)
             .fetch("region")
             .findList();
@@ -44,9 +44,9 @@ public class WBIExplorationService implements Service {
 
         List<Point> points = Point.objects
             .where()
-            .eq("series.indicator.id", indicatorId)
-            .ge("year", startYear)
-            .le("year", endYear)
+                .eq("series.indicator.id", indicatorId)
+                .ge("year", startYear)
+                .le("year", endYear)
             .query()
             .fetch("series")
             .fetch("series.country")
@@ -81,6 +81,25 @@ public class WBIExplorationService implements Service {
     }
 
     public static HistoryStateData getStateData(HistoryState state) {
-        return null;
+        Indicator indicator = null;
+        String indicatorIdent = state.getIndicatorIdent();
+        if (indicatorIdent != null) {
+            indicator = Indicator.objects
+                .where()
+                    .ilike("ident", indicatorIdent)
+                .query()
+                .findUnique();
+        }
+
+        List<Country> countries = null;
+        List<String> countryISOList = state.getCountryISOList();
+        if (countryISOList != null) {
+            countries = Country.objects
+                .where()
+                    .in("iso", countryISOList)
+                .findList();
+        }
+
+        return new HistoryStateData(indicator, countries);
     }
 }

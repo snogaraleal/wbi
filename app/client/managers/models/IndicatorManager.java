@@ -155,16 +155,18 @@ public class IndicatorManager implements Manager {
     }
 
     public void select(Indicator indicator) {
-        if (indicator != this.selectedIndicator) {
-            this.selectedIndicator = indicator;
+        if (indicator.equals(selectedIndicator)) {
+            return;
+        }
 
-            if (indicator.isReady()) {
-                for (Listener listener : listeners) {
-                    listener.onSelect(indicator);
-                }
-            } else {
-                load(indicator);
+        this.selectedIndicator = indicator;
+
+        if (indicator.isReady()) {
+            for (Listener listener : listeners) {
+                listener.onSelect(indicator);
             }
+        } else {
+            load(indicator);
         }
     }
 }

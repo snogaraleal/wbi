@@ -1,7 +1,9 @@
 package client.managers.history;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -25,8 +27,12 @@ public class HistoryState implements Serializable {
     private List<String> countryISOList;
 
     private HistoryStateData data;
+    private boolean loadingData;
+    private List<Callback<HistoryStateData, Void>> dataCallbacks =
+        new ArrayList<Callback<HistoryStateData, Void>>();
 
     public HistoryState() {
+        invalidateData();
     }
 
     public HistoryState(
@@ -38,13 +44,12 @@ public class HistoryState implements Serializable {
 
         this();
 
-        this.intervalStartYear = intervalStartYear;
-        this.intervalEndYear = intervalEndYear;
+        setInterval(intervalStartYear, intervalEndYear);
 
-        this.seriesTabName = seriesTabName;
+        setSeriesTabName(seriesTabName);
 
-        this.indicatorIdent = indicatorIdent;
-        this.countryISOList = countryISOList;
+        setIndicatorIdent(indicatorIdent);
+        setCountryISOList(countryISOList);
     }
 
     /*
@@ -103,7 +108,6 @@ public class HistoryState implements Serializable {
             }
         }
 
-
         String countryISOList = result.getGroup(REGEX_COUNTRY_ISO_LIST);
         if (countryISOList != null) {
             countryISOList = countryISOList.trim();
@@ -115,10 +119,13 @@ public class HistoryState implements Serializable {
         }
     }
 
-    public String getHistoryToken() {
-        if (intervalStartYear == null || intervalEndYear == null ||
-                seriesTabName == null) {
+    public boolean isEmpty() {
+        return intervalStartYear == null || intervalEndYear == null ||
+            seriesTabName == null;
+    }
 
+    public String getHistoryToken() {
+        if (isEmpty()) {
             return null;
         }
 
@@ -130,7 +137,7 @@ public class HistoryState implements Serializable {
             historyToken += "/" + indicatorIdent;
         }
 
-        if (countryISOList != null) {
+        if (countryISOList != null && !countryISOList.isEmpty()) {
             historyToken += "/";
 
             boolean needsComma = false;
@@ -175,6 +182,11 @@ public class HistoryState implements Serializable {
     }
 
     public void setIndicatorIdent(String indicatorIdent) {
+        if (this.indicatorIdent != null &&
+                this.indicatorIdent.equals(indicatorIdent)) {
+            return;
+        }
+
         this.indicatorIdent = indicatorIdent;
         invalidateData();
     }
@@ -184,15 +196,38 @@ public class HistoryState implements Serializable {
     }
 
     public void setCountryISOList(List<String> countryISOList) {
+        if (this.countryISOList != null && countryISOList != null) {
+            countryISOList = new ArrayList<String>(
+                new HashSet<String>(countryISOList));
+
+            List<String> currentCountryISOList =
+                new ArrayList<String>(this.countryISOList);
+            currentCountryISOList.removeAll(countryISOList);
+
+            if (this.countryISOList.size() == countryISOList.size() &&
+                    currentCountryISOList.isEmpty()) {
+                return;
+            }
+        }
+
         this.countryISOList = countryISOList;
         invalidateData();
     }
 
+    public void replace(HistoryState state) {
+        setInterval(state.getIntervalStartYear(), state.getIntervalEndYear());
+        setSeriesTabName(state.getSeriesTabName());
+        setIndicatorIdent(state.getIndicatorIdent());
+        setCountryISOList(state.getCountryISOList());
+    }
+
     private void invalidateData() {
+        this.loadingData = false;
         this.data = null;
     }
 
     private void setData(HistoryStateData data) {
+        this.loadingData = false;
         this.data = data;
     }
 
@@ -202,17 +237,40 @@ public class HistoryState implements Serializable {
             return;
         }
 
+        dataCallbacks.add(callback);
+
+        if (loadingData) {
+            return;
+        }
+
+        loadingData = true;
+
         WBIExplorationService.getStateData(
             this, new ClientRequest.Listener<HistoryStateData>() {
                 @Override
                 public void onSuccess(HistoryStateData data) {
                     setData(data);
-                    callback.onSuccess(data);
+
+                    for (Callback<HistoryStateData, Void> callback :
+                            dataCallbacks) {
+
+                        callback.onSuccess(data);
+                    }
+
+                    dataCallbacks.clear();
                 }
 
                 @Override
                 public void onFailure(ClientRequest.Error error) {
-                    callback.onFailure(null);
+                    invalidateData();
+
+                    for (Callback<HistoryStateData, Void> callback :
+                            dataCallbacks) {
+
+                        callback.onFailure(null);
+                    }
+
+                    dataCallbacks.clear();
                 }
             });
     }

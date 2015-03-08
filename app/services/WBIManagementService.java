@@ -66,7 +66,7 @@ public class WBIManagementService implements Service {
 
         return Indicator.objects
             .where()
-            .idIn(indicatorIds)
+                .idIn(indicatorIds)
             .query()
             .fetch("source")
             .fetch("topics")

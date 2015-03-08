@@ -150,7 +150,7 @@ public class IndicatorSelector extends Composite
 
     @Override
     public void onSelect(Indicator indicator) {
-        if (searchInputText.isEmpty()) {
+        if (searchInputText == null || searchInputText.isEmpty()) {
             onSearch(Arrays.asList(indicator), indicator);
         } else {
             for (Item item : map.values()) {

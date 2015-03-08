@@ -132,7 +132,7 @@ public class CountrySelector extends Composite
     public void onAdd(Country country) {
         Item item = map.get(country);
         if (item == null) {
-            if (searchInputText.isEmpty()) {
+            if (searchInputText == null || searchInputText.isEmpty()) {
                 item = new Item(this, country);
                 item.setActive(true);
 
@@ -154,6 +154,10 @@ public class CountrySelector extends Composite
 
     @Override
     public void onClear(List<Country> selectedCountries) {
+        search.setText("");
+        searchInputText = null;
+        manager.clearSearch();
+
         panel.clear();
         map.clear();
     }

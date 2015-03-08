@@ -160,6 +160,8 @@ public class Dashboard extends Composite {
                 autoEnableScroll(seriesTabCoordinator, event.getSelectedItem());
             }
         });
+
+        SelectionEvent.fire(seriesPanel, seriesPanel.getSelectedIndex());
     }
 
     private void addSeriesSerializer(
