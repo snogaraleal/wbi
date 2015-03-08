@@ -13,7 +13,8 @@ import models.Series;
 import models.Source;
 import models.Topic;
 
-import client.managers.HistoryManager;
+import client.managers.history.HistoryState;
+import client.managers.history.HistoryStateData;
 
 public class GlobalSerializableFactoryProvider
     extends SerializableFactoryProvider {
@@ -71,20 +72,20 @@ public class GlobalSerializableFactoryProvider
         });
 
         addFactory(
-            Type.get(HistoryManager.State.class),
+            Type.get(HistoryState.class),
             new SerializableFactory() {
                 @Override
                 public Serializable make() {
-                    return new HistoryManager.State();
+                    return new HistoryState();
                 }
             });
 
         addFactory(
-            Type.get(HistoryManager.State.Data.class),
+            Type.get(HistoryStateData.class),
             new SerializableFactory() {
                 @Override
                 public Serializable make() {
-                    return new HistoryManager.State.Data();
+                    return new HistoryStateData();
                 }
             });
     }

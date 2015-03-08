@@ -9,7 +9,8 @@ import models.Country;
 import models.Indicator;
 import models.Series;
 
-import client.managers.HistoryManager;
+import client.managers.history.HistoryState;
+import client.managers.history.HistoryStateData;
 
 public class WBIExplorationService {
     public static final String CLASS_NAME = "services.WBIExplorationService";
@@ -46,14 +47,14 @@ public class WBIExplorationService {
             .send();
     }
 
-    public static ClientRequest<HistoryManager.State.Data> getStateData(
-            HistoryManager.State state,
-            ClientRequest.Listener<HistoryManager.State.Data> listener) {
+    public static ClientRequest<HistoryStateData> getStateData(
+            HistoryState state,
+            ClientRequest.Listener<HistoryStateData> listener) {
 
-        return new ClientRequest<HistoryManager.State.Data>(
+        return new ClientRequest<HistoryStateData>(
                 CLASS_NAME, "getStateData")
             .setArguments(state)
-            .setExpected(Type.get(HistoryManager.State.Data.class))
+            .setExpected(Type.get(HistoryStateData.class))
             .addListener(listener)
             .send();
     }

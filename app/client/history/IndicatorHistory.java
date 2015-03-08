@@ -4,8 +4,9 @@ import java.util.List;
 
 import models.Indicator;
 
-import client.managers.HistoryManager;
-import client.managers.IndicatorManager;
+import client.managers.history.HistoryManager;
+import client.managers.history.HistoryState;
+import client.managers.models.IndicatorManager;
 
 public class IndicatorHistory extends HistoryManager.BaseHistory
     implements IndicatorManager.Listener {
@@ -30,7 +31,7 @@ public class IndicatorHistory extends HistoryManager.BaseHistory
     }
 
     @Override
-    public void onChange(HistoryManager.State state) {
+    public void onChange(HistoryState state) {
     }
 
     @Override

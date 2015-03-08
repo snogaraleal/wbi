@@ -5,7 +5,8 @@ import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 
-import client.managers.HistoryManager;
+import client.managers.history.HistoryManager;
+import client.managers.history.HistoryState;
 
 public class SeriesPanelHistory extends HistoryManager.BaseHistory
     implements SelectionHandler<Integer> {
@@ -31,7 +32,7 @@ public class SeriesPanelHistory extends HistoryManager.BaseHistory
     }
 
     @Override
-    public void onChange(HistoryManager.State state) {
+    public void onChange(HistoryState state) {
     }
 
     @Override

@@ -1,7 +1,8 @@
 package client.history;
 
-import client.managers.HistoryManager;
-import client.managers.IntervalManager;
+import client.managers.history.HistoryManager;
+import client.managers.history.HistoryState;
+import client.managers.models.IntervalManager;
 
 public class IntervalHistory extends HistoryManager.BaseHistory
     implements IntervalManager.Listener {
@@ -26,7 +27,7 @@ public class IntervalHistory extends HistoryManager.BaseHistory
     }
 
     @Override
-    public void onChange(HistoryManager.State state) {
+    public void onChange(HistoryState state) {
     }
 
     @Override

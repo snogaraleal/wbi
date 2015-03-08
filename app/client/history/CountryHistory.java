@@ -4,8 +4,9 @@ import java.util.List;
 
 import models.Country;
 
-import client.managers.CountryManager;
-import client.managers.HistoryManager;
+import client.managers.history.HistoryManager;
+import client.managers.history.HistoryState;
+import client.managers.models.CountryManager;
 
 public class CountryHistory extends HistoryManager.BaseHistory
     implements CountryManager.Listener {
@@ -30,7 +31,7 @@ public class CountryHistory extends HistoryManager.BaseHistory
     }
 
     @Override
-    public void onChange(HistoryManager.State state) {
+    public void onChange(HistoryState state) {
     }
 
     @Override
