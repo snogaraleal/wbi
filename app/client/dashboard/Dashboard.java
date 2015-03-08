@@ -84,6 +84,11 @@ public class Dashboard extends Composite {
         intervalHistory.connect(intervalManager);
 
         historyManager.addListener(intervalHistory);
+
+        if (intervalManager.getSelectedOption() == null) {
+            intervalManager.select(
+                IntervalManager.OPTIONS[IntervalManager.OPTIONS.length - 1]);
+        }
     }
 
     private void initIndicatorComponents() {
@@ -91,7 +96,8 @@ public class Dashboard extends Composite {
             new TabCoordinator<IndicatorManager>(
                 indicatorManager, indicatorPanel);
 
-        indicatorTabCoordinator.addTab("Indicators", new IndicatorSelector());
+        indicatorTabCoordinator.addTab(
+            "search", "Indicators", new IndicatorSelector());
 
         IndicatorHistory indicatorHistory = new IndicatorHistory();
         indicatorHistory.connect(indicatorManager);
@@ -103,7 +109,8 @@ public class Dashboard extends Composite {
         TabCoordinator<CountryManager> countryTabCoordinator =
             new TabCoordinator<CountryManager>(countryManager, countryPanel);
 
-        countryTabCoordinator.addTab("Countries", new CountrySelector());
+        countryTabCoordinator.addTab(
+            "search", "Countries", new CountrySelector());
 
         CountryHistory countryHistory = new CountryHistory();
         countryHistory.connect(countryManager);
@@ -120,13 +127,15 @@ public class Dashboard extends Composite {
             new TabCoordinator<SeriesManager>(seriesManager, seriesPanel);
 
         seriesTabCoordinator.addTab(
-            "Table", new TableSeriesView());
+            "table", "Table", new TableSeriesView());
         seriesTabCoordinator.addTab(
-            "Chart", new ChartSeriesView());
+            "chart", "Chart", new ChartSeriesView());
         seriesTabCoordinator.addTab(
-            "Map: World", new MapSeriesView(VectorMap.Visual.WORLD));
+            "map:world", "Map: World",
+            new MapSeriesView(VectorMap.Visual.WORLD));
         seriesTabCoordinator.addTab(
-            "Map: Europe", new MapSeriesView(VectorMap.Visual.EUROPE));
+            "map:europe", "Map: Europe",
+            new MapSeriesView(VectorMap.Visual.EUROPE));
 
         // Serializers
 
@@ -139,7 +148,7 @@ public class Dashboard extends Composite {
          */
 
         SeriesPanelHistory seriesPanelHistory = new SeriesPanelHistory();
-        seriesPanelHistory.connect(seriesPanel);
+        seriesPanelHistory.connect(seriesTabCoordinator);
 
         historyManager.addListener(seriesPanelHistory);
 

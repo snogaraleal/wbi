@@ -30,6 +30,38 @@ public class IntervalManager implements Manager {
         public String toString() {
             return startYear + " " + endYear;
         }
+
+        @Override
+        public boolean equals(Object object) {
+            if (object == null) {
+                return false;
+            }
+
+            if (object == this) {
+                return true;
+            }
+
+            if (!(object instanceof Option)) {
+                return false;
+            }
+
+            if (this.getClass() != object.getClass()) {
+                return false;
+            }
+
+            Option option = (Option) object;
+
+            return this.getStartYear() == option.getStartYear() &&
+                this.getEndYear() == option.getEndYear();
+        }
+
+        @Override
+        public int hashCode() {
+            int hash = 3;
+            hash = 37 * hash + (int)(startYear ^ (startYear >>> 32));
+            hash = 37 * hash + (int)(endYear ^ (endYear >>> 32));
+            return hash;
+        }
     }
 
     public static interface Listener {
@@ -50,7 +82,6 @@ public class IntervalManager implements Manager {
     private Option selectedOption;
 
     public IntervalManager() {
-        select(OPTIONS[OPTIONS.length - 1]);
     }
 
     public void addListener(Listener listener) {

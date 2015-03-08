@@ -28,9 +28,18 @@ public class IntervalHistory extends HistoryManager.BaseHistory
 
     @Override
     public void onChange(HistoryState state) {
+        Integer startYear = state.getIntervalStartYear();
+        Integer endYear = state.getIntervalEndYear();
+
+        if (startYear != null && endYear != null) {
+            manager.select(new IntervalManager.Option(startYear, endYear));
+        }
     }
 
     @Override
     public void onSelect(IntervalManager.Option option) {
+        HistoryState state = historyManager.getCurrentState();
+        state.setInterval(option.getStartYear(), option.getEndYear());
+        historyManager.setState(state);
     }
 }

@@ -40,17 +40,26 @@ public class HistoryManager implements Manager, ValueChangeHandler<String> {
 
     private List<Listener> listeners = new ArrayList<Listener>();
 
+    private HistoryState currentState;
+
     public HistoryManager() {
         History.addValueChangeHandler(this);
+        currentState = new HistoryState(History.getToken());
     }
 
     public void setState(HistoryState state) {
+        currentState = state;
         History.newItem(state.getHistoryToken());
+    }
+
+    public HistoryState getCurrentState() {
+        return currentState;
     }
 
     public void addListener(Listener listener) {
         listeners.add(listener);
         listener.onAdd(this);
+        listener.onChange(currentState);
     }
 
     public void removeListener(Listener listener) {
@@ -61,11 +70,16 @@ public class HistoryManager implements Manager, ValueChangeHandler<String> {
     @Override
     public void onValueChange(ValueChangeEvent<String> event) {
         HistoryState state = new HistoryState(event.getValue());
+        String historyToken = state.getHistoryToken();
 
-        History.replaceItem(state.getHistoryToken(), false);
+        if (historyToken != null) {
+            currentState = state;
 
-        for (Listener listener : listeners) {
-            listener.onChange(state);
+            History.replaceItem(currentState.getHistoryToken(), false);
+
+            for (Listener listener : listeners) {
+                listener.onChange(currentState);
+            }
         }
     }
 }

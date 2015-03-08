@@ -24,6 +24,8 @@ public class HistoryState implements Serializable {
     private String indicatorIdent;
     private List<String> countryISOList;
 
+    private HistoryStateData data;
+
     public HistoryState() {
     }
 
@@ -155,21 +157,42 @@ public class HistoryState implements Serializable {
         return intervalEndYear;
     }
 
+    public void setInterval(Integer startYear, Integer endYear) {
+        this.intervalStartYear = startYear;
+        this.intervalEndYear = endYear;
+    }
+
     public String getSeriesTabName() {
         return seriesTabName;
+    }
+
+    public void setSeriesTabName(String seriesTabName) {
+        this.seriesTabName = seriesTabName;
     }
 
     public String getIndicatorIdent() {
         return indicatorIdent;
     }
 
+    public void setIndicatorIdent(String indicatorIdent) {
+        this.indicatorIdent = indicatorIdent;
+        invalidateData();
+    }
+
     public List<String> getCountryISOList() {
         return countryISOList;
     }
 
-    private HistoryStateData data;
+    public void setCountryISOList(List<String> countryISOList) {
+        this.countryISOList = countryISOList;
+        invalidateData();
+    }
 
-    public void setData(HistoryStateData data) {
+    private void invalidateData() {
+        this.data = null;
+    }
+
+    private void setData(HistoryStateData data) {
         this.data = data;
     }
 
