@@ -17,7 +17,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 import models.Country;
 
-import client.managers.CountryManager;
+import client.managers.models.CountryManager;
 import client.ui.components.MaterialItem;
 import client.ui.components.MaterialSearch;
 

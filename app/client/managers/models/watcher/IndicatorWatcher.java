@@ -1,4 +1,4 @@
-package client.managers.watcher;
+package client.managers.models.watcher;
 
 import java.util.ArrayList;
 import java.util.HashMap;

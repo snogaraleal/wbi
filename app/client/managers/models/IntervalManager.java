@@ -1,7 +1,9 @@
-package client.managers;
+package client.managers.models;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import client.managers.Manager;
 
 public class IntervalManager implements Manager {
     public static interface View extends Manager.View<IntervalManager> {

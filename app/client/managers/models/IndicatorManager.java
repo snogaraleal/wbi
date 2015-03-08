@@ -1,4 +1,4 @@
-package client.managers;
+package client.managers.models;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,7 +7,8 @@ import rpc.client.ClientRequest;
 
 import models.Indicator;
 
-import client.managers.watcher.IndicatorWatcher;
+import client.managers.Manager;
+import client.managers.models.watcher.IndicatorWatcher;
 import client.services.WBIExplorationService;
 import client.services.WBIManagementService;
 

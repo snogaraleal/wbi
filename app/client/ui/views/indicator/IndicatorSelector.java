@@ -18,7 +18,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 import models.Indicator;
 
-import client.managers.IndicatorManager;
+import client.managers.models.IndicatorManager;
 import client.ui.components.MaterialItem;
 import client.ui.components.MaterialSearch;
 

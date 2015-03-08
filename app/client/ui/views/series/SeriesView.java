@@ -8,7 +8,7 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
-import client.managers.SeriesManager;
+import client.managers.models.SeriesManager;
 
 public abstract class SeriesView extends Composite
     implements SeriesManager.View, SeriesManager.Listener {

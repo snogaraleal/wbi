@@ -1,4 +1,4 @@
-package client.managers;
+package client.managers.models;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,6 +7,7 @@ import rpc.client.ClientRequest;
 
 import models.Country;
 
+import client.managers.Manager;
 import client.services.WBIExplorationService;
 
 public class CountryManager implements Manager {

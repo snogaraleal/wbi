@@ -2,7 +2,7 @@ package client.serializers;
 
 import java.util.List;
 
-import client.managers.SeriesManager;
+import client.managers.models.SeriesManager;
 
 public class XMLSeriesSerializer implements SeriesManager.Serializer {
     @Override

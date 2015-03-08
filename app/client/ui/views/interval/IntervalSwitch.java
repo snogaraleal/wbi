@@ -11,7 +11,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-import client.managers.IntervalManager;
+import client.managers.models.IntervalManager;
 import client.ui.components.MaterialButton;
 
 public class IntervalSwitch extends Composite

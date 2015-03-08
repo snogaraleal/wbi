@@ -1,4 +1,4 @@
-package client.managers.watcher;
+package client.managers.models.watcher;
 
 public class LiveIndicatorWatcher extends IndicatorWatcher {
     @Override

@@ -21,7 +21,7 @@ import com.google.gwt.view.client.SelectionModel;
 
 import models.Country;
 
-import client.managers.SeriesManager;
+import client.managers.models.SeriesManager;
 
 public class TableSeriesView extends SeriesView
     implements ColumnSortEvent.Handler {

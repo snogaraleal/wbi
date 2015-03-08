@@ -13,7 +13,7 @@ import com.google.gwt.user.client.ui.Widget;
 import models.Country;
 import models.Series;
 
-import client.managers.SeriesManager;
+import client.managers.models.SeriesManager;
 import client.ui.components.Chart;
 
 public class ChartSeriesView extends SeriesView {

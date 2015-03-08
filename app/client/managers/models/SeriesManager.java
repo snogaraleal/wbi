@@ -1,4 +1,4 @@
-package client.managers;
+package client.managers.models;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,6 +17,7 @@ import models.Indicator;
 import models.Point;
 import models.Series;
 
+import client.managers.Manager;
 import client.services.WBIExplorationService;
 
 public class SeriesManager
