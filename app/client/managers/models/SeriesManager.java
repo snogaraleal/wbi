@@ -217,7 +217,7 @@ public class SeriesManager
 
     private List<Listener> listeners = new ArrayList<Listener>();
 
-    private static int QUERY_DELAY = 100;
+    private static final int QUERY_DELAY = 100;
     private ClientRequest.Listener<List<Series>> queryRequestListener;
     private Timer queryTimer;
 
@@ -261,6 +261,11 @@ public class SeriesManager
         };
     }
 
+    private void scheduleQuery() {
+        queryTimer.cancel();
+        queryTimer.schedule(QUERY_DELAY);
+    }
+
     public void connect(IntervalManager intervalManager) {
         assert this.intervalManager == null;
 
@@ -281,8 +286,7 @@ public class SeriesManager
 
     @Override
     public void onSelect(IntervalManager.Option option) {
-        queryTimer.cancel();
-        queryTimer.schedule(QUERY_DELAY);
+        scheduleQuery();
     }
 
     public void connect(IndicatorManager indicatorManager) {
@@ -315,8 +319,7 @@ public class SeriesManager
 
     @Override
     public void onSelect(final Indicator indicator) {
-        queryTimer.cancel();
-        queryTimer.schedule(QUERY_DELAY);
+        scheduleQuery();
     }
 
     public void connect(CountryManager countryManager) {

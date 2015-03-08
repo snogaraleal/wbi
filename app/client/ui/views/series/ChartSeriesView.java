@@ -8,6 +8,7 @@ import java.util.SortedSet;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Widget;
 
 import models.Country;
@@ -28,9 +29,24 @@ public class ChartSeriesView extends SeriesView {
     @UiField
     Chart chart;
 
+    private static final int REDRAW_DELAY = 20;
+    private Timer redrawTimer;
+
     public ChartSeriesView() {
         super();
         initWidget(uiBinder.createAndBindUi(this));
+
+        redrawTimer = new Timer() {
+            @Override
+            public void run() {
+                chart.setSeries(map.values());
+            }
+        };
+    }
+
+    private void scheduleRedraw() {
+        redrawTimer.cancel();
+        redrawTimer.schedule(REDRAW_DELAY);
     }
 
     @Override
@@ -59,7 +75,7 @@ public class ChartSeriesView extends SeriesView {
             }
         }
 
-        chart.setSeries(map.values());
+        scheduleRedraw();
     }
 
     @Override
@@ -81,6 +97,6 @@ public class ChartSeriesView extends SeriesView {
             }
         }
 
-        chart.setSeries(map.values());
+        scheduleRedraw();
     }
 }

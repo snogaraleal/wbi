@@ -61,7 +61,7 @@ public class CountrySelector extends Composite
 
     private CountryManager manager;
 
-    private static int SEARCH_INPUT_DELAY = 300;
+    private static final int SEARCH_INPUT_DELAY = 300;
 
     private String searchInputText;
     private Timer searchInputTimer;
