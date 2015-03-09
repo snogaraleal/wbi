@@ -44,6 +44,10 @@ public class Country extends Model {
         return region;
     }
 
+    /*
+     * {@code Serializable} implementation
+     */
+
     public static final String FIELD_ISO = "iso";
     public static final String FIELD_NAME = "name";
     public static final String FIELD_REGION = "region";

@@ -12,8 +12,8 @@ import client.managers.history.HistoryStateData;
 import client.managers.models.IndicatorManager;
 
 /**
- * {@code HistoryManager.BaseHistory} in charge of updating an
- * {@code IndicatorManager} depending on the current {@code HistoryState}.
+ * {@link HistoryManager.Listener} in charge of updating an
+ * {@link IndicatorManager} depending on the current {@link HistoryState}.
  */
 public class IndicatorHistory extends HistoryManager.BaseHistory
     implements IndicatorManager.Listener {
@@ -26,7 +26,8 @@ public class IndicatorHistory extends HistoryManager.BaseHistory
     public IndicatorHistory() {}
 
     /**
-     * Attach an {@code IndicatorManager}.
+     * Attach an {@link IndicatorManager}.
+     *
      * @param manager Manager to attach.
      */
     public void connect(IndicatorManager manager) {
@@ -37,7 +38,7 @@ public class IndicatorHistory extends HistoryManager.BaseHistory
     }
 
     /**
-     * Detach the currently attached {@code IndicatorManager}.
+     * Detach the currently attached {@link IndicatorManager}.
      */
     public void disconnect() {
         assert this.manager != null;

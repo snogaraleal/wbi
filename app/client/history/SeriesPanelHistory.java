@@ -9,9 +9,9 @@ import client.managers.history.HistoryState;
 import client.ui.coordinators.TabCoordinator;
 
 /**
- * {@code HistoryManager.BaseHistory} in charge of updating a
- * {@code TabCoordinator} according to the tab name specified in the
- * current {@code HistoryState}.
+ * {@link HistoryManager.Listener} in charge of updating a
+ * {@link TabCoordinator} according to the tab name specified in the
+ * current {@link HistoryState}.
  */
 public class SeriesPanelHistory extends HistoryManager.BaseHistory
     implements SelectionHandler<Integer> {
@@ -31,7 +31,8 @@ public class SeriesPanelHistory extends HistoryManager.BaseHistory
     public SeriesPanelHistory() {}
 
     /**
-     * Attach a {@code TabCoordinator}.
+     * Attach a {@link TabCoordinator}.
+     *
      * @param coordinator Coordinator to attach.
      */
     public void connect(TabCoordinator<?> coordinator) {
@@ -43,7 +44,7 @@ public class SeriesPanelHistory extends HistoryManager.BaseHistory
     }
 
     /**
-     * Detach the currently attached {@code TabCoordinator}.
+     * Detach the currently attached {@link TabCoordinator}.
      */
     public void disconnect() {
         assert this.coordinator != null;

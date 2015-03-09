@@ -18,24 +18,76 @@ import rpc.shared.data.Type;
 
 import client.services.WBIExplorationService;
 
+/**
+ * History state.
+ *
+ * @see {@link HistoryManager}
+ * @see {@link HistoryState#fromHistoryToken}
+ */
 public class HistoryState implements Serializable {
+    /**
+     * Start year of the visualized {@code IntervalManager.Option}.
+     */
     private Integer intervalStartYear;
+
+    /**
+     * End year of the visualized {@code IntervalManager.Option}.
+     */
     private Integer intervalEndYear;
 
+    /**
+     * Name of the selected tab from the series tab panel.
+     */
     private String seriesTabName;
 
+    /**
+     * Identifier of the selected {@code Indicator}.
+     */
     private String indicatorIdent;
+
+    /**
+     * List of ISO codes from the selected {@code Country} objects.
+     */
     private List<String> countryISOList = new ArrayList<String>();
 
+    /*
+     * The following fields relate to {@code HistoryStateData} retrieval.
+     */
+
+    /**
+     * {@code HistoryStateData} that represents the values of this
+     * {@code HistoryState} or {@code null} if it must be retrieved.
+     */
     private HistoryStateData data;
+
+    /**
+     * Whether a {@code HistoryStateData} is being retrieved.
+     */
     private boolean loadingData;
+
+    /**
+     * {@code Callback} objects awaiting a {@code HistoryStateData}.
+     */
     private List<Callback<HistoryStateData, Void>> dataCallbacks =
         new ArrayList<Callback<HistoryStateData, Void>>();
 
+    /**
+     * Initialize {@code HistoryState}.
+     */
     public HistoryState() {
         invalidateData();
     }
 
+    /**
+     * Initialize {@code HistoryState} with specific information about the
+     * current state.
+     *
+     * @param intervalStartYear Start year of the visualized interval.
+     * @param intervalEndYear End year of the visualized interval.
+     * @param seriesTabName Name of the selected tab from the series panel.
+     * @param indicatorIdent Identifier of the current indicator.
+     * @param countryISOList List of ISO codes from the selected countries.
+     */
     public HistoryState(
             Integer intervalStartYear,
             Integer intervalEndYear,
@@ -51,22 +103,10 @@ public class HistoryState implements Serializable {
         setCountryISOList(countryISOList);
     }
 
-    /*
-     * ([0-9]*) : ([0-9]*) / ([^/]*) /? ([^/]*) /? ((.{2},?)*)
-     *     |          |         |          |           |
-     *  Interval   Interval   Series    Indicator   Comma-separated
-     *   start       end     tab name     ident     country ISO list
-     *
-     *       Indicator ident and country ISO list are optional.
-     *
-     * Examples:
-     *
-     *      2010:2014/map:europe/ABC.DEF.1234/SE,DK,NO
-     *      2010:2014/map:europe/ABC.DEF.1234
-     *      2010:2014/map:europe
+    /**
+     * Regular expression representing the history token format.
      */
-
-    private static RegExp REGEX =
+    public static final RegExp REGEX =
         RegExp.compile("([0-9]*):([0-9]*)/([^/]*)/?([^/]*)/?((.{2},?)*)");
 
     private static final String COUNTRY_ISO_LIST_SEPARATOR = ",";
@@ -77,6 +117,32 @@ public class HistoryState implements Serializable {
     private static final int REGEX_INDICATOR_IDENT = 4;
     private static final int REGEX_COUNTRY_ISO_LIST = 5;
 
+    /**
+     * Create a {@code HistoryState} from a history token.
+     * 
+     * <pre>([0-9]*) : ([0-9]*) / ([^/]*) /? ([^/]*) /? ((.{2},?)*)</pre>
+     *
+     * <ol>
+     *   <li>Interval start</li>
+     *   <li>Interval end</li>
+     *   <li>Series tab name</li>
+     *   <li>Indicator identifier (optional)</li>
+     *   <li>Comma-separated list of ISO codes (optional)</li>
+     * </ol>
+     *
+     * Examples:
+     *
+     * <ul>
+     *   <li>2010:2014/map:europe/ABC.DEF.1234/SE,DK,NO</li>
+     *   <li>2010:2014/map:europe/ABC.DEF.1234</li>
+     *   <li>2010:2014/map:europe</li>
+     * </ul>
+     *
+     * @param historyToken History token.
+     * @return Created {@code HistoryState} instance.
+     *
+     * @see {@link HistoryState#REGEX}
+     */
     public static HistoryState fromHistoryToken(String historyToken) {
         MatchResult result = REGEX.exec(historyToken);
 
@@ -84,11 +150,17 @@ public class HistoryState implements Serializable {
             return new HistoryState();
         }
 
+        /*
+         * Interval
+         */
         Integer intervalStartYear =
             Integer.valueOf(result.getGroup(REGEX_INTERVAL_START_YEAR));
         Integer intervalEndYear =
             Integer.valueOf(result.getGroup(REGEX_INTERVAL_END_YEAR));
 
+        /*
+         * Tab name
+         */
         String seriesTabName = result.getGroup(REGEX_SERIES_TAB_NAME);
         if (seriesTabName != null) {
             seriesTabName = seriesTabName.trim();
@@ -98,6 +170,9 @@ public class HistoryState implements Serializable {
             }
         }
 
+        /*
+         * Indicator
+         */
         String indicatorIdent = result.getGroup(REGEX_INDICATOR_IDENT);
         if (indicatorIdent != null) {
             indicatorIdent = indicatorIdent.trim();
@@ -107,6 +182,9 @@ public class HistoryState implements Serializable {
             }
         }
 
+        /*
+         * Country ISO list
+         */
         String countryISOListString = result.getGroup(REGEX_COUNTRY_ISO_LIST);
         List<String> countryISOList = null;
         if (countryISOListString != null) {
@@ -123,23 +201,43 @@ public class HistoryState implements Serializable {
             seriesTabName, indicatorIdent, countryISOList);
     }
 
+    /**
+     * Whether this {@code HistoryState} is missing information.
+     *
+     * @return Whether the state is missing information.
+     */
     public boolean isEmpty() {
         return intervalStartYear == null || intervalEndYear == null ||
             seriesTabName == null;
     }
 
+    /**
+     * Generate a history token with the information in this
+     * {@code HistoryState}.
+     *
+     * @return History token.
+     */
     public String getHistoryToken() {
         if (isEmpty()) {
             return null;
         }
 
+        /*
+         * Interval and tab name
+         */
         String historyToken =
             intervalStartYear + ":" + intervalEndYear +
             "/" + seriesTabName;
 
         if (indicatorIdent != null) {
+            /*
+             * Indicator
+             */
             historyToken += "/" + indicatorIdent;
 
+            /*
+             * Country ISO list
+             */
             if (countryISOList != null && !countryISOList.isEmpty()) {
                 historyToken += "/";
 
@@ -160,31 +258,67 @@ public class HistoryState implements Serializable {
         return historyToken;
     }
 
+    /**
+     * Get start year of the visualized interval.
+     *
+     * @return Interval start year.
+     */
     public Integer getIntervalStartYear() {
         return intervalStartYear;
     }
 
+    /**
+     * Get end year of the visualized interval.
+     *
+     * @return Interval end year.
+     */
     public Integer getIntervalEndYear() {
         return intervalEndYear;
     }
 
+    /**
+     * Set start and end of the visualized interval.
+     *
+     * @param startYear Start year of the interval.
+     * @param endYear End year of the interval.
+     */
     public void setInterval(Integer startYear, Integer endYear) {
         this.intervalStartYear = startYear;
         this.intervalEndYear = endYear;
     }
 
+    /**
+     * Get the name of the selected series tab.
+     *
+     * @return Selected tab name.
+     */
     public String getSeriesTabName() {
         return seriesTabName;
     }
 
+    /**
+     * Set the name of the selected series tab.
+     *
+     * @param seriesTabName Tab name.
+     */
     public void setSeriesTabName(String seriesTabName) {
         this.seriesTabName = seriesTabName;
     }
 
+    /**
+     * Get identifier of the selected indicator.
+     *
+     * @return Indicator identifier.
+     */
     public String getIndicatorIdent() {
         return indicatorIdent;
     }
 
+    /**
+     * Set the identifier of the selected indicator.
+     *
+     * @param indicatorIdent Indicator identifier.
+     */
     public void setIndicatorIdent(String indicatorIdent) {
         if (this.indicatorIdent != null &&
                 this.indicatorIdent.equals(indicatorIdent)) {
@@ -195,25 +329,38 @@ public class HistoryState implements Serializable {
         invalidateData();
     }
 
+    /**
+     * Get the list of ISO codes corresponding to selected countries.
+     *
+     * @return List of ISO codes.
+     */
     public List<String> getCountryISOList() {
         return countryISOList;
     }
 
+    /**
+     * Set the list of ISO codes corresponding to selected countries.
+     *
+     * @param countryISOList List of ISO codes.
+     */
     public void setCountryISOList(List<String> countryISOList) {
         if (countryISOList == null) {
             countryISOList = new ArrayList<String>();
         }
 
         if (this.countryISOList != null) {
+            // Remove duplicates
             Set<String> countryISOSet = new HashSet<String>(countryISOList);
 
             countryISOList.clear();
             countryISOList.addAll(countryISOSet);
 
+            // Get ISO codes that are not in the new list
             List<String> toRemoveCountryISOList =
                 new ArrayList<String>(this.countryISOList);
             toRemoveCountryISOList.removeAll(countryISOList);
 
+            // Return if there are no differences between the lists
             if (this.countryISOList.size() == countryISOList.size() &&
                     toRemoveCountryISOList.isEmpty()) {
                 return;
@@ -224,6 +371,12 @@ public class HistoryState implements Serializable {
         invalidateData();
     }
 
+    /**
+     * Replace the information in this {@code HistoryState} with information
+     * from a different {@code HistoryState}.
+     *
+     * @param state History state with new values.
+     */
     public void replace(HistoryState state) {
         setInterval(state.getIntervalStartYear(), state.getIntervalEndYear());
         setSeriesTabName(state.getSeriesTabName());
@@ -231,16 +384,33 @@ public class HistoryState implements Serializable {
         setCountryISOList(state.getCountryISOList());
     }
 
+    /*
+     * The following methods relate to {@code HistoryStateData} retrieval.
+     */
+
+    /**
+     * Invalidate the current {@code HistoryStateData}.
+     */
     private void invalidateData() {
         this.loadingData = false;
         this.data = null;
     }
 
+    /**
+     * Set the current {@code HistoryStateData}.
+     *
+     * @param data Up-to-date state data.
+     */
     private void setData(HistoryStateData data) {
         this.loadingData = false;
         this.data = data;
     }
 
+    /**
+     * Request an up-to-date {@code HistoryStateData}.
+     *
+     * @param callback {@code Callback} to be called when ready.
+     */
     public void getData(final Callback<HistoryStateData, Void> callback) {
         if (data != null) {
             callback.onSuccess(data);
@@ -255,12 +425,16 @@ public class HistoryState implements Serializable {
 
         loadingData = true;
 
+        /*
+         * Make RPC request
+         */
         WBIExplorationService.getStateData(
             this, new ClientRequest.Listener<HistoryStateData>() {
                 @Override
                 public void onSuccess(HistoryStateData data) {
                     setData(data);
 
+                    // Call callbacks
                     for (Callback<HistoryStateData, Void> callback :
                             dataCallbacks) {
 
@@ -274,6 +448,7 @@ public class HistoryState implements Serializable {
                 public void onFailure(ClientRequest.Error error) {
                     invalidateData();
 
+                    // Call callbacks
                     for (Callback<HistoryStateData, Void> callback :
                             dataCallbacks) {
 
@@ -284,6 +459,10 @@ public class HistoryState implements Serializable {
                 }
             });
     }
+
+    /*
+     * {@code Serializable} implementation
+     */
 
     public static final String FIELD_INDICATOR_IDENT = "indicator";
     public static final String FIELD_COUNTRY_ISO_LIST = "countries";

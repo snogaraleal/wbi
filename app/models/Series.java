@@ -88,6 +88,10 @@ public class Series extends Model {
         return getPointsMap().get(year);
     }
 
+    /*
+     * {@code Serializable} implementation
+     */
+
     public static final String FIELD_COUNTRY = "country";
     public static final String FIELD_POINTS = "points";
 

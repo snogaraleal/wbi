@@ -35,6 +35,10 @@ public class Topic extends Model {
         return name;
     }
 
+    /*
+     * {@code Serializable} implementation
+     */
+
     public static final String FIELD_IDENT = "ident";
     public static final String FIELD_NAME = "name";
 

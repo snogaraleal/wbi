@@ -72,6 +72,10 @@ public class Model extends play.db.ebean.Model implements Serializable {
         }
     }
 
+    /*
+     * {@code Serializable} implementation
+     */
+
     public static final String FIELD_ID = "id";
 
     @Override

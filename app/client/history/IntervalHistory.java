@@ -5,8 +5,8 @@ import client.managers.history.HistoryState;
 import client.managers.models.IntervalManager;
 
 /**
- * {@code HistoryManager.BaseHistory} in charge of updating an
- * {@code IntervalManager} depending on the current {@code HistoryState}.
+ * {@link HistoryManager.Listener} in charge of updating an
+ * {@link IntervalManager} depending on the current {@link HistoryState}.
  */
 public class IntervalHistory extends HistoryManager.BaseHistory
     implements IntervalManager.Listener {
@@ -19,7 +19,8 @@ public class IntervalHistory extends HistoryManager.BaseHistory
     public IntervalHistory() {}
 
     /**
-     * Attach an {@code IntervalManager}.
+     * Attach an {@link IntervalManager}.
+     *
      * @param manager Manager to attach.
      */
     public void connect(IntervalManager manager) {
@@ -30,7 +31,7 @@ public class IntervalHistory extends HistoryManager.BaseHistory
     }
 
     /**
-     * Detach the currently attached {@code IntervalManager}.
+     * Detach the currently attached {@link IntervalManager}.
      */
     public void disconnect() {
         assert this.manager != null;

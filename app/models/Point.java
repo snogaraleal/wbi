@@ -44,6 +44,10 @@ public class Point extends Model {
         return value;
     }
 
+    /*
+     * {@code Serializable} implementation
+     */
+
     public static final String FIELD_YEAR = "year";
     public static final String FIELD_VALUE = "value";
 

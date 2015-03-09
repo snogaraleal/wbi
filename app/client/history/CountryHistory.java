@@ -13,8 +13,8 @@ import client.managers.history.HistoryStateData;
 import client.managers.models.CountryManager;
 
 /**
- * {@code HistoryManager.BaseHistory} in charge of updating a
- * {@code CountryManager} depending on the current {@code HistoryState}.
+ * {@link HistoryManager.Listener} in charge of updating a
+ * {@link CountryManager} depending on the current {@link HistoryState}.
  */
 public class CountryHistory extends HistoryManager.BaseHistory
     implements CountryManager.Listener {
@@ -27,7 +27,8 @@ public class CountryHistory extends HistoryManager.BaseHistory
     public CountryHistory() {}
 
     /**
-     * Attach a {@code CountryManager}.
+     * Attach a {@link CountryManager}.
+     *
      * @param manager Manager to attach.
      */
     public void connect(CountryManager manager) {
@@ -38,7 +39,7 @@ public class CountryHistory extends HistoryManager.BaseHistory
     }
 
     /**
-     * Detach the currently attached {@code CountryManager}.
+     * Detach the currently attached {@link CountryManager}.
      */
     public void disconnect() {
         assert this.manager != null;

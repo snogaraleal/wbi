@@ -10,7 +10,8 @@ import com.google.gwt.user.client.History;
 import client.managers.Manager;
 
 /**
- * {@code Manager} in charge of keeping track of history changes.
+ * {@link Manager} in charge of keeping track of the current
+ * {@link HistoryState}.
  */
 public class HistoryManager implements Manager, ValueChangeHandler<String> {
     /**
@@ -18,25 +19,27 @@ public class HistoryManager implements Manager, ValueChangeHandler<String> {
      */
     public static interface Listener {
         /**
-         * Handle connection to {@code HistoryManager}.
+         * Handle connection to {@link HistoryManager}.
+         *
          * @param historyManager Manager connected to.
          */
         void onAdd(HistoryManager historyManager);
 
         /**
-         * Handle disconnection from {@code HistoryManager}.
+         * Handle disconnection from {@link HistoryManager}.
          */
         void onRemove();
 
         /**
-         * Handle change of {@code HistoryState}.
+         * Handle change of {@link HistoryState}.
+         *
          * @param state Current state.
          */
         void onChange(HistoryState state);
     }
 
     /**
-     * Base class for {@code HistoryManager.Listener} implementors.
+     * Base class for {@code HistoryManager.Listener} implementers.
      */
     public static abstract class BaseHistory implements Listener {
         protected HistoryManager historyManager;
@@ -58,6 +61,7 @@ public class HistoryManager implements Manager, ValueChangeHandler<String> {
         /**
          * Get the {@code HistoryManager} this listener is currently
          * listening to.
+         *
          * @return Current {@code HistoryManager}.
          */
         public HistoryManager getCurrentHistoryManager() {
@@ -84,7 +88,8 @@ public class HistoryManager implements Manager, ValueChangeHandler<String> {
     }
 
     /**
-     * Change the current {@code HistoryState} creating a new history entry.
+     * Change the current {@link HistoryState}.
+     *
      * @param state New history state.
      */
     public void setState(HistoryState state) {
@@ -93,7 +98,8 @@ public class HistoryManager implements Manager, ValueChangeHandler<String> {
     }
 
     /**
-     * Get the current {@code HistoryState}.
+     * Get the current {@link HistoryState}.
+     *
      * @return Current history state.
      */
     public HistoryState getCurrentState() {
@@ -102,6 +108,7 @@ public class HistoryManager implements Manager, ValueChangeHandler<String> {
 
     /**
      * Attach {@code Listener}.
+     *
      * @param listener Listener to attach.
      */
     public void addListener(Listener listener) {
@@ -112,6 +119,7 @@ public class HistoryManager implements Manager, ValueChangeHandler<String> {
 
     /**
      * Detach {@code Listener}.
+     *
      * @param listener Listener to detach.
      */
     public void removeListener(Listener listener) {
@@ -120,7 +128,7 @@ public class HistoryManager implements Manager, ValueChangeHandler<String> {
     }
 
     /**
-     * Handle browser history changes.
+     * Handle browser history state changes.
      */
     @Override
     public void onValueChange(ValueChangeEvent<String> event) {

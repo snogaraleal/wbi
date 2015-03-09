@@ -94,6 +94,10 @@ public class Indicator extends Model {
         return source;
     }
 
+    /*
+     * {@code Serializable} implementation
+     */
+
     public static final String FIELD_IDENT = "ident";
     public static final String FIELD_NAME = "name";
     public static final String FIELD_STATUS = "status";
