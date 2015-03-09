@@ -28,7 +28,7 @@ public class Script {
         loadedScripts.add(script);
     }
 
-    public static class Manager {
+    public static class Loader {
         public static enum Status {
             NEW,
             LOADING,
@@ -36,16 +36,16 @@ public class Script {
         }
 
         private String script;
-        private Manager base;
+        private Loader base;
 
         private Status status = Status.NEW;
 
-        public Manager(String script, Manager base) {
+        public Loader(String script, Loader base) {
             this.script = script;
             this.base = base;
         }
 
-        public Manager(String script) {
+        public Loader(String script) {
             this(script, null);
         }
 
@@ -100,11 +100,11 @@ public class Script {
         }
     }
 
-    public static class JQueryManager extends Manager {
+    public static class JQueryLoader extends Loader {
         public static final String SCRIPT =
             ClientConf.asset("js/jquery/jquery-2.1.3.min.js");
 
-        public JQueryManager() {
+        public JQueryLoader() {
             super(SCRIPT);
         }
 
@@ -123,5 +123,5 @@ public class Script {
         }
     }
 
-    public static Manager JQUERY = new JQueryManager();
+    public static Loader JQUERY = new JQueryLoader();
 }
