@@ -25,7 +25,7 @@ public class HistoryState implements Serializable {
     private String seriesTabName;
 
     private String indicatorIdent;
-    private List<String> countryISOList;
+    private List<String> countryISOList = new ArrayList<String>();
 
     private HistoryStateData data;
     private boolean loadingData;
@@ -46,9 +46,7 @@ public class HistoryState implements Serializable {
         this();
 
         setInterval(intervalStartYear, intervalEndYear);
-
         setSeriesTabName(seriesTabName);
-
         setIndicatorIdent(indicatorIdent);
         setCountryISOList(countryISOList);
     }
@@ -83,7 +81,7 @@ public class HistoryState implements Serializable {
         MatchResult result = REGEX.exec(historyToken);
 
         if (result == null || result.getGroupCount() <= 1) {
-            return null;
+            return new HistoryState();
         }
 
         Integer intervalStartYear =
@@ -114,8 +112,10 @@ public class HistoryState implements Serializable {
         if (countryISOListString != null) {
             countryISOListString = countryISOListString.trim();
 
-            countryISOList = new ArrayList<String>(Arrays.asList(
-                countryISOListString.split(COUNTRY_ISO_LIST_SEPARATOR)));
+            if (!countryISOListString.isEmpty()) {
+                countryISOList = new ArrayList<String>(Arrays.asList(
+                    countryISOListString.split(COUNTRY_ISO_LIST_SEPARATOR)));
+            }
         }
 
         return new HistoryState(

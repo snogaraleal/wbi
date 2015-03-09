@@ -724,50 +724,12 @@ html, body, button, a, input {
   overflow-y: scroll;
 }
 
+
+/*
+ * Series view: Table
+ */
+
 .series.series-table {
-}
-
-.series.series-chart {
-  padding-right: 20px;
-}
-
-.series.series-chart > *,
-.series.series-chart > * > * {
-  width: 100%;
-  height: 100%;
-}
-
-.series.series-chart > * {
-  padding-top: 20px;
-}
-
-.series.series-chart .legend > div,
-.series.series-chart .legend > table {
-  top: -24px !important;
-}
-
-.series.series-chart .legend .legendLabel {
-  padding-right: 10px;
-}
-
-.series.series-chart .legend .legendColorBox > div {
-  padding: 0 !important;
-  border: none !important;
-}
-
-.series.series-chart .legend .legendColorBox > div > div {
-  -webkit-border-radius: 6px;
-     -moz-border-radius: 6px;
-          border-radius: 6px;
-}
-
-.series.series-map {
-}
-
-.series.series-map > *,
-.series.series-map > * > * {
-  width: 100%;
-  height: 100%;
 }
 
 .series.series-table table {
@@ -804,6 +766,59 @@ html, body, button, a, input {
 
 .com-google-gwt-user-cellview-client-CellTable-Style-cellTableKeyboardSelectedCell {
   border-color: #d7dde8 !important;
+}
+
+
+/*
+ * Series view: Chart
+ */
+
+.series.series-chart {
+  padding-right: 20px;
+}
+
+.series.series-chart > *,
+.series.series-chart > * > * {
+  width: 100%;
+  height: 100%;
+}
+
+.series.series-chart > * {
+  padding-top: 20px;
+}
+
+.series.series-chart .legend > div,
+.series.series-chart .legend > table {
+  top: -24px !important;
+}
+
+.series.series-chart .legend .legendLabel {
+  padding-right: 10px;
+}
+
+.series.series-chart .legend .legendColorBox > div {
+  padding: 0 !important;
+  border: none !important;
+}
+
+.series.series-chart .legend .legendColorBox > div > div {
+  -webkit-border-radius: 6px;
+     -moz-border-radius: 6px;
+          border-radius: 6px;
+}
+
+
+/*
+ * Series view: Map
+ */
+
+.series.series-map {
+}
+
+.series.series-map > *,
+.series.series-map > * > * {
+  width: 100%;
+  height: 100%;
 }
 
 
@@ -942,4 +957,40 @@ html, body, button, a, input {
   vertical-align: middle;
   line-height: 20px;
   padding-left: 3px;
+}
+
+
+/*
+ * Dialog box
+ */
+
+.gwt-PopupPanelGlass {
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.gwt-DialogBox {
+  z-index: 2000;
+  background-color: #FFF;
+
+  -webkit-box-shadow: 0 0 30px #777;
+     -moz-box-shadow: 0 0 30px #777;
+          box-shadow: 0 0 30px #777;
+}
+
+.gwt-DialogBox .dialogTop .dialogTopCenterInner,
+.gwt-DialogBox .dialogMiddle .dialogContent {
+  padding: 20px;
+}
+
+.gwt-DialogBox .dialogTop {
+  background-color: #00BCD4;
+  color: #FFF;
+}
+
+.gwt-DialogBox .dialogContent .gwt-Anchor {
+  margin-right: 12px;
+  margin-top: 16px;
+
+  text-transform: uppercase;
 }

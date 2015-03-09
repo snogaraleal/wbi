@@ -26,6 +26,7 @@ import client.serializers.CSVSeriesSerializer;
 import client.serializers.JSONSeriesSerializer;
 import client.serializers.XMLSeriesSerializer;
 import client.ui.GlobalLoadingIndicator;
+import client.ui.SeriesSerializerDialogBox;
 import client.ui.components.MaterialButton;
 import client.ui.components.VectorMap;
 import client.ui.coordinators.SimpleCoordinator;
@@ -192,7 +193,13 @@ public class Dashboard extends Composite {
             String title, SeriesManager.Serializer serializer) {
 
         MaterialButton button = new MaterialButton(title);
+
         button.setAnimationEnabled(true);
+
+        button.addClickHandler(
+            new SeriesSerializerDialogBox.OpenClickHandler(
+                seriesManager, serializer));
+
         seriesAnchors.add(button);
     }
 
