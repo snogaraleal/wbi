@@ -44,7 +44,7 @@ public class HistoryManager implements Manager, ValueChangeHandler<String> {
 
     public HistoryManager() {
         History.addValueChangeHandler(this);
-        currentState = new HistoryState(History.getToken());
+        currentState = HistoryState.fromHistoryToken(History.getToken());
     }
 
     public void setState(HistoryState state) {
@@ -69,9 +69,9 @@ public class HistoryManager implements Manager, ValueChangeHandler<String> {
 
     @Override
     public void onValueChange(ValueChangeEvent<String> event) {
-        HistoryState state = new HistoryState(event.getValue());
+        HistoryState state = HistoryState.fromHistoryToken(event.getValue());
 
-        if (!state.isEmpty()) {
+        if (state != null && !state.isEmpty()) {
             currentState.replace(state);
 
             History.replaceItem(currentState.getHistoryToken(), false);

@@ -51,11 +51,11 @@ public class VectorMap extends Composite {
 
     public static final String BASE_SCRIPT =
         ClientConf.asset("js/jvectormap/jvectormap-2.0.1.min.js");
-    public static final Script.Manager BASE_SCRIPT_MANAGER =
-        new Script.Manager(BASE_SCRIPT, Script.JQUERY);
+    public static final Script.Loader BASE_SCRIPT_LOADER =
+        new Script.Loader(BASE_SCRIPT, Script.JQUERY);
 
     private Visual visual;
-    private Script.Manager visualScriptManager;
+    private Script.Loader visualScriptLoader;
     private boolean visualLoaded = false;
 
     public VectorMap() {
@@ -69,12 +69,12 @@ public class VectorMap extends Composite {
 
     public void setVisual(Visual visual) {
         this.visual = visual;
-        visualScriptManager = new Script.Manager(
-            visual.getScript(), BASE_SCRIPT_MANAGER);
+        visualScriptLoader = new Script.Loader(
+            visual.getScript(), BASE_SCRIPT_LOADER);
     }
 
     private void loadVisual(final Runnable callback) {
-        visualScriptManager.load(new Runnable() {
+        visualScriptLoader.load(new Runnable() {
             @Override
             public void run() {
                 if (!visualLoaded) {

@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.google.gwt.core.client.Callback;
 import com.google.gwt.regexp.shared.MatchResult;
@@ -78,24 +79,24 @@ public class HistoryState implements Serializable {
     private static final int REGEX_INDICATOR_IDENT = 4;
     private static final int REGEX_COUNTRY_ISO_LIST = 5;
 
-    public HistoryState(String historyToken) {
+    public static HistoryState fromHistoryToken(String historyToken) {
         MatchResult result = REGEX.exec(historyToken);
 
         if (result == null || result.getGroupCount() <= 1) {
-            return;
+            return null;
         }
 
-        this.intervalStartYear =
+        Integer intervalStartYear =
             Integer.valueOf(result.getGroup(REGEX_INTERVAL_START_YEAR));
-        this.intervalEndYear =
+        Integer intervalEndYear =
             Integer.valueOf(result.getGroup(REGEX_INTERVAL_END_YEAR));
 
         String seriesTabName = result.getGroup(REGEX_SERIES_TAB_NAME);
         if (seriesTabName != null) {
             seriesTabName = seriesTabName.trim();
 
-            if (!seriesTabName.isEmpty()) {
-                this.seriesTabName = seriesTabName;
+            if (seriesTabName.isEmpty()) {
+                seriesTabName = null;
             }
         }
 
@@ -103,20 +104,23 @@ public class HistoryState implements Serializable {
         if (indicatorIdent != null) {
             indicatorIdent = indicatorIdent.trim();
 
-            if (!indicatorIdent.isEmpty()) {
-                this.indicatorIdent = indicatorIdent;
+            if (indicatorIdent.isEmpty()) {
+                indicatorIdent = null;
             }
         }
 
-        String countryISOList = result.getGroup(REGEX_COUNTRY_ISO_LIST);
-        if (countryISOList != null) {
-            countryISOList = countryISOList.trim();
+        String countryISOListString = result.getGroup(REGEX_COUNTRY_ISO_LIST);
+        List<String> countryISOList = null;
+        if (countryISOListString != null) {
+            countryISOListString = countryISOListString.trim();
 
-            if (!countryISOList.isEmpty()) {
-                this.countryISOList = Arrays.asList(
-                    countryISOList.split(COUNTRY_ISO_LIST_SEPARATOR));
-            }
+            countryISOList = new ArrayList<String>(Arrays.asList(
+                countryISOListString.split(COUNTRY_ISO_LIST_SEPARATOR)));
         }
+
+        return new HistoryState(
+            intervalStartYear, intervalEndYear,
+            seriesTabName, indicatorIdent, countryISOList);
     }
 
     public boolean isEmpty() {
@@ -196,16 +200,22 @@ public class HistoryState implements Serializable {
     }
 
     public void setCountryISOList(List<String> countryISOList) {
-        if (this.countryISOList != null && countryISOList != null) {
-            countryISOList = new ArrayList<String>(
-                new HashSet<String>(countryISOList));
+        if (countryISOList == null) {
+            countryISOList = new ArrayList<String>();
+        }
 
-            List<String> currentCountryISOList =
+        if (this.countryISOList != null) {
+            Set<String> countryISOSet = new HashSet<String>(countryISOList);
+
+            countryISOList.clear();
+            countryISOList.addAll(countryISOSet);
+
+            List<String> toRemoveCountryISOList =
                 new ArrayList<String>(this.countryISOList);
-            currentCountryISOList.removeAll(countryISOList);
+            toRemoveCountryISOList.removeAll(countryISOList);
 
             if (this.countryISOList.size() == countryISOList.size() &&
-                    currentCountryISOList.isEmpty()) {
+                    toRemoveCountryISOList.isEmpty()) {
                 return;
             }
         }

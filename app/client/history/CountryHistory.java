@@ -71,13 +71,8 @@ public class CountryHistory extends HistoryManager.BaseHistory
     @Override
     public void onAdd(Country country) {
         HistoryState state = historyManager.getCurrentState();
-        List<String> countryISOList = state.getCountryISOList();
-
-        if (countryISOList == null) {
-            countryISOList = new ArrayList<String>();
-        } else {
-            countryISOList = new ArrayList<String>(countryISOList);
-        }
+        List<String> countryISOList =
+            new ArrayList<String>(state.getCountryISOList());
 
         String iso = country.getISO();
 
@@ -92,13 +87,8 @@ public class CountryHistory extends HistoryManager.BaseHistory
     @Override
     public void onRemove(Country country) {
         HistoryState state = historyManager.getCurrentState();
-        List<String> countryISOList = state.getCountryISOList();
-
-        if (countryISOList == null) {
-            countryISOList = new ArrayList<String>();
-        } else {
-            countryISOList = new ArrayList<String>(countryISOList);
-        }
+        List<String> countryISOList =
+            new ArrayList<String>(state.getCountryISOList());
 
         String iso = country.getISO();
 

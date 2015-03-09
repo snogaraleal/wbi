@@ -76,15 +76,15 @@ public class Chart extends Composite {
 
     public static final String BASE_SCRIPT =
         ClientConf.asset("js/flot/jquery.flot.min.js");
-    public static final Script.Manager BASE_SCRIPT_MANAGER =
-        new Script.Manager(BASE_SCRIPT, Script.JQUERY);
+    public static final Script.Loader BASE_SCRIPT_LOADER =
+        new Script.Loader(BASE_SCRIPT, Script.JQUERY);
 
     public Chart() {
         initWidget(uiBinder.createAndBindUi(this));
     }
 
     private void load(Runnable callback) {
-        BASE_SCRIPT_MANAGER.load(callback);
+        BASE_SCRIPT_LOADER.load(callback);
     }
 
     private JavaScriptObject seriesToJSObject(Series series) {
