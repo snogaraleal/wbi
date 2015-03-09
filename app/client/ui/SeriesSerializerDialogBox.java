@@ -46,6 +46,7 @@ public class SeriesSerializerDialogBox extends DialogBox {
             @Override
             public void onClick(ClickEvent event) {
                 textArea.selectAll();
+                textArea.setFocus(true);
             }
         });
 
@@ -82,7 +83,7 @@ public class SeriesSerializerDialogBox extends DialogBox {
         @Override
         public void onClick(ClickEvent event) {
             SeriesSerializerDialogBox dialogBox = new SeriesSerializerDialogBox();
-            dialogBox.setContent(serializer.serialize(manager.getRows()));
+            dialogBox.setContent(manager.serialize(serializer));
             dialogBox.center();
         }
     }

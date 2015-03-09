@@ -155,8 +155,8 @@ public class SeriesManager
             private int compareYear(Row a, Row b) {
                 int year = ordering.getBy();
 
-                Double pointA = a.getSeries().getPointsMap().get(year);
-                Double pointB = b.getSeries().getPointsMap().get(year);
+                Double pointA = a.getSeries().getPointValue(year);
+                Double pointB = b.getSeries().getPointValue(year);
 
                 if (pointA == null && pointB == null) {
                     return 0;
@@ -200,7 +200,7 @@ public class SeriesManager
     }
 
     public static interface Serializer {
-        String serialize(List<Row> list);
+        String serialize(SortedSet<Integer> years, List<Row> list);
     }
 
     public static interface Filter {
@@ -259,6 +259,10 @@ public class SeriesManager
                 }
             }
         };
+    }
+
+    public String serialize(Serializer serializer) {
+        return serializer.serialize(years, rows);
     }
 
     private void scheduleQuery() {

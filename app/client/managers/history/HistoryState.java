@@ -139,21 +139,21 @@ public class HistoryState implements Serializable {
 
         if (indicatorIdent != null) {
             historyToken += "/" + indicatorIdent;
-        }
 
-        if (countryISOList != null && !countryISOList.isEmpty()) {
-            historyToken += "/";
+            if (countryISOList != null && !countryISOList.isEmpty()) {
+                historyToken += "/";
 
-            boolean needsComma = false;
+                boolean needsComma = false;
 
-            for (String iso : countryISOList) {
-                if (needsComma) {
-                    historyToken += ",";
-                } else {
-                    needsComma = true;
+                for (String iso : countryISOList) {
+                    if (needsComma) {
+                        historyToken += ",";
+                    } else {
+                        needsComma = true;
+                    }
+
+                    historyToken += iso;
                 }
-
-                historyToken += iso;
             }
         }
 

@@ -164,8 +164,8 @@ public class Dashboard extends Composite {
 
         // Serializers
 
-        addSeriesSerializer("XML", new XMLSeriesSerializer());
         addSeriesSerializer("CSV", new CSVSeriesSerializer());
+        addSeriesSerializer("XML", new XMLSeriesSerializer());
         addSeriesSerializer("JSON", new JSONSeriesSerializer());
 
         /*

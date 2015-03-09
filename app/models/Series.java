@@ -84,6 +84,10 @@ public class Series extends Model {
         return pointsMap;
     }
 
+    public Double getPointValue(Integer year) {
+        return getPointsMap().get(year);
+    }
+
     public static final String FIELD_COUNTRY = "country";
     public static final String FIELD_POINTS = "points";
 

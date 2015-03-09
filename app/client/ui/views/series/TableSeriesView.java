@@ -59,8 +59,8 @@ public class TableSeriesView extends SeriesView
     }
 
     public static class YearColumn extends TextColumn<SeriesManager.Row> {
-        public static String NONE = "";
-        public static Double RES = 10.0;
+        private static final String NONE = "";
+        private static final Double RES = 10.0;
 
         private int year;
 
@@ -76,11 +76,11 @@ public class TableSeriesView extends SeriesView
 
         @Override
         public String getValue(SeriesManager.Row row) {
-            Double point = row.getSeries().getPointsMap().get(year);
+            Double point = row.getSeries().getPointValue(year);
             if (point == null) {
                 return NONE;
             } else {
-                return ((Double)(((int)(point * RES)) / RES)) + "";
+                return (Double)(((int)(point * RES)) / RES) + "";
             }
         }
 
