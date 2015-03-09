@@ -39,39 +39,68 @@ import client.ui.views.series.MapSeriesView;
 import client.ui.views.series.SeriesView;
 import client.ui.views.series.TableSeriesView;
 
+/**
+ * Main viewport widget.
+ */
 public class Dashboard extends Composite {
     interface DashboardUiBinder extends UiBinder<Widget, Dashboard> {}
     private static DashboardUiBinder uiBinder =
         GWT.create(DashboardUiBinder.class);
 
+    /**
+     * Root widget containing all other widgets.
+     */
     @UiField
     FlowPanel viewport;
 
-    @UiField
-    FlowPanel overlay;
-
+    /**
+     * Tab panel for indicators (left panel).
+     */
     @UiField
     TabLayoutPanel indicatorPanel;
 
+    /**
+     * Tab panel for countries (right panel).
+     */
     @UiField
     TabLayoutPanel countryPanel;
 
+    /**
+     * Tab panel for series (center panel).
+     */
     @UiField
     TabLayoutPanel seriesPanel;
 
+    /**
+     * Floating panel.
+     */
+    @UiField
+    FlowPanel overlay;
+
+    /**
+     * Interval selector (part of {@code overlay}).
+     */
     @UiField
     IntervalSwitch seriesInterval;
 
+    /**
+     * Serializers buttons (part of {@code overlay}).
+     */
     @UiField
     FlowPanel seriesAnchors;
 
+    // History manager
     private HistoryManager historyManager = new HistoryManager();
 
+    // Model managers
     private IntervalManager intervalManager = new IntervalManager();
     private IndicatorManager indicatorManager = new IndicatorManager();
     private CountryManager countryManager = new CountryManager();
     private SeriesManager seriesManager = new SeriesManager();
 
+    /**
+     * Initialize viewport.
+     */
     public Dashboard() {
         initWidget(uiBinder.createAndBindUi(this));
 
@@ -83,9 +112,16 @@ public class Dashboard extends Composite {
         initSeriesComponents();
     }
 
+    /**
+     * Add {@code GlobalLoadingIndicator} to the viewport.
+     */
     private void setupLoadingIndicator() {
         viewport.add(GlobalLoadingIndicator.get());
 
+        /*
+         * Change the visibility of the loading indicator when RPC requests
+         * are sent and received.
+         */
         ClientRequest.addGlobalListener(new ClientRequest.GlobalListener() {
             @Override
             public void onSend(ClientRequest<?> clientRequest) {
@@ -99,6 +135,9 @@ public class Dashboard extends Composite {
         });
     }
 
+    /**
+     * Connect views and history to the main {@code IntervalManager}.
+     */
     private void initIntervalComponents() {
         SimpleCoordinator<IntervalManager> intervalCoordinator =
             new SimpleCoordinator<IntervalManager>(intervalManager);
@@ -110,12 +149,16 @@ public class Dashboard extends Composite {
 
         historyManager.addListener(intervalHistory);
 
+        // Select the last interval option by default
         if (intervalManager.getSelectedOption() == null) {
             intervalManager.select(
                 IntervalManager.OPTIONS[IntervalManager.OPTIONS.length - 1]);
         }
     }
 
+    /**
+     * Connect views and history to the main {@code IndicatorManager}.
+     */
     private void initIndicatorComponents() {
         TabCoordinator<IndicatorManager> indicatorTabCoordinator =
             new TabCoordinator<IndicatorManager>(
@@ -130,6 +173,9 @@ public class Dashboard extends Composite {
         historyManager.addListener(indicatorHistory);
     }
 
+    /**
+     * Connect views and history to the main {@code CountryManager}.
+     */
     private void initCountryComponents() {
         TabCoordinator<CountryManager> countryTabCoordinator =
             new TabCoordinator<CountryManager>(countryManager, countryPanel);
@@ -143,6 +189,9 @@ public class Dashboard extends Composite {
         historyManager.addListener(countryHistory);
     }
 
+    /**
+     * Connect views and history to the main {@code IntervalManager}.
+     */
     private void initSeriesComponents() {
         seriesManager.connect(intervalManager);
         seriesManager.connect(indicatorManager);
@@ -162,7 +211,9 @@ public class Dashboard extends Composite {
             "map:europe", "Map: Europe",
             new MapSeriesView(VectorMap.Visual.EUROPE));
 
-        // Serializers
+        /*
+         * Serializers
+         */
 
         addSeriesSerializer("CSV", new CSVSeriesSerializer());
         addSeriesSerializer("XML", new XMLSeriesSerializer());
@@ -189,6 +240,12 @@ public class Dashboard extends Composite {
         SelectionEvent.fire(seriesPanel, seriesPanel.getSelectedIndex());
     }
 
+    /**
+     * Add a {@code SeriesManager.Serializer} to the serializers menu.
+     *
+     * @param title Display name of the serializer.
+     * @param serializer Serializer instance.
+     */
     private void addSeriesSerializer(
             String title, SeriesManager.Serializer serializer) {
 
@@ -203,8 +260,18 @@ public class Dashboard extends Composite {
         seriesAnchors.add(button);
     }
 
+    /**
+     * Class name added to the {@code overlay} when scrollbars are enabled in
+     * the series tab panel.
+     */
     private static final String CLASS_NAME_OVERLAY_SCROLL = "overlay-scroll";
 
+    /**
+     * Enable or disable scrollbars depending on the current tab.
+     *
+     * @param seriesTabCoordinator {@code TabCoordinator} managing series tabs.
+     * @param tabIndex Index of the current tab.
+     */
     private void autoEnableScroll(
             TabCoordinator<SeriesManager> seriesTabCoordinator, int tabIndex) {
 

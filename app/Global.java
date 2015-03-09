@@ -9,13 +9,18 @@ import data.tasks.TaskUtils;
 
 import controllers.ServerConf;
 
+/**
+ * Play application {@code GlobalSettings} object.
+ */
 public class Global extends GlobalSettings {
     @Override
     public void onStart(Application app) {
         super.onStart(app);
 
+        // Configure RPC mechanism
         ServerConf.configureRPC();
 
+        // Start tasks for populating the database when the application starts
         TaskUtils.runTask(new CountryPopulateTask());
         TaskUtils.runTask(new IndicatorPopulateTask());
     }
