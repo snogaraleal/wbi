@@ -12,14 +12,24 @@ import client.managers.history.HistoryState;
 import client.managers.history.HistoryStateData;
 import client.managers.models.CountryManager;
 
+/**
+ * {@code HistoryManager.BaseHistory} in charge of updating a
+ * {@code CountryManager} depending on the current {@code HistoryState}.
+ */
 public class CountryHistory extends HistoryManager.BaseHistory
     implements CountryManager.Listener {
 
+    /**
+     * Currently attached {@code CountryManager}.
+     */
     private CountryManager manager;
 
-    public CountryHistory() {
-    }
+    public CountryHistory() {}
 
+    /**
+     * Attach a {@code CountryManager}.
+     * @param manager Manager to attach.
+     */
     public void connect(CountryManager manager) {
         assert this.manager == null;
 
@@ -27,6 +37,9 @@ public class CountryHistory extends HistoryManager.BaseHistory
         this.manager.addListener(this);
     }
 
+    /**
+     * Detach the currently attached {@code CountryManager}.
+     */
     public void disconnect() {
         assert this.manager != null;
 
@@ -34,14 +47,25 @@ public class CountryHistory extends HistoryManager.BaseHistory
         this.manager = null;
     }
 
+    /**
+     * Handle a {@code HistoryState} change.
+     */
     @Override
     public void onChange(HistoryState state) {
         List<String> countryISOList = state.getCountryISOList();
 
         if (countryISOList != null && !countryISOList.isEmpty()) {
+            /*
+             * Request a {@code HistoryStateData} when the current
+             * {@code HistoryState} specifies a list of countries.
+             */
             state.getData(new Callback<HistoryStateData, Void>() {
                 @Override
                 public void onSuccess(HistoryStateData data) {
+                    /*
+                     * Get the list of {@code Country} objects and update
+                     * the manager accordingly.
+                     */
                     List<Country> countries = data.getCountries();
 
                     if (countries != null) {
@@ -58,6 +82,10 @@ public class CountryHistory extends HistoryManager.BaseHistory
                 }
             });
         } else {
+            /*
+             * Clear the current country selection when the current
+             * {@code HistoryState} does not specify a list of countries.
+             */
             manager.clear();
         }
     }
@@ -68,6 +96,9 @@ public class CountryHistory extends HistoryManager.BaseHistory
             List<Country> selectedCountries) {
     }
 
+    /**
+     * Handle added {@code Country}.
+     */
     @Override
     public void onAdd(Country country) {
         HistoryState state = historyManager.getCurrentState();
@@ -76,6 +107,10 @@ public class CountryHistory extends HistoryManager.BaseHistory
 
         String iso = country.getISO();
 
+        /*
+         * Update the current {@code HistoryState} with the ISO code of the
+         * added {@code Country}.
+         */
         if (!countryISOList.contains(iso)) {
             countryISOList.add(iso);
 
@@ -84,6 +119,9 @@ public class CountryHistory extends HistoryManager.BaseHistory
         }
     }
 
+    /**
+     * Handle removed {@code Country}.
+     */
     @Override
     public void onRemove(Country country) {
         HistoryState state = historyManager.getCurrentState();
@@ -92,6 +130,10 @@ public class CountryHistory extends HistoryManager.BaseHistory
 
         String iso = country.getISO();
 
+        /*
+         * Update the current {@code HistoryState} with the ISO code of the
+         * removed {@code Country}.
+         */
         if (countryISOList.contains(iso)) {
             countryISOList.remove(iso);
 

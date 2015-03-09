@@ -8,15 +8,32 @@ import client.managers.history.HistoryManager;
 import client.managers.history.HistoryState;
 import client.ui.coordinators.TabCoordinator;
 
+/**
+ * {@code HistoryManager.BaseHistory} in charge of updating a
+ * {@code TabCoordinator} according to the tab name specified in the
+ * current {@code HistoryState}.
+ */
 public class SeriesPanelHistory extends HistoryManager.BaseHistory
     implements SelectionHandler<Integer> {
 
+    /**
+     * Currently attached {@code TabCoordinator}.
+     */
     private TabCoordinator<?> coordinator;
+
+    /**
+     * {@code HandlerRegistration} obtained from registering a
+     * {@code SelectionHandler} in the {@code TabLayoutPanel} underlying the
+     * attached {@code TabCoordinator}.
+     */
     private HandlerRegistration handlerRegistration;
 
-    public SeriesPanelHistory() {
-    }
+    public SeriesPanelHistory() {}
 
+    /**
+     * Attach a {@code TabCoordinator}.
+     * @param coordinator Coordinator to attach.
+     */
     public void connect(TabCoordinator<?> coordinator) {
         assert this.coordinator == null;
 
@@ -25,6 +42,9 @@ public class SeriesPanelHistory extends HistoryManager.BaseHistory
             coordinator.getPanel().addSelectionHandler(this);
     }
 
+    /**
+     * Detach the currently attached {@code TabCoordinator}.
+     */
     public void disconnect() {
         assert this.coordinator != null;
 
@@ -32,16 +52,31 @@ public class SeriesPanelHistory extends HistoryManager.BaseHistory
         this.coordinator = null;
     }
 
+    /**
+     * Handle a {@code HistoryState} change.
+     */
     @Override
     public void onChange(HistoryState state) {
+        /*
+         * Switch to the tab specified in the current {@code HistoryState}.
+         */
         coordinator.selectTab(state.getSeriesTabName());
     }
 
+    /**
+     * Handle tab selection.
+     */
     @Override
     public void onSelection(SelectionEvent<Integer> event) {
         String tabName = coordinator.getTabName(event.getSelectedItem());
+
         if (tabName != null) {
             HistoryState state = historyManager.getCurrentState();
+
+            /*
+             * Update the current {@code HistoryState} with the name of the
+             * selected tab.
+             */
             state.setSeriesTabName(tabName);
             historyManager.setState(state);
         }
