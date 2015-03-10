@@ -37,13 +37,14 @@ import client.services.WBIExplorationService;
 public class CountryManager implements Manager {
     /**
      * Interface for views that can be attached to a {@link CountryManager}
-     * in order to display the current {@link Country} selection.
+     * in order to search and select {@link Country} objects.
      */
     public static interface View extends Manager.View<CountryManager> {}
 
     /**
-     * Interface for {@link CountryManager} listeners that listen to search
-     * results and changes in the current {@link Country} selection.
+     * Interface for listeners that can be attached to a {@link CountryManager}
+     * in order to listen for search results and changes in the current
+     * {@link Country} selection.
      */
     public static interface Listener {
         /**
@@ -112,6 +113,9 @@ public class CountryManager implements Manager {
      * Initialize {@code CountryManager}.
      */
     public CountryManager() {
+        /*
+         * Initialize {@code ClientRequest.Listener} for search.
+         */
         searchRequestListener = new ClientRequest.Listener<List<Country>>() {
             @Override
             public void onSuccess(List<Country> list) {

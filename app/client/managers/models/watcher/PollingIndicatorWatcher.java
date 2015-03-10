@@ -34,7 +34,7 @@ import client.services.WBIManagementService;
 
 /**
  * Implementation of {@link IndicatorWatcher} that polls the server for
- * changes with the RPC mechanism.
+ * changes in {@link Indicator} objects.
  */
 public class PollingIndicatorWatcher extends IndicatorWatcher {
     /**
@@ -84,7 +84,7 @@ public class PollingIndicatorWatcher extends IndicatorWatcher {
         };
 
         /*
-         * Initialize timer.
+         * Initialize polling timer.
          */
         timer = new Timer() {
             @Override

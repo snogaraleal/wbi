@@ -42,7 +42,7 @@ import client.managers.Manager;
 import client.services.WBIExplorationService;
 
 /**
- * {@link Manager} in charge of fetching and providing
+ * {@link Manager} in charge of fetching and providing rows of
  * {@link Series} as needed.
  */
 public class SeriesManager
@@ -54,18 +54,42 @@ public class SeriesManager
 
     /**
      * Interface for views that can be attached to a {@link SeriesManager}
-     * in order to display a list of {@link Series} wrapped in {@link Row}
-     * objects.
+     * in order to request a list of {@link Series}.
      */
     public static interface View extends Manager.View<SeriesManager> {}
 
+    /**
+     * Wrapper around {@link Series} providing selection and visibility.
+     */
     public static class Row {
+        /**
+         * {@code SeriesManager} that created this {@code Row}.
+         */
         private SeriesManager manager;
+
+        /**
+         * Wrapped {@code Series} object.
+         */
         private Series series;
 
+        /**
+         * Whether this row is selected.
+         */
         private boolean selected;
+
+        /**
+         * Whether this row is visible.
+         */
         private boolean visible;
 
+        /**
+         * Initialize {@code Row}.
+         *
+         * @param manager {@code SeriesManager} used to create this row.
+         * @param series Wrapped {@code Series} object.
+         * @param selected Whether this row is selected.
+         * @param visible Whether this row is visible.
+         */
         public Row(
                 SeriesManager manager, Series series,
                 boolean selected, boolean visible) {
@@ -77,88 +101,208 @@ public class SeriesManager
             this.visible = visible;
         }
 
+        /**
+         * Initialize {@code Row}.
+         *
+         * @param manager {@code SeriesManager} used to create this row.
+         * @param series Wrapped {@code Series} object.
+         * @param selected Whether this row is selected.
+         */
         public Row(SeriesManager manager, Series series, boolean selected) {
             this(manager, series, selected, true);
         }
 
+        /**
+         * Initialize {@code Row}.
+         *
+         * @param manager {@code SeriesManager} used to create this row.
+         * @param series Wrapped {@code Series} object.
+         */
         public Row(SeriesManager manager, Series series) {
             this(manager, series, false);
         }
 
+        /**
+         * Get wrapped {@code Series} object.
+         *
+         * @return Wrapped series.
+         */
         public Series getSeries() {
             return series;
         }
 
+        /**
+         * Get whether this row is selected.
+         *
+         * @return Whether this row is selected.
+         */
         public boolean isSelected() {
             return selected;
         }
 
+        /**
+         * Set whether this row is selected.
+         *
+         * @param selected Whether this row is selected.
+         */
         public void setSelected(boolean selected) {
             this.selected = selected;
             manager.change(this);
         }
 
+        /**
+         * Get whether this row is visible.
+         *
+         * @return Whether this row is visible.
+         */
         public boolean isVisible() {
             return visible;
         }
 
+        /**
+         * Set whether this row is visible.
+         *
+         * @param visible Whether this row is visible.
+         */
         public void setVisible(boolean visible) {
             this.visible = visible;
             manager.change(this);
         }
     }
 
+    /**
+     * Object representing the ordering criteria of a list of
+     * {@link Row} objects.
+     */
     public static class Ordering {
+        /**
+         * Whether the order is ascending or descending.
+         */
         public static enum Direction {
+            /**
+             * Ascending {@code Direction}.
+             */
             ASC,
+
+            /**
+             * Descending {@code Direction}.
+             */
             DESC
         }
 
+        /**
+         * Order by country name.
+         */
         public static int BY_COUNTRY_NAME = 0;
 
+        /**
+         * Year by which to order or {@link Ordering#BY_COUNTRY_NAME}.
+         */
         private int by;
+
+        /**
+         * Order direction.
+         */
         private Direction direction;
 
+        /**
+         * Initialize {@code Ordering}.
+         *
+         * @param by Year by which to order or {@link Ordering#BY_COUNTRY_NAME}.
+         * @param direction Ordering {@link Direction}.
+         */
         public Ordering(int by, Direction direction) {
             this.by = by;
             this.direction = direction;
         }
 
+        /**
+         * Initialize {@code Ordering} with default values.
+         */
         public Ordering() {
             this(BY_COUNTRY_NAME, Direction.ASC);
         }
 
+        /**
+         * Set year by which to order.
+         *
+         * @param by Year by which to order or {@link Ordering#BY_COUNTRY_NAME}.
+         */
         public void setBy(int by) {
             this.by = by;
         }
 
+        /**
+         * Get year by which to order.
+         *
+         * @return Year by which to order or {@link Ordering#BY_COUNTRY_NAME}.
+         */
         public int getBy() {
             return by;
         }
 
+        /**
+         * Set current {@link Direction}.
+         *
+         * @param direction Ordering direction.
+         */
         public void setDirection(Direction direction) {
             this.direction = direction;
         }
 
+        /**
+         * Get current {@link Direction}.
+         *
+         * @return Ordering direction.
+         */
         public Direction getDirection() {
             return direction;
         }
 
+        /**
+         * Get whether the current {@link Direction} is ascending.
+         *
+         * @return Whether the current direction is ascending.
+         */
         public boolean isAscending() {
             return direction == Direction.ASC;
         }
 
+        /**
+         * Get whether the current {@link Direction} is descending.
+         *
+         * @return Whether the current direction is descending.
+         */
         public boolean isDescending() {
             return direction == Direction.DESC;
         }
 
+        /**
+         * {@code java.util.Comparator} of {@link Row} objects based on the
+         * criteria defined by an {@link Ordering} object.
+         */
         public static class Comparator implements java.util.Comparator<Row> {
+            /**
+             * Current ordering criteria.
+             */
             private Ordering ordering;
 
+            /**
+             * Initialize {@code Comparator}.
+             *
+             * @param ordering {@link Ordering} instance.
+             */
             public Comparator(Ordering ordering) {
                 this.ordering = ordering;
             }
 
+            /**
+             * Compare country names from rows.
+             *
+             * @param a {@code Row} to compare.
+             * @param b {@code Row} to compare.
+             * @return Comparation result.
+             */
             private int compareCountryName(Row a, Row b) {
                 Country countryA = a.getSeries().getCountry();
                 Country countryB = b.getSeries().getCountry();
@@ -181,6 +325,14 @@ public class SeriesManager
                 return nameA.compareTo(nameB);
             }
 
+            /**
+             * Compare {@code Point} values corresponding to the year
+             * specified in the current {@code Ordering}.
+             *
+             * @param a {@code Row} to compare.
+             * @param b {@code Row} to compare.
+             * @return Comparation result.
+             */
             private int compareYear(Row a, Row b) {
                 int year = ordering.getBy();
 
@@ -202,6 +354,9 @@ public class SeriesManager
                 return pointA.compareTo(pointB);
             }
 
+            /**
+             * Compare {@code Row} objects.
+             */
             @Override
             public int compare(Row a, Row b) {
                 int value;
@@ -223,22 +378,34 @@ public class SeriesManager
             }
         }
 
+        /**
+         * Create {@link Comparator} with the criteria defined by this
+         * {@link Ordering} object.
+         *
+         * @return Created comparator.
+         */
         public Comparator createComparator() {
             return new Comparator(this);
         }
     }
 
+    /**
+     * Interface for serializers of {@link Row} lists.
+     */
     public static interface Serializer {
         String serialize(SortedSet<Integer> years, List<Row> list);
     }
 
+    /**
+     * Interface for filters of {@link Row} lists.
+     */
     public static interface Filter {
         boolean matches(Row row);
     }
 
     /**
-     * Interface for {@link SeriesManager} listeners that listen to 
-     * changes in the displayed {@link Row} objects.
+     * Interface for listeners that can be attached to a {@link SeriesManager}
+     * in order to listen for changes in {@link Row} objects.
      */
     public static interface Listener {
         /**
@@ -266,21 +433,64 @@ public class SeriesManager
      */
     private List<Listener> listeners = new ArrayList<Listener>();
 
+    /**
+     * Delay before querying.
+     */
     private static final int QUERY_DELAY = 100;
+
+    /**
+     * {@code ClientRequest.Listener} for query requests.
+     */
     private ClientRequest.Listener<List<Series>> queryRequestListener;
+
+    /**
+     * Timer for scheduling query requests.
+     */
     private Timer queryTimer;
 
+    /**
+     * Current ordering criteria.
+     */
     private Ordering ordering = new Ordering();
 
+    /**
+     * List of {@code Row} objects from last query.
+     */
     private List<Row> rows = new ArrayList<Row>();
+
+    /**
+     * {@code Row} objects by {@code Country}.
+     */
     private Map<Country, Row> rowsByCountry = new HashMap<Country, Row>();
+
+    /**
+     * Set of years that the current list of rows contains information about.
+     */
     private SortedSet<Integer> years = new TreeSet<Integer>();
 
+    /**
+     * Attached {@code IntervalManager} providing an
+     * {@code IntervalManager.Option}.
+     */
     private IntervalManager intervalManager;
+
+    /**
+     * Attached {@code IndicatorManager} providing an {@code Indicator}.
+     */
     private IndicatorManager indicatorManager;
+
+    /**
+     * Attached {@code CountryManager} providing a {@code Country}.
+     */
     private CountryManager countryManager;
 
+    /**
+     * Initialize {@code SeriesManager}.
+     */
     public SeriesManager() {
+        /*
+         * Initialize {@code ClientRequest.Listener} for queries.
+         */
         queryRequestListener = new ClientRequest.Listener<List<Series>>() {
             @Override
             public void onSuccess(List<Series> series) {
@@ -292,6 +502,9 @@ public class SeriesManager
             }
         };
 
+        /*
+         * Initialize timer for queries.
+         */
         queryTimer = new Timer() {
             @Override
             public void run() {
@@ -310,15 +523,29 @@ public class SeriesManager
         };
     }
 
+    /**
+     * Serialize rows provided by this {@link SeriesManager}.
+     *
+     * @param serializer {@link Serializer} implementing serialization.
+     * @return Serialized contents.
+     */
     public String serialize(Serializer serializer) {
         return serializer.serialize(years, rows);
     }
 
+    /**
+     * Schedule a series query.
+     */
     private void scheduleQuery() {
         queryTimer.cancel();
         queryTimer.schedule(QUERY_DELAY);
     }
 
+    /**
+     * Attach an {@link IntervalManager}.
+     *
+     * @param manager Manager to attach.
+     */
     public void connect(IntervalManager intervalManager) {
         assert this.intervalManager == null;
 
@@ -326,6 +553,9 @@ public class SeriesManager
         this.intervalManager.addListener(this);
     }
 
+    /**
+     * Detach the currently attached {@link IntervalManager}.
+     */
     public void disconnectIntervalManager() {
         assert this.intervalManager != null;
 
@@ -333,6 +563,11 @@ public class SeriesManager
         this.intervalManager = null;
     }
 
+    /**
+     * Get the currently attached {@link IntervalManager}.
+     *
+     * @return Currently attached interval manager.
+     */
     public IntervalManager getCurrentIntervalManager() {
         return intervalManager;
     }
@@ -342,6 +577,11 @@ public class SeriesManager
         scheduleQuery();
     }
 
+    /**
+     * Attach an {@link IndicatorManager}.
+     *
+     * @param manager Manager to attach.
+     */
     public void connect(IndicatorManager indicatorManager) {
         assert this.indicatorManager == null;
 
@@ -349,6 +589,9 @@ public class SeriesManager
         this.indicatorManager.addListener(this);
     }
 
+    /**
+     * Detach the currently attached {@link IndicatorManager}.
+     */
     public void disconnectIndicatorManager() {
         assert this.indicatorManager != null;
 
@@ -356,6 +599,11 @@ public class SeriesManager
         this.indicatorManager = null;
     }
 
+    /**
+     * Get the currently attached {@link IndicatorManager}.
+     *
+     * @return Currently attached indicator manager.
+     */
     public IndicatorManager getCurrentIndicatorManager() {
         return indicatorManager;
     }
@@ -375,6 +623,11 @@ public class SeriesManager
         scheduleQuery();
     }
 
+    /**
+     * Attach a {@link CountryManager}.
+     *
+     * @param manager Manager to attach.
+     */
     public void connect(CountryManager countryManager) {
         assert this.countryManager == null;
 
@@ -382,6 +635,9 @@ public class SeriesManager
         this.countryManager.addListener(this);
     }
 
+    /**
+     * Detach the currently attached {@link CountryManager}.
+     */
     public void disconnectCountryManager() {
         assert this.countryManager != null;
 
@@ -389,6 +645,11 @@ public class SeriesManager
         this.countryManager = null;
     }
 
+    /**
+     * Get the currently attached {@link CountryManager}.
+     *
+     * @return Currently attached country manager.
+     */
     public CountryManager getCurrentCountryManager() {
         return countryManager;
     }
@@ -425,14 +686,30 @@ public class SeriesManager
         }
     }
 
+    /**
+     * Get list of {@link Row} objects from last query.
+     *
+     * @return List of row objects.
+     */
     public List<Row> getRows() {
         return rows;
     }
 
+    /**
+     * Get the set of years that the current list of rows contains
+     * information about.
+     *
+     * @return List of years.
+     */
     public SortedSet<Integer> getYears() {
         return years;
     }
 
+    /**
+     * Get the current {@link Ordering}.
+     *
+     * @return Current ordering.
+     */
     public Ordering getOrdering() {
         return ordering;
     }
@@ -456,18 +733,31 @@ public class SeriesManager
         listeners.remove(listener);
     }
 
+    /**
+     * Call {@link Listener#onUpdate} on all listeners.
+     */
     private void update() {
         for (Listener listener : listeners) {
             listener.onUpdate(rows, years, ordering);
         }
     }
 
+    /**
+     * Call {@link Listener#onChange} on all listeners.
+     *
+     * @param row {@link Row} changed.
+     */
     private void change(Row row) {
         for (Listener listener : listeners) {
             listener.onChange(row);
         }
     }
 
+    /**
+     * Load a list of {@link Series} objects.
+     *
+     * @param seriesList List of series.
+     */
     private void load(List<Series> seriesList) {
         rows.clear();
         rowsByCountry.clear();
@@ -494,6 +784,11 @@ public class SeriesManager
         update();
     }
 
+    /**
+     * Set the current {@link Ordering}.
+     *
+     * @param ordering Ordering criteria.
+     */
     public void setOrdering(Ordering ordering) {
         this.ordering = ordering;
 
@@ -501,6 +796,11 @@ public class SeriesManager
         update();
     }
 
+    /**
+     * Set the current {@link Filter}.
+     *
+     * @param filter {@code Filter} implementer.
+     */
     public void setFilter(Filter filter) {
         for (Row row : rows) {
             boolean visible = filter.matches(row);

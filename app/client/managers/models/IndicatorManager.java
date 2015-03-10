@@ -39,13 +39,14 @@ import client.services.WBIManagementService;
 public class IndicatorManager implements Manager {
     /**
      * Interface for views that can be attached to an {@link IndicatorManager}
-     * in order to display the currently selected {@link Indicator}.
+     * in order to change the selected {@link Indicator}.
      */
     public static interface View extends Manager.View<IndicatorManager> {}
 
     /**
-     * Interface for {@link IndicatorManager} listeners that listen to search
-     * results and changes in the current {@link Indicator} selection.
+     * Interface for listeners that can be attached to an
+     * {@link IndicatorManager} in order to listen to search results and
+     * changes in the current {@link Indicator} selection.
      */
     public static interface Listener {
         /**
@@ -126,7 +127,7 @@ public class IndicatorManager implements Manager {
         selectedIndicator = null;
 
         /*
-         * Setup watcher.
+         * Create {@code IndicatorWatcher}.
          */
         watcher = IndicatorWatcher.create();
         watcher.addListener(new IndicatorWatcher.Listener() {
@@ -146,7 +147,7 @@ public class IndicatorManager implements Manager {
         watcher.start();
 
         /*
-         * Setup search {@code ClientRequest.Listener}.
+         * Initialize {@code ClientRequest.Listener} for search.
          */
         searchRequestListener = new ClientRequest.Listener<List<Indicator>>() {
             @Override
@@ -164,7 +165,8 @@ public class IndicatorManager implements Manager {
         };
 
         /*
-         * Setup {@code Indicator} load {@code ClientRequest.Listener}.
+         * Initialize {@code ClientRequest.Listener} for
+         * {@code Indicator} loading.
          */
         loadRequestListener = new ClientRequest.Listener<Indicator>() {
             @Override
@@ -181,7 +183,8 @@ public class IndicatorManager implements Manager {
         };
 
         /*
-         * Setup {@code Indicator} unload {@code ClientRequest.Listener}.
+         * Initialize {@code ClientRequest.Listener} for
+         * {@code Indicator} unloading.
          */
         unloadRequestListener = new ClientRequest.Listener<Indicator>() {
             @Override
