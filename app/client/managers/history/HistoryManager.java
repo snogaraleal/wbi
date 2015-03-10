@@ -36,7 +36,7 @@ import client.managers.Manager;
  */
 public class HistoryManager implements Manager, ValueChangeHandler<String> {
     /**
-     * Interface for history listeners.
+     * Interface for {@code HistoryManager} listeners.
      */
     public static interface Listener {
         /**

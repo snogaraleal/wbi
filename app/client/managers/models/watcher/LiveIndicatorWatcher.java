@@ -21,6 +21,9 @@
 
 package client.managers.models.watcher;
 
+/**
+ * Truly real-time implementation of {@code IndicatorWatcher}.
+ */
 public class LiveIndicatorWatcher extends IndicatorWatcher {
     @Override
     public void start() {
@@ -30,6 +33,12 @@ public class LiveIndicatorWatcher extends IndicatorWatcher {
     public void stop() {
     }
 
+    /**
+     * Get whether this implementation of {@code IndicatorWatcher} is
+     * supported.
+     *
+     * @return Whether this implementation is supported.
+     */
     public static boolean isSupported() {
         return false;
     }

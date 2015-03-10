@@ -28,30 +28,64 @@ import java.util.Map;
 
 import models.Indicator;
 
+/**
+ * Real-time watcher for changes in {@code Indicator} objects.
+ */
 public abstract class IndicatorWatcher {
+    /**
+     * Interface for {@code IndicatorWatcher} listeners.
+     */
     public interface Listener {
+        /**
+         * Handle {@code Indicator} change.
+         *
+         * @param indicator Updated indicator.
+         */
         public void onChange(Indicator indicator);
     }
 
+    /**
+     * {@code Listener} objects listening to changes in this manager.
+     */
     protected List<Listener> listeners = new ArrayList<Listener>();
+
+    /**
+     * {@code Indicator} objects being watched.
+     */
     protected Map<Indicator, List<Indicator.Status>> watched =
         new HashMap<Indicator, List<Indicator.Status>>();
 
-    public IndicatorWatcher() {
-    }
+    protected IndicatorWatcher() {}
 
+    /**
+     * Start watching for changes in an {@code Indicator}.
+     *
+     * @param indicator Indicator to watch.
+     */
     public void watch(Indicator indicator) {
         if (!watched.containsKey(indicator)) {
             watched.put(indicator, null);
         }
     }
 
+    /**
+     * Stop watching for changes in an {@code Indicator}.
+     *
+     * @param indicator Indicator to stop watching.
+     */
     public void unwatch(Indicator indicator) {
         if (watched.containsKey(indicator)) {
             watched.remove(indicator);
         }
     }
 
+    /**
+     * Start watching an {@code Indicator} until its status equals to the
+     * specified {@code Indicator.Status}.
+     *
+     * @param indicator Indicator to watch.
+     * @param status Status required.
+     */
     public void watchUntilStatusEquals(
             Indicator indicator,
             Indicator.Status status) {
@@ -69,17 +103,39 @@ public abstract class IndicatorWatcher {
         }
     }
 
+    /**
+     * Attach {@code Listener}.
+     *
+     * @param listener Listener to attach.
+     */
     public void addListener(Listener listener) {
         listeners.add(listener);
     }
 
+    /**
+     * Detach {@code Listener}.
+     *
+     * @param listener Listener to detach.
+     */
     public void removeListener(Listener listener) {
         listeners.remove(listener);
     }
 
+    /**
+     * Start watching.
+     */
     public abstract void start();
+
+    /**
+     * Stop watching.
+     */
     public abstract void stop();
 
+    /**
+     * Stop watching an {@code Indicator} only if the required status is met.
+     *
+     * @param indicator Indicator to stop watching.
+     */
     private void autoUnwatch(Indicator indicator) {
         List<Indicator.Status> watchedStatusList = watched.get(indicator);
 
@@ -92,6 +148,11 @@ public abstract class IndicatorWatcher {
         }
     }
 
+    /**
+     * Exhibit changes in a specific {@code Indicator}.
+     *
+     * @param indicator Indicator changed.
+     */
     protected void change(Indicator indicator) {
         for (Listener listener : listeners) {
             listener.onChange(indicator);
@@ -99,6 +160,11 @@ public abstract class IndicatorWatcher {
         }
     }
 
+    /**
+     * Create a new instance of {@code IndicatorWatcher}.
+     *
+     * @return Instance created.
+     */
     public static IndicatorWatcher create() {
         if (LiveIndicatorWatcher.isSupported()) {
             return new LiveIndicatorWatcher();

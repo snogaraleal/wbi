@@ -32,18 +32,44 @@ import models.Indicator;
 
 import client.services.WBIManagementService;
 
+/**
+ * Implementation of {@code IndicatorWatcher} that polls the server for
+ * changes with the RPC mechanism.
+ */
 public class PollingIndicatorWatcher extends IndicatorWatcher {
-    private static int DEFAULT_INTERVAL = 2000;
+    /**
+     * Default value for {@code interval}.
+     */
+    public static final int DEFAULT_INTERVAL = 2000;
 
+    /**
+     * Time in milliseconds between each request.
+     */
     private int interval;
+
+    /**
+     * {@code ClientRequest.Listener} handling RPC responses.
+     */
     private ClientRequest.Listener<List<Indicator>> pollRequestListener;
+
+    /**
+     * Timer in charge of making requests periodically.
+     */
     private Timer timer;
 
+    /**
+     * Initialize {@code PollingIndicatorWatcher}.
+     *
+     * @param interval Time in milliseconds between each request.
+     */
     public PollingIndicatorWatcher(int interval) {
         super();
 
         this.interval = interval;
 
+        /*
+         * Initialize RPC handler.
+         */
         pollRequestListener = new ClientRequest.Listener<List<Indicator>>() {
             @Override
             public void onSuccess(List<Indicator> indicators) {
@@ -57,6 +83,9 @@ public class PollingIndicatorWatcher extends IndicatorWatcher {
             }
         };
 
+        /*
+         * Initialize timer.
+         */
         timer = new Timer() {
             @Override
             public void run() {
@@ -73,6 +102,9 @@ public class PollingIndicatorWatcher extends IndicatorWatcher {
         };
     }
 
+    /**
+     * Initialize {@code PollingIndicatorWatcher} with the default interval.
+     */
     public PollingIndicatorWatcher() {
         this(DEFAULT_INTERVAL);
     }
