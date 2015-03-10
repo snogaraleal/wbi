@@ -41,6 +41,10 @@ import models.Series;
 import client.managers.Manager;
 import client.services.WBIExplorationService;
 
+/**
+ * {@link Manager} in charge of fetching and providing
+ * {@link Series} as needed.
+ */
 public class SeriesManager
     implements
         Manager,
@@ -48,8 +52,12 @@ public class SeriesManager
         IndicatorManager.Listener,
         CountryManager.Listener {
 
-    public static interface View extends Manager.View<SeriesManager> {
-    }
+    /**
+     * Interface for views that can be attached to a {@link SeriesManager}
+     * in order to display a list of {@link Series} wrapped in {@link Row}
+     * objects.
+     */
+    public static interface View extends Manager.View<SeriesManager> {}
 
     public static class Row {
         private SeriesManager manager;
@@ -228,14 +236,34 @@ public class SeriesManager
         boolean matches(Row row);
     }
 
+    /**
+     * Interface for {@link SeriesManager} listeners that listen to 
+     * changes in the displayed {@link Row} objects.
+     */
     public static interface Listener {
+        /**
+         * Handle new list of {@link Row} objects.
+         *
+         * @param rows New list of rows.
+         * @param years List of years the rows contain information about.
+         * @param ordering Current {@link Ordering}.
+         */
         void onUpdate(
-            List<Row> row,
+            List<Row> rows,
             SortedSet<Integer> years,
             Ordering ordering);
+
+        /**
+         * Handle change in {@link Row} object.
+         *
+         * @param row Changed row.
+         */
         void onChange(Row row);
     }
 
+    /**
+     * {@code Listener} objects listening to changes in this manager.
+     */
     private List<Listener> listeners = new ArrayList<Listener>();
 
     private static final int QUERY_DELAY = 100;
@@ -409,11 +437,21 @@ public class SeriesManager
         return ordering;
     }
 
+    /**
+     * Attach {@code Listener}.
+     *
+     * @param listener Listener to attach.
+     */
     public void addListener(Listener listener) {
         listener.onUpdate(rows, years, ordering);
         listeners.add(listener);
     }
 
+    /**
+     * Detach {@code Listener}.
+     *
+     * @param listener Listener to detach.
+     */
     public void removeListener(Listener listener) {
         listeners.remove(listener);
     }

@@ -29,11 +29,11 @@ import java.util.Map;
 import models.Indicator;
 
 /**
- * Real-time watcher for changes in {@code Indicator} objects.
+ * Real-time watcher for changes in {@link Indicator} objects.
  */
 public abstract class IndicatorWatcher {
     /**
-     * Interface for {@code IndicatorWatcher} listeners.
+     * Interface for {@link IndicatorWatcher} listeners.
      */
     public interface Listener {
         /**
@@ -149,7 +149,7 @@ public abstract class IndicatorWatcher {
     }
 
     /**
-     * Exhibit changes in a specific {@code Indicator}.
+     * Exhibit changes in an {@code Indicator}.
      *
      * @param indicator Indicator changed.
      */

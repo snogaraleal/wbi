@@ -22,7 +22,7 @@
 package client.managers.models.watcher;
 
 /**
- * Truly real-time implementation of {@code IndicatorWatcher}.
+ * Truly real-time implementation of {@link IndicatorWatcher}.
  */
 public class LiveIndicatorWatcher extends IndicatorWatcher {
     @Override

@@ -33,7 +33,7 @@ import models.Indicator;
 import client.services.WBIManagementService;
 
 /**
- * Implementation of {@code IndicatorWatcher} that polls the server for
+ * Implementation of {@link IndicatorWatcher} that polls the server for
  * changes with the RPC mechanism.
  */
 public class PollingIndicatorWatcher extends IndicatorWatcher {

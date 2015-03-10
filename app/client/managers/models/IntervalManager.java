@@ -26,23 +26,56 @@ import java.util.List;
 
 import client.managers.Manager;
 
+/**
+ * {@link Manager} in charge of the {@link IntervalManager.Option} selection.
+ */
 public class IntervalManager implements Manager {
-    public static interface View extends Manager.View<IntervalManager> {
-    }
+    /**
+     * Interface for views that can be attached to an {@link IntervalManager}
+     * in order to display the currently selected
+     * {@link IntervalManager.Option}.
+     */
+    public static interface View extends Manager.View<IntervalManager> {}
 
+    /**
+     * Interval of time between two years.
+     */
     public static class Option {
+        /**
+         * Interval start year.
+         */
         private int startYear;
+
+        /**
+         * Interval end year.
+         */
         private int endYear;
 
+        /**
+         * Initialize {@code Option}.
+         *
+         * @param startYear Interval start year.
+         * @param endYear Interval end year.
+         */
         public Option(int startYear, int endYear) {
             this.startYear = startYear;
             this.endYear = endYear;
         }
 
+        /**
+         * Get interval start year.
+         *
+         * @return Start year.
+         */
         public int getStartYear() {
             return startYear;
         }
 
+        /**
+         * Get interval end year.
+         *
+         * @return End year.
+         */
         public int getEndYear() {
             return endYear;
         }
@@ -85,13 +118,28 @@ public class IntervalManager implements Manager {
         }
     }
 
+    /**
+     * Interface for {@link IntervalManager} listeners that listen to 
+     * changes in the current {@link IntervalManager.Option} selection.
+     */
     public static interface Listener {
+        /**
+         * Handle change of {@link Option}.
+         *
+         * @param option {@code Option} that was just selected.
+         */
         void onSelect(Option option);
     }
 
+    /**
+     * {@code Listener} objects listening to changes in this manager.
+     */
     private List<Listener> listeners = new ArrayList<Listener>();
 
-    public static Option[] OPTIONS = new Option[] {
+    /**
+     * Available list of {@code Option} objects.
+     */
+    public static final Option[] OPTIONS = new Option[] {
         new Option(1985, 1989),
         new Option(1990, 1994),
         new Option(1995, 1999),
@@ -100,11 +148,27 @@ public class IntervalManager implements Manager {
         new Option(2010, 2014)
     };
 
+    /**
+     * Currently selected {@code Option}.
+     */
     private Option selectedOption;
 
-    public IntervalManager() {
+    public IntervalManager() {}
+
+    /**
+     * Get the currently selected {@code Option}.
+     *
+     * @return Selected option.
+     */
+    public Option getSelectedOption() {
+        return selectedOption;
     }
 
+    /**
+     * Attach {@code Listener}.
+     *
+     * @param listener Listener to attach.
+     */
     public void addListener(Listener listener) {
         if (selectedOption != null) {
             listener.onSelect(selectedOption);
@@ -113,10 +177,20 @@ public class IntervalManager implements Manager {
         listeners.add(listener);
     }
 
+    /**
+     * Detach {@code Listener}.
+     *
+     * @param listener Listener to detach.
+     */
     public void removeListener(Listener listener) {
         listeners.remove(listener);
     }
 
+    /**
+     * Select an {@code Option}.
+     *
+     * @param option Option to select.
+     */
     public void select(Option option) {
         if (option.equals(selectedOption)) {
             return;
@@ -127,9 +201,5 @@ public class IntervalManager implements Manager {
         for (Listener listener : listeners) {
             listener.onSelect(option);
         }
-    }
-
-    public Option getSelectedOption() {
-        return selectedOption;
     }
 }

@@ -31,29 +31,86 @@ import models.Country;
 import client.managers.Manager;
 import client.services.WBIExplorationService;
 
+/**
+ * {@link Manager} in charge of the {@link Country} selection.
+ */
 public class CountryManager implements Manager {
-    public static interface View extends Manager.View<CountryManager> {
-    }
+    /**
+     * Interface for views that can be attached to a {@link CountryManager}
+     * in order to display the current {@link Country} selection.
+     */
+    public static interface View extends Manager.View<CountryManager> {}
 
+    /**
+     * Interface for {@link CountryManager} listeners that listen to search
+     * results and changes in the current {@link Country} selection.
+     */
     public static interface Listener {
+        /**
+         * Handle search results.
+         *
+         * @param countries Search results.
+         * @param selectedCountries Currently selected countries.
+         */
         void onSearch(
             List<Country> countries,
             List<Country> selectedCountries);
+
+        /**
+         * Handle added {@link Country}.
+         *
+         * @param country Country that was just added.
+         */
         void onAdd(Country country);
+
+        /**
+         * Handle removed {@link Country}.
+         *
+         * @param country Country that was just removed.
+         */
         void onRemove(Country country);
+
+        /**
+         * Clear the current selection.
+         *
+         * @param selectedCountries Selection before clearing.
+         */
         void onClear(List<Country> selectedCountries);
     }
 
+    /**
+     * {@code Listener} objects listening to changes in this manager.
+     */
     private List<Listener> listeners = new ArrayList<Listener>();
 
+    /**
+     * {@code ClientRequest.Listener} for search requests.
+     */
     private ClientRequest.Listener<List<Country>> searchRequestListener;
 
+    /**
+     * Last search query.
+     */
     private String lastQuery;
+
+    /**
+     * Last search {@code ClientRequest}.
+     */
     private ClientRequest<List<Country>> lastSearchRequest;
+
+    /**
+     * Last search results.
+     */
     private List<Country> lastSearchCountries;
 
+    /**
+     * List of selected {@code Country} objects.
+     */
     private List<Country> selectedCountries = new ArrayList<Country>();
 
+    /**
+     * Initialize {@code CountryManager}.
+     */
     public CountryManager() {
         searchRequestListener = new ClientRequest.Listener<List<Country>>() {
             @Override
@@ -71,10 +128,20 @@ public class CountryManager implements Manager {
         };
     }
 
+    /**
+     * Get the list of selected {@link Country} objects.
+     *
+     * @return Selected countries.
+     */
     public List<Country> getSelectedCountries() {
         return selectedCountries;
     }
 
+    /**
+     * Attach {@code Listener}.
+     *
+     * @param listener Listener to attach.
+     */
     public void addListener(Listener listener) {
         if (lastSearchCountries != null) {
             listener.onSearch(lastSearchCountries, selectedCountries);
@@ -83,14 +150,27 @@ public class CountryManager implements Manager {
         listeners.add(listener);
     }
 
+    /**
+     * Detach {@code Listener}.
+     *
+     * @param listener Listener to detach.
+     */
     public void removeListener(Listener listener) {
         listeners.remove(listener);
     }
 
+    /**
+     * Clear the current search.
+     */
     public void clearSearch() {
         lastQuery = null;
     }
 
+    /**
+     * Perform search.
+     *
+     * @param query Search terms.
+     */
     public void search(String query) {
         if (query.equals(lastQuery)) {
             return;
@@ -101,10 +181,17 @@ public class CountryManager implements Manager {
         }
 
         lastQuery = query;
+
+        // Make RPC request
         lastSearchRequest = WBIExplorationService.queryCountryList(
             query, searchRequestListener);
     }
 
+    /**
+     * Add country to selection.
+     *
+     * @param country {@link Country} to add.
+     */
     public void add(Country country) {
         if (!selectedCountries.contains(country)) {
             selectedCountries.add(country);
@@ -115,6 +202,11 @@ public class CountryManager implements Manager {
         }
     }
 
+    /**
+     * Remove country from selection.
+     *
+     * @param country {@link Country} to remove.
+     */
     public void remove(Country country) {
         if (selectedCountries.contains(country)) {
             selectedCountries.remove(country);
@@ -125,6 +217,11 @@ public class CountryManager implements Manager {
         }
     } 
 
+    /**
+     * Toggle country selection.
+     *
+     * @param country {@link Country} to add or remove.
+     */
     public void toggle(Country country) {
         if (selectedCountries.contains(country)) {
             remove(country);
@@ -133,6 +230,9 @@ public class CountryManager implements Manager {
         }
     }
 
+    /**
+     * Clear the current selection.
+     */
     public void clear() {
         for (Listener listener : listeners) {
             listener.onClear(selectedCountries);
