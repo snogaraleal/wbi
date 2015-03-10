@@ -44,6 +44,8 @@ import client.services.WBIExplorationService;
 /**
  * {@link Manager} in charge of fetching and providing rows of
  * {@link Series} as needed.
+ *
+ * @see Manager
  */
 public class SeriesManager
     implements
@@ -53,8 +55,7 @@ public class SeriesManager
         CountryManager.Listener {
 
     /**
-     * Interface for views that can be attached to a {@link SeriesManager}
-     * in order to request a list of {@link Series}.
+     * Interface for views that interact with a {@link SeriesManager}.
      */
     public static interface View extends Manager.View<SeriesManager> {}
 
@@ -393,6 +394,13 @@ public class SeriesManager
      * Interface for serializers of {@link Row} lists.
      */
     public static interface Serializer {
+        /**
+         * Serialize a list of {@link Row} to string.
+         *
+         * @param years List of years the rows contain information about.
+         * @param list List of rows.
+         * @return Serialized value.
+         */
         String serialize(SortedSet<Integer> years, List<Row> list);
     }
 
@@ -400,12 +408,17 @@ public class SeriesManager
      * Interface for filters of {@link Row} lists.
      */
     public static interface Filter {
+        /**
+         * Get whether a {@link Row} matches this filter.
+         *
+         * @param row Row to match.
+         * @return Whether the row matches.
+         */
         boolean matches(Row row);
     }
 
     /**
-     * Interface for listeners that can be attached to a {@link SeriesManager}
-     * in order to listen for changes in {@link Row} objects.
+     * Interface for listeners of changes in {@link Row} objects.
      */
     public static interface Listener {
         /**

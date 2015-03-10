@@ -35,18 +35,18 @@ import client.services.WBIManagementService;
 
 /**
  * {@link Manager} in charge of the {@link Indicator} selection.
+ *
+ * @see Manager
  */
 public class IndicatorManager implements Manager {
     /**
-     * Interface for views that can be attached to an {@link IndicatorManager}
-     * in order to change the selected {@link Indicator}.
+     * Interface for views that interact with an {@link IndicatorManager}.
      */
     public static interface View extends Manager.View<IndicatorManager> {}
 
     /**
-     * Interface for listeners that can be attached to an
-     * {@link IndicatorManager} in order to listen to search results and
-     * changes in the current {@link Indicator} selection.
+     * Interface for listeners of search results and changes in the current
+     * {@link Indicator} selection.
      */
     public static interface Listener {
         /**

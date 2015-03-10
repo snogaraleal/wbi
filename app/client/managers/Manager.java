@@ -28,7 +28,9 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public interface Manager {
     /**
-     * View displaying information provided by a {@link Manager}.
+     * View displaying information provided by a {@link Manager} (use a
+     * class from {@link client.ui.coordinators} to connect managers and
+     * views).
      *
      * @param <T> {@code Manager} class.
      */

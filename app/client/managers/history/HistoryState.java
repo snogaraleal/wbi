@@ -42,8 +42,7 @@ import client.services.WBIExplorationService;
 /**
  * History state.
  *
- * @see {@link HistoryManager}
- * @see {@link HistoryState#fromHistoryToken}
+ * @see HistoryManager
  */
 public class HistoryState implements Serializable {
     /**
@@ -162,7 +161,7 @@ public class HistoryState implements Serializable {
      * @param historyToken History token.
      * @return Created {@code HistoryState} instance.
      *
-     * @see {@link HistoryState#REGEX}
+     * @see HistoryState#REGEX
      */
     public static HistoryState fromHistoryToken(String historyToken) {
         MatchResult result = REGEX.exec(historyToken);

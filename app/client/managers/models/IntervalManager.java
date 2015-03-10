@@ -28,11 +28,12 @@ import client.managers.Manager;
 
 /**
  * {@link Manager} in charge of the {@link IntervalManager.Option} selection.
+ *
+ * @see Manager
  */
 public class IntervalManager implements Manager {
     /**
-     * Interface for views that can be attached to an {@link IntervalManager}
-     * in order to change the selected {@link IntervalManager.Option}.
+     * Interface for views that interact with an {@link IntervalManager}.
      */
     public static interface View extends Manager.View<IntervalManager> {}
 
@@ -118,8 +119,7 @@ public class IntervalManager implements Manager {
     }
 
     /**
-     * Interface for listeners that can be attached to an
-     * {@link IntervalManager} in order to listen to  changes in the current
+     * Interface for listeners of changes in the current
      * {@link IntervalManager.Option} selection.
      */
     public static interface Listener {
