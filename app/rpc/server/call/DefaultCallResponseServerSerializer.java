@@ -29,8 +29,7 @@ import rpc.shared.call.CallResponse;
 public class DefaultCallResponseServerSerializer
     implements CallResponse.ServerSerializer {
 
-    public DefaultCallResponseServerSerializer() {
-    }
+    public DefaultCallResponseServerSerializer() {}
 
     @Override
     public String serialize(CallResponse response) {

@@ -32,8 +32,7 @@ import rpc.shared.call.InvalidPayload;
 public class DefaultCallResponseClientSerializer
     implements CallResponse.ClientSerializer {
 
-    public DefaultCallResponseClientSerializer() {
-    }
+    public DefaultCallResponseClientSerializer() {}
 
     @Override
     public CallResponse deserialize(String payload) throws InvalidPayload {

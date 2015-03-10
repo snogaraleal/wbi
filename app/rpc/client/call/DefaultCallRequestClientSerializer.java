@@ -31,8 +31,7 @@ import rpc.shared.call.CallRequest;
 public class DefaultCallRequestClientSerializer
     implements CallRequest.ClientSerializer {
 
-    public DefaultCallRequestClientSerializer() {
-    }
+    public DefaultCallRequestClientSerializer() {}
 
     @Override
     public String serialize(CallRequest request) {

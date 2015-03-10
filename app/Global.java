@@ -41,7 +41,7 @@ public class Global extends GlobalSettings {
         // Configure RPC mechanism
         ServerConf.configureRPC();
 
-        // Start tasks for populating the database when the application starts
+        // Run tasks for populating the database when the application starts
         TaskUtils.runTask(new CountryPopulateTask());
         TaskUtils.runTask(new IndicatorPopulateTask());
     }

@@ -36,8 +36,7 @@ public class DefaultCallRequestServerSerializer
 
     private static JsonParser parser = new JsonParser();
 
-    public DefaultCallRequestServerSerializer() {
-    }
+    public DefaultCallRequestServerSerializer() {}
 
     @Override
     public CallRequest deserialize(String payload) throws InvalidPayload {
