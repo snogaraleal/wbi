@@ -23,12 +23,40 @@ package client.managers;
 
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * Interface for a class to which a {@link View} can be attached.
+ */
 public interface Manager {
-    public static interface View<T> {
+    /**
+     * View displaying information provided by a {@link Manager}.
+     *
+     * @param <T> {@code Manager} class.
+     */
+    public static interface View<T extends Manager> {
+        /**
+         * Handle attach.
+         *
+         * @param manager Attached {@code Manager}.
+         */
         void onAttach(T manager);
+
+        /**
+         * Handle detach.
+         */
         void onDetach();
 
+        /**
+         * Get the {@code Widget} underlying this view.
+         *
+         * @return View widget.
+         */
         Widget getWidget();
+
+        /**
+         * Get the {@link Manager} this {@link View} is currently attached to.
+         *
+         * @return Current manager.
+         */
         T getCurrentManager();
     }
 }

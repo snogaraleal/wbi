@@ -34,18 +34,48 @@ import models.Series;
 
 import client.managers.models.SeriesManager;
 
+/**
+ * XML serializer of {@link Row} lists.
+ */
 public class XMLSeriesSerializer implements SeriesManager.Serializer {
+    /**
+     * Name of the root XML element.
+     */
     private static final String ROOT = "series";
 
+    /**
+     * Name of the XML element containing a {@code Country}.
+     */
     private static final String COUNTRY = "country";
+
+    /**
+     * Name of the XML attribute containing the name of a {@code Country}.
+     */
     private static final String COUNTRY_NAME = "name";
+
+    /**
+     * Name of the XML attribute containing the ISO code of a {@code Country}.
+     */
     private static final String COUNTRY_ISO = "iso";
 
+    /**
+     * Name of the XML element containing a {@code Point}.
+     */
     private static final String POINT = "point";
+
+    /**
+     * Name of the XML attribute containing the year of a {@code Point}.
+     */
     private static final String POINT_YEAR = "year";
 
+    /**
+     * Resolution of {@code Point} values.
+     */
     private static final Double RES = 1000.0;
 
+    /**
+     * Serialize to XML.
+     */
     @Override
     public String serialize(
             SortedSet<Integer> years, List<SeriesManager.Row> rows) {

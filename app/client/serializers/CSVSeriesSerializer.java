@@ -29,12 +29,28 @@ import models.Series;
 
 import client.managers.models.SeriesManager;
 
+/**
+ * CSV serializer of {@link Row} lists.
+ */
 public class CSVSeriesSerializer implements SeriesManager.Serializer {
+    /**
+     * CSV column separator.
+     */
     private static final String SEP_COLUMN = ", ";
+
+    /**
+     * CSV row separator.
+     */
     private static final String SEP_ROW = "\n";
 
+    /**
+     * Resolution of {@code Point} values.
+     */
     private static final Double RES = 1000.0;
 
+    /**
+     * Serialize to CSV.
+     */
     @Override
     public String serialize(
             SortedSet<Integer> years, List<SeriesManager.Row> rows) {

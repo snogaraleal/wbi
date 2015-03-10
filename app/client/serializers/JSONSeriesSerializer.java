@@ -35,12 +35,28 @@ import models.Series;
 
 import client.managers.models.SeriesManager;
 
+/**
+ * JSON serializer of {@link Row} lists.
+ */
 public class JSONSeriesSerializer implements SeriesManager.Serializer {
+    /**
+     * Name of the JSON key with the name of a {@code Country}.
+     */
     private static final String COUNTRY_NAME = "name";
+
+    /**
+     * Name of the JSON key with the ISO code of a {@code Country}.
+     */
     private static final String COUNTRY_ISO = "iso";
 
+    /**
+     * Resolution of {@code Point} values.
+     */
     private static final Double RES = 1000.0;
 
+    /**
+     * Serialize to JSON.
+     */
     @Override
     public String serialize(
             SortedSet<Integer> years, List<SeriesManager.Row> rows) {
