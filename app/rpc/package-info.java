@@ -1,0 +1,5 @@
+/**
+ * RPC library.
+ */
+
+package rpc;

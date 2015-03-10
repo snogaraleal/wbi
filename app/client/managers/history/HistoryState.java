@@ -40,7 +40,7 @@ import rpc.shared.data.Type;
 import client.services.WBIExplorationService;
 
 /**
- * History state.
+ * Browser history state.
  *
  * @see HistoryManager
  */

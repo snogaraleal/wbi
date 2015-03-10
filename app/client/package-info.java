@@ -1,0 +1,5 @@
+/**
+ * Browser client.
+ */
+
+package client;
