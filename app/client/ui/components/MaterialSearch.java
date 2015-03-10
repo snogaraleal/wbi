@@ -36,16 +36,16 @@ import com.google.gwt.user.client.ui.Widget;
 public class MaterialSearch
     extends Composite implements HasText, HasKeyUpHandlers {
 
-    interface MaterialSearchUiBinder
+    public interface MaterialSearchUiBinder
         extends UiBinder<Widget, MaterialSearch> {}
     private static MaterialSearchUiBinder uiBinder =
         GWT.create(MaterialSearchUiBinder.class);
 
     @UiField
-    Image icon;
+    public Image icon;
 
     @UiField
-    TextBox text;
+    public TextBox text;
 
     public MaterialSearch() {
         initWidget(uiBinder.createAndBindUi(this));

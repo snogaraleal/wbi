@@ -64,7 +64,7 @@ import client.ui.views.series.TableSeriesView;
  * Main viewport widget.
  */
 public class Dashboard extends Composite {
-    interface DashboardUiBinder extends UiBinder<Widget, Dashboard> {}
+    public interface DashboardUiBinder extends UiBinder<Widget, Dashboard> {}
     private static DashboardUiBinder uiBinder =
         GWT.create(DashboardUiBinder.class);
 
@@ -72,43 +72,43 @@ public class Dashboard extends Composite {
      * Root widget containing all other widgets.
      */
     @UiField
-    FlowPanel viewport;
+    public FlowPanel viewport;
 
     /**
      * Tab panel for indicators (left panel).
      */
     @UiField
-    TabLayoutPanel indicatorPanel;
+    public TabLayoutPanel indicatorPanel;
 
     /**
      * Tab panel for countries (right panel).
      */
     @UiField
-    TabLayoutPanel countryPanel;
+    public TabLayoutPanel countryPanel;
 
     /**
      * Tab panel for series (center panel).
      */
     @UiField
-    TabLayoutPanel seriesPanel;
+    public TabLayoutPanel seriesPanel;
 
     /**
      * Floating panel.
      */
     @UiField
-    FlowPanel overlay;
+    public FlowPanel overlay;
 
     /**
      * Interval selector (part of {@code overlay}).
      */
     @UiField
-    IntervalSwitch seriesInterval;
+    public IntervalSwitch seriesInterval;
 
     /**
      * Serializers buttons (part of {@code overlay}).
      */
     @UiField
-    FlowPanel seriesAnchors;
+    public FlowPanel seriesAnchors;
 
     // History manager
     private HistoryManager historyManager = new HistoryManager();

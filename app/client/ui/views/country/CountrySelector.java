@@ -73,7 +73,7 @@ public class CountrySelector extends Composite
         }
     }
 
-    interface CountrySelectorUiBinder
+    public interface CountrySelectorUiBinder
         extends UiBinder<Widget, CountrySelector> {}
     private static CountrySelectorUiBinder uiBinder =
         GWT.create(CountrySelectorUiBinder.class);
@@ -88,10 +88,10 @@ public class CountrySelector extends Composite
     private Timer searchInputTimer;
 
     @UiField
-    MaterialSearch search;
+    public MaterialSearch search;
 
     @UiField
-    FlowPanel panel;
+    public FlowPanel panel;
 
     public CountrySelector() {
         initWidget(uiBinder.createAndBindUi(this));

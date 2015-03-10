@@ -38,13 +38,13 @@ import client.managers.models.SeriesManager;
 import client.ui.components.VectorMap;
 
 public class MapSeriesView extends SeriesView {
-    interface MapSeriesViewUiBinder
+    public interface MapSeriesViewUiBinder
         extends UiBinder<Widget, MapSeriesView> {}
     private static MapSeriesViewUiBinder uiBinder =
         GWT.create(MapSeriesViewUiBinder.class);
 
     @UiField
-    VectorMap vectorMap;
+    public VectorMap vectorMap;
 
     public MapSeriesView() {
         super();

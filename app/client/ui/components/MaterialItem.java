@@ -73,25 +73,25 @@ public class MaterialItem extends Composite
         }
     }
 
-    interface MaterialItemUiBinder
+    public interface MaterialItemUiBinder
         extends UiBinder<Widget, MaterialItem> {}
     private static MaterialItemUiBinder uiBinder =
         GWT.create(MaterialItemUiBinder.class);
 
     @UiField
-    FlowPanel ink;
+    public FlowPanel ink;
 
     @UiField
-    FocusPanel panel;
+    public FocusPanel panel;
 
     @UiField
-    Label title;
+    public Label title;
 
     @UiField
-    Label subtitle;
+    public Label subtitle;
 
     @UiField
-    Image icon;
+    public Image icon;
 
     private static boolean DEFAULT_ANIMATION_ENABLED = false;
     private boolean animationEnabled;

@@ -82,7 +82,7 @@ public class IndicatorSelector extends Composite
         }
     }
 
-    interface IndicatorSelectorUiBinder
+    public interface IndicatorSelectorUiBinder
         extends UiBinder<Widget, IndicatorSelector> {}
     private static IndicatorSelectorUiBinder uiBinder =
         GWT.create(IndicatorSelectorUiBinder.class);
@@ -97,10 +97,10 @@ public class IndicatorSelector extends Composite
     private Timer searchInputTimer;
 
     @UiField
-    MaterialSearch search;
+    public MaterialSearch search;
 
     @UiField
-    FlowPanel panel;
+    public FlowPanel panel;
 
     public IndicatorSelector() {
         initWidget(uiBinder.createAndBindUi(this));

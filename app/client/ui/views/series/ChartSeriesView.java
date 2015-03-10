@@ -39,7 +39,7 @@ import client.managers.models.SeriesManager;
 import client.ui.components.Chart;
 
 public class ChartSeriesView extends SeriesView {
-    interface ChartSeriesViewUiBinder
+    public interface ChartSeriesViewUiBinder
         extends UiBinder<Widget, ChartSeriesView> {}
     private static ChartSeriesViewUiBinder uiBinder =
         GWT.create(ChartSeriesViewUiBinder.class);
@@ -48,7 +48,7 @@ public class ChartSeriesView extends SeriesView {
         new HashMap<SeriesManager.Row, Chart.Series>();
 
     @UiField
-    Chart chart;
+    public Chart chart;
 
     private static final int REDRAW_DELAY = 20;
     private Timer redrawTimer;

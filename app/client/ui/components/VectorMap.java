@@ -63,12 +63,12 @@ public class VectorMap extends Composite {
         }
     }
 
-    interface VectorMapUiBinder extends UiBinder<Widget, VectorMap> {}
+    public interface VectorMapUiBinder extends UiBinder<Widget, VectorMap> {}
     private static VectorMapUiBinder uiBinder =
         GWT.create(VectorMapUiBinder.class);
 
     @UiField
-    DivElement div;
+    public DivElement div;
 
     public static final String BASE_SCRIPT =
         ClientConf.asset("js/jvectormap/jvectormap-2.0.1.min.js");

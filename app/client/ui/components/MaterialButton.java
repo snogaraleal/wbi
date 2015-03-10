@@ -54,19 +54,19 @@ public class MaterialButton
         }
     }
 
-    interface MaterialButtonUiBinder
+    public interface MaterialButtonUiBinder
         extends UiBinder<Widget, MaterialButton> {}
     private static MaterialButtonUiBinder uiBinder =
         GWT.create(MaterialButtonUiBinder.class);
 
     @UiField
-    Anchor anchor;
+    public Anchor anchor;
 
     @UiField
-    SpanElement label;
+    public SpanElement label;
 
     @UiField
-    SpanElement ink;
+    public SpanElement ink;
 
     private static final boolean DEFAULT_ANIMATION_ENABLED = false;
     private boolean animationEnabled;

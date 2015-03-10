@@ -128,13 +128,13 @@ public class TableSeriesView extends SeriesView
         }
     }
 
-    interface TableSeriesViewUiBinder
+    public interface TableSeriesViewUiBinder
         extends UiBinder<Widget, TableSeriesView> {}
     private static TableSeriesViewUiBinder uiBinder =
         GWT.create(TableSeriesViewUiBinder.class);
 
     @UiField
-    FlowPanel container;
+    public FlowPanel container;
 
     private Table table;
     private SelectionModel<SeriesManager.Row> selectionModel;

@@ -88,12 +88,12 @@ public class Chart extends Composite {
         }
     }
 
-    interface ChartUiBinder extends UiBinder<Widget, Chart> {}
+    public interface ChartUiBinder extends UiBinder<Widget, Chart> {}
     private static ChartUiBinder uiBinder =
         GWT.create(ChartUiBinder.class);
 
     @UiField
-    DivElement div;
+    public DivElement div;
 
     public static final String BASE_SCRIPT =
         ClientConf.asset("js/flot/jquery.flot.min.js");

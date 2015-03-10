@@ -68,7 +68,7 @@ public class IntervalSwitch extends Composite
         }
     }
 
-    interface IntervalSwitchUiBinder
+    public interface IntervalSwitchUiBinder
         extends UiBinder<Widget, IntervalSwitch> {}
     private static IntervalSwitchUiBinder uiBinder =
         GWT.create(IntervalSwitchUiBinder.class);
@@ -79,7 +79,7 @@ public class IntervalSwitch extends Composite
     private IntervalManager manager;
 
     @UiField
-    FlowPanel panel;
+    public FlowPanel panel;
 
     public IntervalSwitch() {
         initWidget(uiBinder.createAndBindUi(this));
