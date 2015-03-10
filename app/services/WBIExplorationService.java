@@ -36,9 +36,21 @@ import models.Series;
 import client.managers.history.HistoryState;
 import client.managers.history.HistoryStateData;
 
+/**
+ * Service for searching and querying indicators.
+ */
 public class WBIExplorationService implements Service {
+    /**
+     * Limit of search queries.
+     */
     private static int LIMIT = 10;
 
+    /**
+     * Search indicators.
+     *
+     * @param query Search terms.
+     * @return List of indicators.
+     */
     public static List<Indicator> queryIndicatorList(String query) {
         return Indicator.objects
             .where()
@@ -50,6 +62,12 @@ public class WBIExplorationService implements Service {
             .findList();
     }
 
+    /**
+     * Search countries.
+     *
+     * @param query Search terms.
+     * @return List of countries.
+     */
     public static List<Country> queryCountryList(String query) {
         return Country.objects
             .where()
@@ -60,6 +78,14 @@ public class WBIExplorationService implements Service {
             .findList();
     }
 
+    /**
+     * Query series.
+     *
+     * @param indicatorId ID of {@link Indicator}.
+     * @param startYear Start year of the query interval.
+     * @param endYear End year of the query interval.
+     * @return List of series.
+     */
     public static List<Series> querySeriesList(
             Long indicatorId, Integer startYear, Integer endYear) {
 
@@ -101,6 +127,12 @@ public class WBIExplorationService implements Service {
         return allSeries;
     }
 
+    /**
+     * Exchange a {@link HistoryState} for a {@link HistoryStateData}.
+     *
+     * @param state History state.
+     * @return History state data.
+     */
     public static HistoryStateData getStateData(HistoryState state) {
         Indicator indicator = null;
         String indicatorIdent = state.getIndicatorIdent();

@@ -28,9 +28,18 @@ import rpc.shared.data.Type;
 
 import models.Indicator;
 
+/**
+ * Asynchronous counterpart of {@link services.WBIManagementService}.
+ */
 public class WBIManagementService {
+    /**
+     * Class name of the server-side service.
+     */
     public static final String CLASS_NAME = "services.WBIManagementService";
 
+    /**
+     * @see services.WBIManagementService#poll
+     */
     public static ClientRequest<List<Indicator>> poll(
             List<Long> indicatorIds,
             ClientRequest.Listener<List<Indicator>> listener) {
@@ -42,6 +51,9 @@ public class WBIManagementService {
             .send();
     }
 
+    /**
+     * @see services.WBIManagementService#load
+     */
     public static ClientRequest<Indicator> load(
             Long indicatorId, ClientRequest.Listener<Indicator> listener) {
 
@@ -52,6 +64,9 @@ public class WBIManagementService {
             .send();
     }
 
+    /**
+     * @see services.WBIManagementService#unload
+     */
     public static ClientRequest<Indicator> unload(
             Long indicatorId, ClientRequest.Listener<Indicator> listener) {
 

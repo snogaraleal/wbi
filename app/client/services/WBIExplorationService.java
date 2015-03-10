@@ -33,9 +33,18 @@ import models.Series;
 import client.managers.history.HistoryState;
 import client.managers.history.HistoryStateData;
 
+/**
+ * Asynchronous counterpart of {@link services.WBIExplorationService}.
+ */
 public class WBIExplorationService {
+    /**
+     * Class name of the server-side service.
+     */
     public static final String CLASS_NAME = "services.WBIExplorationService";
 
+    /**
+     * @see services.WBIExplorationService#queryIndicatorList
+     */
     public static ClientRequest<List<Indicator>> queryIndicatorList(
             String query, ClientRequest.Listener<List<Indicator>> listener) {
 
@@ -47,6 +56,9 @@ public class WBIExplorationService {
             .send();
     }
 
+    /**
+     * @see services.WBIExplorationService#queryCountryList
+     */
     public static ClientRequest<List<Country>> queryCountryList(
             String query, ClientRequest.Listener<List<Country>> listener) {
 
@@ -57,6 +69,9 @@ public class WBIExplorationService {
             .send();
     }
 
+    /**
+     * @see services.WBIExplorationService#querySeriesList
+     */
     public static ClientRequest<List<Series>> querySeriesList(
             Long indicatorId, Integer startYear, Integer endYear,
             ClientRequest.Listener<List<Series>> listener) {
@@ -68,6 +83,9 @@ public class WBIExplorationService {
             .send();
     }
 
+    /**
+     * @see services.WBIExplorationService#getStateData
+     */
     public static ClientRequest<HistoryStateData> getStateData(
             HistoryState state,
             ClientRequest.Listener<HistoryStateData> listener) {

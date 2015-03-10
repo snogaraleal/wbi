@@ -34,7 +34,16 @@ import data.tasks.IndicatorLoadTask;
 import data.tasks.IndicatorUnloadTask;
 import data.tasks.TaskUtils;
 
+/**
+ * Service for loading and unloading indicators.
+ */
 public class WBIManagementService implements Service {
+    /**
+     * Update the {@link Indicator.Status} of the specified {@link Indicator}.
+     *
+     * @param indicator Indicator to update.
+     * @param status New indicator status.
+     */
     private static void updateIndicatorStatus(
             Indicator indicator, Indicator.Status status) {
 
@@ -50,9 +59,18 @@ public class WBIManagementService implements Service {
         indicator.setStatus(status);
     }
 
+    /**
+     * Task that loads an {@link Indicator} and updates its status when
+     * finished.
+     */
     private static class IndicatorLoadAndUpdateTask
         extends IndicatorLoadTask {
 
+        /**
+         * Initialize task.
+         *
+         * @param indicator {@code Indicator} to load.
+         */
         public IndicatorLoadAndUpdateTask(Indicator indicator) {
             super(indicator);
         }
@@ -65,9 +83,18 @@ public class WBIManagementService implements Service {
         }
     }
 
+    /**
+     * Task that unloads an {@link Indicator} and updates its status when
+     * finished.
+     */
     private static class IndicatorUnloadAndUpdateTask 
         extends IndicatorUnloadTask {
 
+        /**
+         * Initialize task.
+         *
+         * @param indicator {@code Indicator} to unload.
+         */
         public IndicatorUnloadAndUpdateTask(Indicator indicator) {
             super(indicator);
         }
@@ -80,6 +107,12 @@ public class WBIManagementService implements Service {
         }
     }
 
+    /**
+     * Get a list of {@link Indicator} objects for the specified list of IDs.
+     *
+     * @param indicatorIds List of {@code Indicator} IDs.
+     * @return List of {@code Indicator} objects.
+     */
     public static List<Indicator> poll(List<Long> indicatorIds) {
         if (indicatorIds.isEmpty()) {
             return null;
@@ -94,6 +127,12 @@ public class WBIManagementService implements Service {
             .findList();
     }
 
+    /**
+     * Load the specified {@link Indicator}.
+     *
+     * @param indicatorId ID of the {@code Indicator} to load.
+     * @return {@code Indicator} with status changed.
+     */
     public static Indicator load(Long indicatorId) {
         Indicator indicator = Indicator.objects.byId(indicatorId);
 
@@ -106,6 +145,12 @@ public class WBIManagementService implements Service {
         return indicator;
     }
 
+    /**
+     * Unload the specified {@link Indicator}.
+     *
+     * @param indicatorId ID of the {@code Indicator} to unload.
+     * @return {@code Indicator} with status changed.
+     */
     public static Indicator unload(Long indicatorId) {
         Indicator indicator = Indicator.objects.byId(indicatorId);
 
