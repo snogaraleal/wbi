@@ -31,25 +31,58 @@ import com.google.gwt.user.client.ui.Widget;
 
 import client.managers.Manager;
 
+/**
+ * Coordinator for attaching and detaching {@link Manager.View} objects to
+ * and from a {@link Manager} depending on the current tab selection
+ * of a {@code TabLayoutPanel}.
+ *
+ * @param <T> Manager class.
+ */
 public class TabCoordinator<T extends Manager> extends SimpleCoordinator<T>
     implements SelectionHandler<Integer> {
 
+    /**
+     * Managed {@code TabLayoutPanel}.
+     */
     private TabLayoutPanel panel;
 
+    /**
+     * {@code Manager.View} objects by UI {@code Widget}.
+     */
     private Map<Widget, Manager.View<T>> viewsByWidget =
         new HashMap<Widget, Manager.View<T>>();
 
+    /**
+     * Tab indexes by tab identifier.
+     */
     private Map<String, Integer> indexesByName =
         new HashMap<String, Integer>();
+
+    /**
+     * Tab identifiers by tab index.
+     */
     private Map<Integer, String> namesByIndex =
         new HashMap<Integer, String>();
 
+    /**
+     * Initialize {@code TabCoordinator}.
+     *
+     * @param manager {@code Manager} to attach views to.
+     * @param panel {@code TabLayoutPanel} to listen to.
+     */
     public TabCoordinator(T manager, TabLayoutPanel panel) {
         super(manager);
         this.panel = panel;
         this.panel.addSelectionHandler(this);
     }
 
+    /**
+     * Add tab to the underlying {@code TabLayoutPanel}.
+     *
+     * @param name Tab identifier.
+     * @param title Tab display name.
+     * @param view {@code Manager.View} providing a UI {@code Widget}.
+     */
     public void addTab(String name, String title, Manager.View<T> view) {
         Widget widget = view.getWidget();
         viewsByWidget.put(widget, view);
@@ -60,22 +93,50 @@ public class TabCoordinator<T extends Manager> extends SimpleCoordinator<T>
         namesByIndex.put(index, name);
     }
 
+    /**
+     * Get {@link Manager.View} by its tab index.
+     *
+     * @param index Tab index.
+     * @return {@code Manager.View}.
+     */
     public Manager.View<T> getView(int index) {
         return viewsByWidget.get(panel.getWidget(index));
     }
 
+    /**
+     * Get underlying {@code TabLayoutPanel}.
+     *
+     * @return Underlying tab panel.
+     */
     public TabLayoutPanel getPanel() {
         return panel;
     }
 
+    /**
+     * Get tab index by its identifier.
+     *
+     * @param name Tab identifier.
+     * @return Tab index.
+     */
     public Integer getTabIndex(String name) {
         return indexesByName.get(name);
     }
 
+    /**
+     * Get tab identifier by its index.
+     *
+     * @param index Tab index.
+     * @return Tab identifier.
+     */
     public String getTabName(int index) {
         return namesByIndex.get(index);
     }
 
+    /**
+     * Select the specified tab.
+     *
+     * @param name Tab identifier.
+     */
     public void selectTab(String name) {
         Integer tabIndex = getTabIndex(name);
         if (tabIndex != null) {

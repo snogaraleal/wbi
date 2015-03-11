@@ -26,18 +26,46 @@ import java.util.Set;
 
 import client.managers.Manager;
 
+/**
+ * Coordinator for attaching multiple {@link Manager.View} objects to a
+ * single {@link Manager} at the same time.
+ *
+ * @param <T> Manager class.
+ */
 public class MultiCoordinator<T extends Manager> {
+    /**
+     * {@code Manager} to attach views to.
+     */
     private T manager;
+
+    /**
+     * {@code Manager.View} objects attached to the manager.
+     */
     private Set<Manager.View<T>> views = new HashSet<Manager.View<T>>();
 
+    /**
+     * Initialize {@code MultiCoordinator}.
+     *
+     * @param manager {@code Manager} to attach views to.
+     */
     public MultiCoordinator(T manager) {
         this.manager = manager;
     }
 
+    /**
+     * Get {@code Manager} views are attached to.
+     *
+     * @return {@code Manager}.
+     */
     public T getManager() {
         return manager;
     }
 
+    /**
+     * Attach a {@code Manager.View}.
+     *
+     * @param view View to attach.
+     */
     public void addView(Manager.View<T> view) {
         if (!views.contains(view)) {
             views.add(view);
@@ -45,6 +73,11 @@ public class MultiCoordinator<T extends Manager> {
         }
     }
 
+    /**
+     * Detach a {@code Manager.View}.
+     *
+     * @param view View to detach.
+     */
     public void removeView(Manager.View<T> view) {
         if (views.contains(view)) {
             views.remove(view);

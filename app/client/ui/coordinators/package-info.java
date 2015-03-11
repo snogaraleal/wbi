@@ -1,6 +1,6 @@
 /**
- * Connection between {@code Manager} implementers and
- * {@code Manager.View} implementers.
+ * Connection of {@code Manager.View} implementers to {@code Manager}
+ * implementers.
  */
 
 package client.ui.coordinators;

@@ -23,18 +23,46 @@ package client.ui.coordinators;
 
 import client.managers.Manager;
 
+/**
+ * Coordinator for attaching a single {@link Manager.View} to a
+ * {@link Manager} detaching any currently attached view.
+ *
+ * @param <T> Manager class.
+ */
 public class SimpleCoordinator<T extends Manager> {
+    /**
+     * {@code Manager} to attach views to.
+     */
     private T manager;
+
+    /**
+     * Currently attached {@code Manager.View}.
+     */
     private Manager.View<T> currentView;
 
+    /**
+     * Initialize {@code SimpleCoordinator}.
+     *
+     * @param manager {@code Manager} to attach views to.
+     */
     public SimpleCoordinator(T manager) {
         this.manager = manager;
     }
 
+    /**
+     * Get {@code Manager} views are attached to.
+     *
+     * @return {@code Manager}.
+     */
     public T getManager() {
         return manager;
     }
 
+    /**
+     * Set the currently attached {@code Manager.View}.
+     *
+     * @param view View to attach.
+     */
     public void setView(Manager.View<T> view) {
         if (currentView != null) {
             currentView.onDetach();
@@ -45,6 +73,11 @@ public class SimpleCoordinator<T extends Manager> {
         view.onAttach(manager);
     }
 
+    /**
+     * Get currently attached {@code Manager.View}.
+     *
+     * @return Currently attached view.
+     */
     public Manager.View<T> getCurrentView() {
         return currentView;
     }
