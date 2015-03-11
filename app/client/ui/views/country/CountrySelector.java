@@ -42,13 +42,32 @@ import client.managers.models.CountryManager;
 import client.ui.components.MaterialItem;
 import client.ui.components.MaterialSearch;
 
+/**
+ * Country selector implementing {@link CountryManager.View}.
+ */
 public class CountrySelector extends Composite
     implements CountryManager.View, CountryManager.Listener {
 
+    /**
+     * {@link MaterialItem} displaying a {@link Country}.
+     */
     public static class Item extends MaterialItem {
+        /**
+         * {@code CountrySelector} that created this item.
+         */
         private CountrySelector selector;
+
+        /**
+         * {@code Country} displayed in this item.
+         */
         private Country country;
 
+        /**
+         * Initialize {@code Item}.
+         *
+         * @param selector {@link CountrySelector} that created this item.
+         * @param country {@link Country} to display.
+         */
         public Item(CountrySelector selector, Country country) {
             super();
 
@@ -58,6 +77,11 @@ public class CountrySelector extends Composite
             setAnimationEnabled(true);
         }
 
+        /**
+         * Set the {@link Country} displayed in this item.
+         *
+         * @param country {@code Country} to display.
+         */
         public void setCountry(Country country) {
             this.country = country;
 
@@ -78,21 +102,46 @@ public class CountrySelector extends Composite
     private static CountrySelectorUiBinder uiBinder =
         GWT.create(CountrySelectorUiBinder.class);
 
+    /**
+     * {@code Item} widgets by {@code Country}.
+     */
     private Map<Country, Item> map = new HashMap<Country, Item>();
 
+    /**
+     * {@code CountryManager} this view is currently attached to.
+     */
     private CountryManager manager;
 
+    /**
+     * Time required after a keystroke to perform a search.
+     */
     private static final int SEARCH_INPUT_DELAY = 300;
 
+    /**
+     * Text of {@link CountrySelector#search}.
+     */
     private String searchInputText;
+
+    /**
+     * Timer for performing a search.
+     */
     private Timer searchInputTimer;
 
+    /**
+     * Search box.
+     */
     @UiField
     public MaterialSearch search;
 
+    /**
+     * Panel containing {@link Item} widgets.
+     */
     @UiField
     public FlowPanel panel;
 
+    /**
+     * Initialize {@code CountrySelector}.
+     */
     public CountrySelector() {
         initWidget(uiBinder.createAndBindUi(this));
 

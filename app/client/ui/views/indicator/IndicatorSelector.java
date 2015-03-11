@@ -43,13 +43,32 @@ import client.managers.models.IndicatorManager;
 import client.ui.components.MaterialItem;
 import client.ui.components.MaterialSearch;
 
+/**
+ * Indicator selector implementing {@link IndicatorManager.View}.
+ */
 public class IndicatorSelector extends Composite
     implements IndicatorManager.View, IndicatorManager.Listener {
 
+    /**
+     * {@link MaterialItem} displaying an {@link Indicator}.
+     */
     public static class Item extends MaterialItem {
+        /**
+         * {@code IndicatorSelector} that created this item.
+         */
         private IndicatorSelector selector;
+
+        /**
+         * {@code Indicator} displayed in this item.
+         */
         private Indicator indicator;
 
+        /**
+         * Initialize {@code Item}.
+         *
+         * @param selector {@link IndicatorSelector} that created this item.
+         * @param indicator {@link Indicator} to display.
+         */
         public Item(IndicatorSelector selector, Indicator indicator) {
             super();
 
@@ -59,6 +78,11 @@ public class IndicatorSelector extends Composite
             setAnimationEnabled(true);
         }
 
+        /**
+         * Set the {@link Indicator} displayed in this item.
+         *
+         * @param indicator {@code Indicator} to display.
+         */
         public void setIndicator(Indicator indicator) {
             this.indicator = indicator;
 
@@ -87,21 +111,46 @@ public class IndicatorSelector extends Composite
     private static IndicatorSelectorUiBinder uiBinder =
         GWT.create(IndicatorSelectorUiBinder.class);
 
+    /**
+     * {@code Item} widgets by {@code Indicator}.
+     */
     private Map<Indicator, Item> map = new HashMap<Indicator, Item>();
 
+    /**
+     * {@code IndicatorManager} this view is currently attached to.
+     */
     private IndicatorManager manager;
 
+    /**
+     * Time required after a keystroke to perform a search.
+     */
     private static final int SEARCH_INPUT_DELAY = 300;
 
+    /**
+     * Text of {@link IndicatorSelector#search}.
+     */
     private String searchInputText;
+
+    /**
+     * Timer for performing a search.
+     */
     private Timer searchInputTimer;
 
+    /**
+     * Search box.
+     */
     @UiField
     public MaterialSearch search;
 
+    /**
+     * Panel containing {@link Item} widgets.
+     */
     @UiField
     public FlowPanel panel;
 
+    /**
+     * Initialize {@code IndicatorSelector}.
+     */
     public IndicatorSelector() {
         initWidget(uiBinder.createAndBindUi(this));
 

@@ -47,7 +47,7 @@ public class TabCoordinator<T extends Manager> extends SimpleCoordinator<T>
     private TabLayoutPanel panel;
 
     /**
-     * {@code Manager.View} objects by UI {@code Widget}.
+     * {@link Manager.View} objects by {@code Widget}.
      */
     private Map<Widget, Manager.View<T>> viewsByWidget =
         new HashMap<Widget, Manager.View<T>>();
@@ -81,7 +81,7 @@ public class TabCoordinator<T extends Manager> extends SimpleCoordinator<T>
      *
      * @param name Tab identifier.
      * @param title Tab display name.
-     * @param view {@code Manager.View} providing a UI {@code Widget}.
+     * @param view {@link Manager.View} providing a {@code Widget}.
      */
     public void addTab(String name, String title, Manager.View<T> view) {
         Widget widget = view.getWidget();

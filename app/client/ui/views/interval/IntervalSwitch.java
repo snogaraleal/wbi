@@ -35,13 +35,25 @@ import com.google.gwt.user.client.ui.Widget;
 import client.managers.models.IntervalManager;
 import client.ui.components.MaterialButton;
 
+/**
+ * Interval selector implementing {@link IntervalManager.View}.
+ */
 public class IntervalSwitch extends Composite
     implements IntervalManager.View, IntervalManager.Listener {
 
+    /**
+     * {@link MaterialButton} displaying an {@link IntervalManager.Option}.
+     */
     public static class Button extends MaterialButton {
         private IntervalSwitch intervalSwitch;
         private IntervalManager.Option option;
 
+        /**
+         * Initialize {@code Button}.
+         *
+         * @param intervalSwitch {@link IntervalSwitch} that created this button.
+         * @param option {@link IntervalManager.Option} to display.
+         */
         public Button(
                 IntervalSwitch intervalSwitch,
                 IntervalManager.Option option) {
@@ -54,6 +66,11 @@ public class IntervalSwitch extends Composite
             setAnimationEnabled(true);
         }
 
+        /**
+         * Set the {@link IntervalManager.Option} displayed in this button.
+         *
+         * @param option {@code IntervalManager.Option} to display.
+         */
         public void setOption(IntervalManager.Option option) {
             this.option = option;
 
@@ -73,14 +90,26 @@ public class IntervalSwitch extends Composite
     private static IntervalSwitchUiBinder uiBinder =
         GWT.create(IntervalSwitchUiBinder.class);
 
+    /**
+     * {@code Button} widgets by {@code IntervalManager.Option}.
+     */
     private Map<IntervalManager.Option, Button> map =
         new HashMap<IntervalManager.Option, Button>();
 
+    /**
+     * {@code IntervalManager} this view is currently attached to.
+     */
     private IntervalManager manager;
 
+    /**
+     * Panel containing {@link Button} widgets.
+     */
     @UiField
     public FlowPanel panel;
 
+    /**
+     * Initialize {@code IntervalSwitch}.
+     */
     public IntervalSwitch() {
         initWidget(uiBinder.createAndBindUi(this));
 
