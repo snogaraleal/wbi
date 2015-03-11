@@ -87,16 +87,16 @@ public class HistoryStateData implements Serializable {
 
     @Override
     public Object get(String field) {
-        if (field == FIELD_INDICATOR) return indicator;
-        if (field == FIELD_COUNTRIES) return countries;
+        if (field.equals(FIELD_INDICATOR)) return indicator;
+        if (field.equals(FIELD_COUNTRIES)) return countries;
         return null;
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public void set(String field, Object value) {
-        if (field == FIELD_INDICATOR) indicator = (Indicator) value;
-        if (field == FIELD_COUNTRIES) {
+        if (field.equals(FIELD_INDICATOR)) indicator = (Indicator) value;
+        if (field.equals(FIELD_COUNTRIES)) {
             countries = (List<Country>) value;
         }
     }

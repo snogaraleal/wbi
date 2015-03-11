@@ -299,6 +299,7 @@ public class WorldBank {
                     series, Integer.valueOf(dateElement.getTextContent()),
                     Double.valueOf(valueElement.getTextContent())));
             } catch (NumberFormatException exception) {
+                continue;
             }
         }
 

@@ -127,11 +127,11 @@ public class Indicator extends Model {
 
     @Override
     public Object get(String field) {
-        if (field == FIELD_IDENT) return ident;
-        if (field == FIELD_NAME) return name;
-        if (field == FIELD_STATUS) return status;
-        if (field == FIELD_TOPICS) return topics;
-        if (field == FIELD_SOURCE) return source;
+        if (field.equals(FIELD_IDENT)) return ident;
+        if (field.equals(FIELD_NAME)) return name;
+        if (field.equals(FIELD_STATUS)) return status;
+        if (field.equals(FIELD_TOPICS)) return topics;
+        if (field.equals(FIELD_SOURCE)) return source;
         return super.get(field);
     }
 
@@ -139,11 +139,11 @@ public class Indicator extends Model {
     @Override
     public void set(String field, Object value) {
         super.set(field, value);
-        if (field == FIELD_IDENT) ident = (String) value;
-        if (field == FIELD_NAME) name = (String) value;
-        if (field == FIELD_STATUS) status = (Status) value;
-        if (field == FIELD_TOPICS) topics = (List<Topic>) value;
-        if (field == FIELD_SOURCE) source = (Source) value;
+        if (field.equals(FIELD_IDENT)) ident = (String) value;
+        if (field.equals(FIELD_NAME)) name = (String) value;
+        if (field.equals(FIELD_STATUS)) status = (Status) value;
+        if (field.equals(FIELD_TOPICS)) topics = (List<Topic>) value;
+        if (field.equals(FIELD_SOURCE)) source = (Source) value;
     }
 
     private static Map<String, Type> fields;

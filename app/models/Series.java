@@ -118,8 +118,8 @@ public class Series extends Model {
 
     @Override
     public Object get(String field) {
-        if (field == FIELD_COUNTRY) return country;
-        if (field == FIELD_POINTS) return points;
+        if (field.equals(FIELD_COUNTRY)) return country;
+        if (field.equals(FIELD_POINTS)) return points;
         return super.get(field);
     }
 
@@ -127,8 +127,8 @@ public class Series extends Model {
     @Override
     public void set(String field, Object value) {
         super.set(field, value);
-        if (field == FIELD_COUNTRY) country = (Country) value;
-        if (field == FIELD_POINTS) points = (List<Point>) value;
+        if (field.equals(FIELD_COUNTRY)) country = (Country) value;
+        if (field.equals(FIELD_POINTS)) points = (List<Point>) value;
     }
 
     private static Map<String, Type> fields;

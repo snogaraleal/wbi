@@ -65,16 +65,16 @@ public class Region extends Model {
 
     @Override
     public Object get(String field) {
-        if (field == FIELD_IDENT) return ident;
-        if (field == FIELD_NAME) return name;
+        if (field.equals(FIELD_IDENT)) return ident;
+        if (field.equals(FIELD_NAME)) return name;
         return super.get(field);
     }
 
     @Override
     public void set(String field, Object value) {
         super.set(field, value);
-        if (field == FIELD_IDENT) ident = (String) value;
-        if (field == FIELD_NAME) name = (String) value;
+        if (field.equals(FIELD_IDENT)) ident = (String) value;
+        if (field.equals(FIELD_NAME)) name = (String) value;
     }
 
     private static Map<String, Type> fields;

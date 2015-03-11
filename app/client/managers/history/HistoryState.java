@@ -489,18 +489,18 @@ public class HistoryState implements Serializable {
 
     @Override
     public Object get(String field) {
-        if (field == FIELD_INDICATOR_IDENT) return indicatorIdent;
-        if (field == FIELD_COUNTRY_ISO_LIST) return countryISOList;
+        if (field.equals(FIELD_INDICATOR_IDENT)) return indicatorIdent;
+        if (field.equals(FIELD_COUNTRY_ISO_LIST)) return countryISOList;
         return null;
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public void set(String field, Object value) {
-        if (field == FIELD_INDICATOR_IDENT) {
+        if (field.equals(FIELD_INDICATOR_IDENT)) {
             indicatorIdent = (String) value;
         }
-        if (field == FIELD_COUNTRY_ISO_LIST) {
+        if (field.equals(FIELD_COUNTRY_ISO_LIST)) {
             countryISOList = (List<String>) value;
         }
     }

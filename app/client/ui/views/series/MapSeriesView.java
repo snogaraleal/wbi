@@ -77,9 +77,4 @@ public class MapSeriesView extends SeriesView {
 
         vectorMap.setData(data);
     }
-
-    @Override
-    public void onChange(SeriesManager.Row row) {
-        super.onChange(row);
-    }
 }

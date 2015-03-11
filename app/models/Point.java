@@ -74,16 +74,16 @@ public class Point extends Model {
 
     @Override
     public Object get(String field) {
-        if (field == FIELD_YEAR) return year;
-        if (field == FIELD_VALUE) return value;
+        if (field.equals(FIELD_YEAR)) return year;
+        if (field.equals(FIELD_VALUE)) return value;
         return super.get(field);
     }
 
     @Override
     public void set(String field, Object value) {
         super.set(field, value);
-        if (field == FIELD_YEAR) year = (Integer) value;
-        if (field == FIELD_VALUE) this.value = (Double) value;
+        if (field.equals(FIELD_YEAR)) year = (Integer) value;
+        if (field.equals(FIELD_VALUE)) this.value = (Double) value;
     }
 
     private static Map<String, Type> fields;

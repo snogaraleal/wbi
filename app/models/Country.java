@@ -75,18 +75,18 @@ public class Country extends Model {
 
     @Override
     public Object get(String field) {
-        if (field == FIELD_ISO) return iso;
-        if (field == FIELD_NAME) return name;
-        if (field == FIELD_REGION) return region;
+        if (field.equals(FIELD_ISO)) return iso;
+        if (field.equals(FIELD_NAME)) return name;
+        if (field.equals(FIELD_REGION)) return region;
         return super.get(field);
     }
 
     @Override
     public void set(String field, Object value) {
         super.set(field, value);
-        if (field == FIELD_ISO) iso = (String) value;
-        if (field == FIELD_NAME) name = (String) value;
-        if (field == FIELD_REGION) region = (Region) value;
+        if (field.equals(FIELD_ISO)) iso = (String) value;
+        if (field.equals(FIELD_NAME)) name = (String) value;
+        if (field.equals(FIELD_REGION)) region = (Region) value;
     }
 
     private static Map<String, Type> fields;

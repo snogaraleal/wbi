@@ -46,11 +46,6 @@ public class Global extends GlobalSettings {
         TaskUtils.runTask(new IndicatorPopulateTask());
     }
 
-    @Override
-    public void onStop(Application app) {
-        super.onStop(app);
-    }
-
     @SuppressWarnings("unchecked")
     @Override
     public <T extends EssentialFilter> Class<T>[] filters() {

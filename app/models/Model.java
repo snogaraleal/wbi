@@ -101,13 +101,13 @@ public class Model extends play.db.ebean.Model implements Serializable {
 
     @Override
     public Object get(String field) {
-        if (field == FIELD_ID) return id;
+        if (field.equals(FIELD_ID)) return id;
         return null;
     }
 
     @Override
     public void set(String field, Object value) {
-        if (field == FIELD_ID) id = (Long) value;
+        if (field.equals(FIELD_ID)) id = (Long) value;
     }
 
     @Override
