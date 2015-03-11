@@ -418,7 +418,7 @@ public class SeriesManager
     }
 
     /**
-     * Interface for listeners of changes in {@link Row} objects.
+     * Interface for {@link SeriesManager} listeners.
      */
     public static interface Listener {
         /**
@@ -442,7 +442,7 @@ public class SeriesManager
     }
 
     /**
-     * {@code Listener} objects listening to changes in this manager.
+     * {@code Listener} objects listening to this manager.
      */
     private List<Listener> listeners = new ArrayList<Listener>();
 

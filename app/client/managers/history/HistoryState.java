@@ -429,7 +429,7 @@ public class HistoryState implements Serializable {
     /**
      * Request an up-to-date {@code HistoryStateData}.
      *
-     * @param callback {@code Callback} to be called when ready.
+     * @param callback {@code Callback} called when ready.
      */
     public void getData(final Callback<HistoryStateData, Void> callback) {
         if (data != null) {

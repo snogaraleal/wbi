@@ -32,7 +32,7 @@ import client.managers.Manager;
 import client.services.WBIExplorationService;
 
 /**
- * {@link Manager} in charge of the {@link Country} selection.
+ * {@link Manager} in charge of the current {@link Country} selection.
  *
  * @see Manager
  */
@@ -43,8 +43,7 @@ public class CountryManager implements Manager {
     public static interface View extends Manager.View<CountryManager> {}
 
     /**
-     * Interface for listeners of search results and changes in the current
-     * {@link Country} selection.
+     * Interface for {@link CountryManager} listeners.
      */
     public static interface Listener {
         /**

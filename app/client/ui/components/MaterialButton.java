@@ -36,19 +36,45 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
 
-public class MaterialButton
-    extends Composite implements HasText, HasClickHandlers, ClickHandler {
+/**
+ * Button with enhanced look and feel.
+ */
+public class MaterialButton extends Composite
+    implements HasText, HasClickHandlers, ClickHandler {
 
+    /**
+     * {@link MaterialButton} element class.
+     */
     public static enum Class {
+        /**
+         * Class added to animate the {@code MaterialButton}.
+         */
         ANIMATE("animate"),
+
+        /**
+         * Class added to select the {@code MaterialButton}.
+         */
         SELECTED("selected");
 
+        /**
+         * Class name.
+         */
         private String name;
 
+        /**
+         * Initialize {@code Class}.
+         *
+         * @param name Class name.
+         */
         private Class(String name) {
             this.name = name;
         }
 
+        /**
+         * Get class name.
+         *
+         * @return Class name.
+         */
         public String getName() {
             return name;
         }
@@ -59,23 +85,48 @@ public class MaterialButton
     private static MaterialButtonUiBinder uiBinder =
         GWT.create(MaterialButtonUiBinder.class);
 
+    /**
+     * Main {@code Widget}.
+     */
     @UiField
     public Anchor anchor;
 
+    /**
+     * Button text.
+     */
     @UiField
     public SpanElement label;
 
+    /**
+     * Ink for ripple animation.
+     */
     @UiField
     public SpanElement ink;
 
+    /**
+     * Whether animations are enabled by default.
+     */
     private static final boolean DEFAULT_ANIMATION_ENABLED = false;
+
+    /**
+     * Whether animations are enabled.
+     */
     private boolean animationEnabled;
 
+    /**
+     * Initialize {@code MaterialButton}.
+     */
     public MaterialButton() {
         initWidget(uiBinder.createAndBindUi(this));
         anchor.addClickHandler(this);
     }
 
+    /**
+     * Initialize {@code MaterialButton}.
+     *
+     * @param text Button text.
+     * @param animationEnabled Whether animations are enabled.
+     */
     public MaterialButton(String text, boolean animationEnabled) {
         this();
 
@@ -83,10 +134,20 @@ public class MaterialButton
         setAnimationEnabled(animationEnabled);
     }
 
+    /**
+     * Initialize {@code MaterialButton}.
+     *
+     * @param text Button text.
+     */
     public MaterialButton(String text) {
         this(text, DEFAULT_ANIMATION_ENABLED);
     }
 
+    /**
+     * Set whether animations are enabled.
+     *
+     * @param animationEnabled Whether animations are enabled.
+     */
     public void setAnimationEnabled(boolean animationEnabled) {
         this.animationEnabled = animationEnabled;
     }
@@ -126,6 +187,12 @@ public class MaterialButton
         return label.getInnerText();
     }
 
+    /**
+     * Toggle the specified class.
+     *
+     * @param cls {@link Class} to toggle.
+     * @param toggle Whether to add or remove the class.
+     */
     private void toggleClass(Class cls, boolean toggle) {
         Element anchorElement = anchor.getElement();
         if (toggle) {
@@ -135,6 +202,11 @@ public class MaterialButton
         }
     }
 
+    /**
+     * Set whether the button is selected.
+     *
+     * @param selected Whether the button is selected.
+     */
     public void setSelected(boolean selected) {
         toggleClass(Class.SELECTED, selected);
     }

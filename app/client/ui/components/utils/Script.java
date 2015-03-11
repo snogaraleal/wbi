@@ -30,9 +30,21 @@ import com.google.gwt.core.client.ScriptInjector;
 import client.ClientConf;
 import client.ui.GlobalLoadingIndicator;
 
+/**
+ * Script utilities.
+ */
 public class Script {
+    /**
+     * Set of paths to loaded script files.
+     */
     private static Set<String> loadedScripts = new HashSet<String>();
 
+    /**
+     * Load the specified script.
+     *
+     * @param script Path to script.
+     * @param callback {@code Callback} called when ready.
+     */
     public static void load(
             String script, Callback<Void, Exception> callback) {
 
@@ -49,27 +61,59 @@ public class Script {
         loadedScripts.add(script);
     }
 
+    /**
+     * Script loader.
+     */
     public static class Loader {
+        /**
+         * Status of a {@link Loader}.
+         */
         public static enum Status {
             NEW,
             LOADING,
             READY
         }
 
+        /**
+         * Path to script.
+         */
         private String script;
+
+        /**
+         * Required script.
+         */
         private Loader base;
 
+        /**
+         * Current loader {@link Status}.
+         */
         private Status status = Status.NEW;
 
+        /**
+         * Initialize {@code Loader}.
+         *
+         * @param script Path to script.
+         * @param base Required script.
+         */
         public Loader(String script, Loader base) {
             this.script = script;
             this.base = base;
         }
 
+        /**
+         * Initialize {@code Loader}.
+         *
+         * @param script Path to script.
+         */
         public Loader(String script) {
             this(script, null);
         }
 
+        /**
+         * Load script.
+         *
+         * @param callback {@code Runnable} called when ready.
+         */
         public void load(final Runnable callback) {
             switch (status) {
                 case NEW:
@@ -116,11 +160,19 @@ public class Script {
             }
         }
 
+        /**
+         * Get the current {@link Status} of the loader.
+         *
+         * @return Current status.
+         */
         public Status getStatus() {
             return status;
         }
     }
 
+    /**
+     * Non-conflicting JQuery loader.
+     */
     public static class JQueryLoader extends Loader {
         public static final String SCRIPT =
             ClientConf.asset("js/jquery/jquery-2.1.3.min.js");
@@ -144,5 +196,8 @@ public class Script {
         }
     }
 
+    /**
+     * Global JQuery loader.
+     */
     public static Loader JQUERY = new JQueryLoader();
 }

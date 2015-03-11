@@ -34,7 +34,7 @@ import client.services.WBIExplorationService;
 import client.services.WBIManagementService;
 
 /**
- * {@link Manager} in charge of the {@link Indicator} selection.
+ * {@link Manager} in charge of the current {@link Indicator} selection.
  *
  * @see Manager
  */
@@ -45,8 +45,7 @@ public class IndicatorManager implements Manager {
     public static interface View extends Manager.View<IndicatorManager> {}
 
     /**
-     * Interface for listeners of search results and changes in the current
-     * {@link Indicator} selection.
+     * Interface for {@link IndicatorManager} listeners.
      */
     public static interface Listener {
         /**

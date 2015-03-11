@@ -39,35 +39,88 @@ import com.google.gwt.user.client.ui.Widget;
 
 import client.ClientConf;
 
+/**
+ * List item with enhanced look and feel.
+ */
 public class MaterialItem extends Composite
     implements HasClickHandlers, ClickHandler {
 
+    /**
+     * Icon displayed by a {@link MaterialItem}.
+     */
     public static enum Icon {
+        /**
+         * Download icon.
+         */
         DOWNLOAD(ClientConf.asset("icon/ic_download.svg")),
+
+        /**
+         * Delete icon.
+         */
         DELETE(ClientConf.asset("icon/ic_delete.svg"));
 
+        /**
+         * Icon URL.
+         */
         private String url;
 
+        /**
+         * Initialize icon.
+         *
+         * @param url Icon URL.
+         */
         private Icon(String url) {
             this.url = url;
         }
 
+        /**
+         * Get icon URL.
+         *
+         * @return Icon URL.
+         */
         public String getUrl() {
             return url;
         }
     }
 
+    /**
+     * {@link MaterialItem} element class.
+     */
     public static enum Class {
+        /**
+         * Class added to animate the {@code MaterialItem}.
+         */
         ANIMATE("animate"),
+
+        /**
+         * Class added to highlight the {@code MaterialItem}.
+         */
         ACTIVE("active"),
+
+        /**
+         * Class added to a {@code MaterialItem} to show progress.
+         */
         LOADING("loading");
 
+        /**
+         * Class name.
+         */
         private String name;
 
+        /**
+         * Initialize {@code Class}.
+         *
+         * @param name Class name.
+         */
         private Class(String name) {
             this.name = name;
         }
 
+        /**
+         * Get class name.
+         *
+         * @return Class name.
+         */
         public String getName() {
             return name;
         }
@@ -78,29 +131,61 @@ public class MaterialItem extends Composite
     private static MaterialItemUiBinder uiBinder =
         GWT.create(MaterialItemUiBinder.class);
 
-    @UiField
-    public FlowPanel ink;
-
+    /**
+     * Main {@code Widget}.
+     */
     @UiField
     public FocusPanel panel;
 
+    /**
+     * Ink for ripple animation.
+     */
+    @UiField
+    public FlowPanel ink;
+
+    /**
+     * Item title.
+     */
     @UiField
     public Label title;
 
+    /**
+     * Item subtitle.
+     */
     @UiField
     public Label subtitle;
 
+    /**
+     * Item icon.
+     */
     @UiField
     public Image icon;
 
+    /**
+     * Whether animations are enabled by default.
+     */
     private static boolean DEFAULT_ANIMATION_ENABLED = false;
+
+    /**
+     * Whether animations are enabled.
+     */
     private boolean animationEnabled;
 
+    /**
+     * Initialize {@code MaterialItem}.
+     */
     public MaterialItem() {
         initWidget(uiBinder.createAndBindUi(this));
         panel.addClickHandler(this);
     }
 
+    /**
+     * Initialize {@code MaterialItem}.
+     *
+     * @param titleText Item title.
+     * @param subtitleText Item subtitle.
+     * @param animationEnabled Whether animations are enabled.
+     */
     public MaterialItem(
             String titleText, String subtitleText,
             boolean animationEnabled) {
@@ -112,10 +197,21 @@ public class MaterialItem extends Composite
         setAnimationEnabled(animationEnabled);
     }
 
+    /**
+     * Initialize {@code MaterialItem}.
+     *
+     * @param titleText Item title.
+     * @param subtitleText Item subtitle.
+     */
     public MaterialItem(String titleText, String subtitleText) {
         this(titleText, subtitleText, DEFAULT_ANIMATION_ENABLED);
     }
 
+    /**
+     * Set whether animations are enabled.
+     *
+     * @param animationEnabled Whether animations are enabled.
+     */
     public void setAnimationEnabled(boolean animationEnabled) {
         this.animationEnabled = animationEnabled;
     }
@@ -147,22 +243,48 @@ public class MaterialItem extends Composite
         return panel.addClickHandler(handler);
     }
 
+    /**
+     * Set item title.
+     *
+     * @param text Item title.
+     */
     public void setTitleText(String text) {
         title.setText(text);
     }
 
+    /**
+     * Set item subtitle.
+     *
+     * @param text Item subtitle.
+     */
     public void setSubtitleText(String text) {
         subtitle.setText(text);
     }
 
+    /**
+     * Set item {@link Icon}.
+     *
+     * @param icon Item {@code Icon}.
+     */
     public void setIcon(Icon icon) {
         this.icon.setUrl(icon.getUrl());
     }
 
+    /**
+     * Set whether the icon is visible.
+     *
+     * @param iconVisible Whether the icon is visible.
+     */
     public void setIconVisible(boolean iconVisible) {
         icon.setVisible(iconVisible);
     }
 
+    /**
+     * Toggle the specified class.
+     *
+     * @param cls {@link Class} to toggle.
+     * @param toggle Whether to add or remove the class.
+     */
     private void toggleClass(Class cls, boolean toggle) {
         Element panelElement = panel.getElement();
         if (toggle) {
@@ -172,10 +294,20 @@ public class MaterialItem extends Composite
         }
     }
 
+    /**
+     * Set whether the item is active.
+     *
+     * @param active Whether the item is active.
+     */
     public void setActive(boolean active) {
         toggleClass(Class.ACTIVE, active);
     }
 
+    /**
+     * Set whether the item is loading.
+     *
+     * @param loading Whether the item is loading.
+     */
     public void setLoading(boolean loading) {
         toggleClass(Class.LOADING, loading);
     }

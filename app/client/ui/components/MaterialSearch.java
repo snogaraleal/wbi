@@ -33,24 +33,41 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
-public class MaterialSearch
-    extends Composite implements HasText, HasKeyUpHandlers {
+/**
+ * Search box.
+ */
+public class MaterialSearch extends Composite
+    implements HasText, HasKeyUpHandlers {
 
     public interface MaterialSearchUiBinder
         extends UiBinder<Widget, MaterialSearch> {}
     private static MaterialSearchUiBinder uiBinder =
         GWT.create(MaterialSearchUiBinder.class);
 
+    /**
+     * Search icon.
+     */
     @UiField
     public Image icon;
 
+    /**
+     * Text input.
+     */
     @UiField
     public TextBox text;
 
+    /**
+     * Initialize {@code MaterialSearch}.
+     */
     public MaterialSearch() {
         initWidget(uiBinder.createAndBindUi(this));
     }
 
+    /**
+     * Set the placeholder of the text input.
+     *
+     * @param text Placeholder.
+     */
     public void setPlaceholder(String text) {
         this.text.getElement().setPropertyString("placeholder", text);
     }

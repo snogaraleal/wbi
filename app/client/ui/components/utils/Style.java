@@ -26,9 +26,20 @@ import java.util.Set;
 
 import com.google.gwt.dom.client.StyleInjector;
 
+/**
+ * Style utilities.
+ */
 public class Style {
+    /**
+     * Set of paths to loaded style files.
+     */
     private static Set<String> loadedCss = new HashSet<String>();
 
+    /**
+     * Load the specified style file.
+     *
+     * @param css Path to style file.
+     */
     public static void load(String css) {
         if (loadedCss.contains(css)) {
             return;

@@ -39,28 +39,75 @@ import com.google.gwt.user.client.ui.Widget;
 import client.ClientConf;
 import client.ui.components.utils.Script;
 
+/**
+ * Widget displaying a chart.
+ * http://www.flotcharts.org
+ */
 public class Chart extends Composite {
+    /**
+     * Series of data that can be displayed in a {@link Chart}.
+     */
     public static class Series {
+        /**
+         * Display name of the series.
+         */
         private String label;
+
+        /**
+         * Points to display.
+         */
         private Map<Integer, Double> points;
 
+        /**
+         * Initialize {@code Series}.
+         *
+         * @param label Display name of the series.
+         * @param points Points to display.
+         */
         public Series(String label, Map<Integer, Double> points) {
             this.label = label;
             this.points = points;
         }
 
+        /**
+         * Get display name.
+         *
+         * @return Display name.
+         */
         public String getLabel() {
             return label;
         }
 
+        /**
+         * Get points.
+         *
+         * @return Series points.
+         */
         public Map<Integer, Double> getPoints() {
             return points;
         }
 
+        /**
+         * Name of the JSON key with the points of a {@code Series}.
+         */
         public static final String JS_OBJECT_POINTS = "data";
+
+        /**
+         * Name of the JSON key with the label of a {@code Series}.
+         */
         public static final String JS_OBJECT_LABEL = "label";
+
+        /**
+         * Name of the JSON key with the shadow size of a {@code Series}.
+         */
         public static final String JS_OBJECT_SHADOW_SIZE = "shadowSize";
 
+        /**
+         * Get a {@code JSONObject} with the information in this
+         * {@code Series} following the structure required by the library.
+         *
+         * @return Series {@code JSONObject}.
+         */
         public JSONObject toJSONObject() {
             String label = getLabel();
             Map<Integer, Double> points = getPoints();
@@ -92,26 +139,58 @@ public class Chart extends Composite {
     private static ChartUiBinder uiBinder =
         GWT.create(ChartUiBinder.class);
 
+    /**
+     * Element containing the chart.
+     */
     @UiField
     public DivElement div;
 
+    /**
+     * Library base script.
+     */
     public static final String BASE_SCRIPT =
         ClientConf.asset("js/flot/jquery.flot.min.js");
+
+    /**
+     * {@link Script.Loader} for {@link Chart#BASE_SCRIPT}.
+     */
     public static final Script.Loader BASE_SCRIPT_LOADER =
         new Script.Loader(BASE_SCRIPT, Script.JQUERY);
 
+    /**
+     * Initialize {@code Chart}.
+     */
     public Chart() {
         initWidget(uiBinder.createAndBindUi(this));
     }
 
+    /**
+     * Load the required scripts.
+     *
+     * @param callback {@code Runnable} called when ready.
+     */
     private void load(Runnable callback) {
         BASE_SCRIPT_LOADER.load(callback);
     }
 
+    /**
+     * Get a {@code JavaScriptObject} with the information from a
+     * {@code Series} as required by the library.
+     *
+     * @param series {@code Series} object.
+     * @return {@code JavaScriptObject} as required by the library.
+     */
     private JavaScriptObject seriesToJSObject(Series series) {
         return series.toJSONObject().getJavaScriptObject();
     }
 
+    /**
+     * Get a {@code JavaScriptObject} with the information from a collection
+     * of {@code Series} as required by the library.
+     *
+     * @param seriesCollection Collection of {@code Series}.
+     * @return {@code JavaScriptObject} as required by the library.
+     */
     private JavaScriptObject seriesListToJSObject(
             Collection<Series> seriesCollection) {
 
@@ -130,6 +209,11 @@ public class Chart extends Composite {
         return dataArray.getJavaScriptObject();
     }
 
+    /**
+     * Display a collection of {@link Series}.
+     *
+     * @param seriesCollection Collection of {@code Series}.
+     */
     public void setSeries(final Collection<Series> seriesCollection) {
         load(new Runnable() {
             @Override
@@ -139,6 +223,13 @@ public class Chart extends Composite {
         });
     }
 
+    /**
+     * Plot the series information from the specified
+     * {@code JavaScriptObject}.
+     *
+     * @param data Series information as required by the library.
+     * @see Chart#seriesListToJSObject
+     */
     private native void setSeries(JavaScriptObject data) /*-{
         (function (that, $) {
             var div = $(that.@client.ui.components.Chart::div);

@@ -36,28 +36,64 @@ import com.google.gwt.user.client.ui.Widget;
 import client.ClientConf;
 import client.ui.components.utils.Script;
 
+/**
+ * Widget displaying a map.
+ * http://jvectormap.com
+ */
 public class VectorMap extends Composite {
+    /**
+     * Map displayed by a {@link VectorMap}.
+     */
     public static enum Visual {
+        /**
+         * Map of Europe.
+         */
         EUROPE(
             "europe_mill_en",
             ClientConf.asset("js/jvectormap/jvectormap-europe-mill-en.js")),
 
+        /**
+         * Map of the World.
+         */
         WORLD(
             "world_mill_en",
             ClientConf.asset("js/jvectormap/jvectormap-world-mill-en.js"));
 
+        /**
+         * Map identifier.
+         */
         private String name;
+
+        /**
+         * Map script.
+         */
         private String script;
 
+        /**
+         * Initialize {@code Visual}.
+         *
+         * @param name Map identifier.
+         * @param script Map script.
+         */
         private Visual(String name, String script) {
             this.name = name;
             this.script = script;
         }
 
+        /**
+         * Get map identifier.
+         *
+         * @return Map identifier.
+         */
         public String getName() {
             return name;
         }
 
+        /**
+         * Get map script.
+         *
+         * @return Map script.
+         */
         public String getScript() {
             return script;
         }
@@ -67,33 +103,72 @@ public class VectorMap extends Composite {
     private static VectorMapUiBinder uiBinder =
         GWT.create(VectorMapUiBinder.class);
 
+    /**
+     * Element containing the map.
+     */
     @UiField
     public DivElement div;
 
+    /**
+     * Library base script.
+     */
     public static final String BASE_SCRIPT =
         ClientConf.asset("js/jvectormap/jvectormap-2.0.1.min.js");
+
+    /**
+     * {@link Script.Loader} for {@link VectorMap#BASE_SCRIPT}.
+     */
     public static final Script.Loader BASE_SCRIPT_LOADER =
         new Script.Loader(BASE_SCRIPT, Script.JQUERY);
 
+    /**
+     * Map displayed.
+     */
     private Visual visual;
+
+    /**
+     * {@link Script.Loader} for the current {@link Visual}.
+     */
     private Script.Loader visualScriptLoader;
+
+    /**
+     * Whether the current {@code Visual} is loaded.
+     */
     private boolean visualLoaded = false;
 
+    /**
+     * Initialize {@code VectorMap}.
+     */
     public VectorMap() {
         initWidget(uiBinder.createAndBindUi(this));
     }
 
+    /**
+     * Initialize {@code VectorMap}.
+     *
+     * @param visual {@link Visual} that specifies the map to display.
+     */
     public VectorMap(Visual visual) {
         this();
         setVisual(visual);
     }
 
+    /**
+     * Set the {@link Visual} that specifies the map to display.
+     *
+     * @param visual Map to display.
+     */
     public void setVisual(Visual visual) {
         this.visual = visual;
         visualScriptLoader = new Script.Loader(
             visual.getScript(), BASE_SCRIPT_LOADER);
     }
 
+    /**
+     * Load the required scripts.
+     *
+     * @param callback {@code Runnable} called when ready.
+     */
     private void loadVisual(final Runnable callback) {
         visualScriptLoader.load(new Runnable() {
             @Override
@@ -108,6 +183,11 @@ public class VectorMap extends Composite {
         });
     }
 
+    /**
+     * Initialize map graphics.
+     *
+     * @param visualName Map identifier from a loaded {@link Visual}.
+     */
     private native void loadVisual(String visualName) /*-{
         (function (that, $, jvm) {
             var div = $(that.@client.ui.components.VectorMap::div);
@@ -147,6 +227,13 @@ public class VectorMap extends Composite {
         })(this, $wnd.jQuery, $wnd.jvm);
     }-*/;
 
+    /**
+     * Get a {@code JavaScriptObject} containing map information as
+     * required by the library.
+     *
+     * @param data {@code Map} of ISO codes and values.
+     * @return {@code JavaScriptObject} as required by the library.
+     */
     private JavaScriptObject dataToJSObject(Map<String, Double> data) {
         if (data == null) {
             return null;
@@ -161,6 +248,11 @@ public class VectorMap extends Composite {
         return dataObject.getJavaScriptObject();
     }
 
+    /**
+     * Set data displayed by the map.
+     *
+     * @param data {@code Map} of ISO codes and values.
+     */
     public void setData(final Map<String, Double> data) {
         loadVisual(new Runnable() {
             @Override
@@ -170,6 +262,12 @@ public class VectorMap extends Composite {
         });
     }
 
+    /**
+     * Display the specified data.
+     *
+     * @param data Map information as required by the library.
+     * @see VectorMap#dataToJSObject
+     */
     private native void setData(JavaScriptObject data) /*-{
         (function (that, $, jvm) {
             var div = $(that.@client.ui.components.VectorMap::div);

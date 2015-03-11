@@ -27,7 +27,8 @@ import java.util.List;
 import client.managers.Manager;
 
 /**
- * {@link Manager} in charge of the {@link IntervalManager.Option} selection.
+ * {@link Manager} in charge of the current {@link IntervalManager.Option}
+ * selection.
  *
  * @see Manager
  */
@@ -119,8 +120,7 @@ public class IntervalManager implements Manager {
     }
 
     /**
-     * Interface for listeners of changes in the current
-     * {@link IntervalManager.Option} selection.
+     * Interface for {@link IntervalManager} listeners.
      */
     public static interface Listener {
         /**

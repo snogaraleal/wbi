@@ -31,12 +31,11 @@ import com.google.gwt.user.client.History;
 import client.managers.Manager;
 
 /**
- * {@link Manager} in charge of keeping track of the current
- * {@link HistoryState}.
+ * {@link Manager} that keeps track of the current {@link HistoryState}.
  */
 public class HistoryManager implements Manager, ValueChangeHandler<String> {
     /**
-     * Interface for {@code HistoryManager} listeners.
+     * Interface for {@link HistoryManager} listeners.
      */
     public static interface Listener {
         /**
