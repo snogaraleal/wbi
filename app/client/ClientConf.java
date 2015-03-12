@@ -32,76 +32,249 @@ import rpc.shared.data.Serializer;
 import rpc.shared.data.SerializerException;
 import rpc.shared.data.Type;
 
+/**
+ * Global configuration provider.
+ */
 public class ClientConf {
-    public static String HEAD_ATTR = "data-conf";
+    /**
+     * Setting specified by the server.
+     */
+    public static enum Setting {
+        /**
+         * Application start page.
+         */
+        INDEX_URL("index"),
 
-    public static class Setting {
-        public static String INDEX_URL = "index";
-        public static String ASSETS_URL = "assets";
+        /**
+         * Static assets URL.
+         */
+        ASSETS_URL("assets"),
 
-        public static String RPC_SERVICE_HTTP_URL = "http";
-        public static String RPC_SERVICE_WS_URL = "ws";
+        /**
+         * RPC HTTP dispatcher URL.
+         */
+        RPC_SERVICE_HTTP_URL("http"),
+
+        /**
+         * RPC WebSocket dispatcher URL.
+         */
+        RPC_SERVICE_WS_URL("ws");
+
+        /**
+         * Setting name.
+         */
+        private String name;
+
+        /**
+         * Initialize {@code Setting}.
+         *
+         * @param name Setting name.
+         */
+        private Setting(String name) {
+            this.name = name;
+        }
+
+        /**
+         * Get setting name.
+         *
+         * @return Setting name.
+         */
+        public String getName() {
+            return name;
+        }
     }
 
+    /**
+     * Group of settings.
+     */
+    public static class Configuration {
+        private Map<Setting, Object> data;
+
+        /**
+         * Initialize {@code Configuration}.
+         */
+        public Configuration() {
+            this.data = new HashMap<Setting, Object>();
+        }
+
+        /**
+         * Initialize {@code Configuration} with initial data.
+         * 
+         * @param data Initial data.
+         */
+        private Configuration(Map<Setting, Object> data) {
+            this.data = data;
+        }
+
+        /**
+         * Set setting value.
+         *
+         * @param setting Setting to set value to.
+         * @param value Setting value.
+         */
+        public void set(Setting setting, Object value) {
+            data.put(setting, value);
+        }
+
+        /**
+         * Get setting value.
+         *
+         * @param setting Setting to get value from.
+         * @return Setting value.
+         */
+        public Object get(Setting setting) {
+            return data.get(setting);
+        }
+
+        /**
+         * Serialize configuration.
+         *
+         * @param serializer {@code Serializer} used to deserialize.
+         * @return Serialized configuration.
+         * @throws SerializerException
+         */
+        public String serialize(Serializer serializer)
+                throws SerializerException {
+
+            return serializer.serialize(data);
+        }
+
+        /**
+         * Deserialize configuration.
+         *
+         * @param serializer {@code Serializer} used to serialize.
+         * @param payload Serialized payload.
+         * @return Deserialized {@code Configuration}.
+         */
+        @SuppressWarnings("unchecked")
+        public static Configuration deserialize(
+                Serializer serializer, String payload)
+                        throws SerializerException {
+
+            Type type = Type.get(
+                HashMap.class,
+                Type.get(Setting.class),
+                Type.get(Object.class));
+
+            Map<Setting, Object> data = (HashMap<Setting, Object>)
+                defaultSerializer.deserialize(payload, type);
+
+            return new Configuration(data);
+        }
+    }
+
+    /**
+     * Global RPC serializer.
+     */
     public static Serializer defaultSerializer =
         new JSONSerializer(GlobalSerializableFactoryProvider.get());
 
-    @SuppressWarnings("unchecked")
-    private static Map<String, Object> loadClientConf() {
-        Map<String, Object> clientConf;
+    /**
+     * Attribute in {@code <head>} containing serialized configuration.
+     */
+    public static String HEAD_ATTR = "data-conf";
 
-        String json = Document.get().getHead().getAttribute(HEAD_ATTR);
+    /**
+     * Load client configuration from {@code <head>}.
+     *
+     * @return Deserialized settings.
+     */
+    private static Configuration loadConfiguration() {
+        Configuration configuration;
+
+        String payload = Document.get().getHead().getAttribute(HEAD_ATTR);
 
         try {
-            Type type = Type.get(
-                HashMap.class,
-                Type.get(String.class),
-                Type.get(Object.class));
-
-            clientConf = (HashMap<String, Object>)
-                defaultSerializer.deserialize(json, type);
-
-        } catch (SerializerException exception) {
-            clientConf = new HashMap<String, Object>();
+            configuration = Configuration.deserialize(
+                defaultSerializer, payload);
+        } catch (SerializerException e) {
+            configuration = new Configuration();
         }
 
-        return clientConf;
+        return configuration;
     }
 
-    private static Map<String, Object> clientConf;
+    /*
+     * Configuration lazy loading.
+     */
 
-    private static Map<String, Object> getClientConf() {
-        if (clientConf == null) {
-            clientConf = loadClientConf();
+    private static Configuration configuration;
+
+    private static Configuration getConfiguration() {
+        if (configuration == null) {
+            configuration = loadConfiguration();
         }
 
-        return clientConf;
+        return configuration;
     }
 
-    public static String getString(String name) {
-        return (String) getClientConf().get(name);
+    private static Object getSetting(Setting setting) {
+        return getConfiguration().get(setting);
     }
 
-    public static boolean getBoolean(String name) {
-        return (Boolean) getClientConf().get(name);
+    /**
+     * Get {@code String} setting.
+     *
+     * @param setting {@link Setting} to get.
+     * @return Setting value.
+     */
+    public static String getString(Setting setting) {
+        return (String) getSetting(setting);
     }
 
-    public static int getInteger(String name) {
-        return (Integer) getClientConf().get(name);
+    /**
+     * Get {@code Boolean} setting.
+     *
+     * @param setting {@link Setting} to get.
+     * @return Setting value.
+     */
+    public static boolean getBoolean(Setting setting) {
+        return (Boolean) getSetting(setting);
     }
 
-    public static double getFloat(String name) {
-        return (Float) getClientConf().get(name);
+    /**
+     * Get {@code Integer} setting.
+     *
+     * @param setting {@link Setting} to get.
+     * @return Setting value.
+     */
+    public static int getInteger(Setting setting) {
+        return (Integer) getSetting(setting);
     }
 
-    public static double getDouble(String name) {
-        return (Double) getClientConf().get(name);
+    /**
+     * Get {@code Float} setting.
+     *
+     * @param setting {@link Setting} to get.
+     * @return Setting value.
+     */
+    public static double getFloat(Setting setting) {
+        return (Float) getSetting(setting);
     }
 
-    public static String asset(String url) {
-        return getString(Setting.ASSETS_URL) + url;
+    /**
+     * Get {@code Double} setting.
+     *
+     * @param setting {@link Setting} to get.
+     * @return Setting value.
+     */
+    public static double getDouble(Setting setting) {
+        return (Double) getSetting(setting);
     }
 
+    /**
+     * Get full asset URL.
+     *
+     * @param path Asset path.
+     * @return Full asset URL.
+     */
+    public static String asset(String path) {
+        return getString(Setting.ASSETS_URL) + path;
+    }
+
+    /**
+     * Configure RPC {@link Client}.
+     */
     public static void configureRPC() {
         Client.setConfiguration(
             new Client.Configuration(

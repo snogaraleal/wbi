@@ -21,9 +21,6 @@
 
 package controllers;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import play.mvc.Http.Request;
 
 import rpc.server.GlobalHandler;
@@ -42,36 +39,36 @@ public class ServerConf {
         GlobalHandler.setDefaultInvoker(new Invoker(defaultSerializer));
     }
 
-    private static Map<String, Object> loadClientConf(Request request) {
-        Map<String, Object> clientConf = new HashMap<String, Object>();
+    private static ClientConf.Configuration loadConfiguration(Request request) {
+        ClientConf.Configuration configuration = new ClientConf.Configuration();
 
-        clientConf.put(
+        configuration.set(
             ClientConf.Setting.INDEX_URL,
             routes.Application.index().url());
 
-        clientConf.put(
+        configuration.set(
             ClientConf.Setting.ASSETS_URL,
             controllers.routes.Assets.at("").url());
 
-        clientConf.put(
+        configuration.set(
             ClientConf.Setting.RPC_SERVICE_HTTP_URL,
             controllers.rpc.routes.HTTPController.call().url());
 
-        clientConf.put(
+        configuration.set(
             ClientConf.Setting.RPC_SERVICE_WS_URL,
             controllers.rpc.routes.WebSocketController.socket().webSocketURL(
                 request));
 
-        return clientConf;
+        return configuration;
     }
 
-    private static Map<String, Object> clientConf;
+    private static ClientConf.Configuration configuration;
 
-    public static Map<String, Object> getClientConf(Request request) {
-        if (clientConf == null) {
-            clientConf = loadClientConf(request);
+    public static ClientConf.Configuration getConfiguration(Request request) {
+        if (configuration == null) {
+            configuration = loadConfiguration(request);
         }
 
-        return clientConf;
+        return configuration;
     }
 }

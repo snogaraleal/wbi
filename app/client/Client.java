@@ -26,6 +26,9 @@ import com.google.gwt.user.client.ui.RootPanel;
 
 import client.dashboard.Dashboard;
 
+/**
+ * Application {@code EntryPoint}.
+ */
 public class Client implements EntryPoint {
     @Override
     public void onModuleLoad() {

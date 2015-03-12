@@ -35,10 +35,11 @@ public class Application extends Controller {
 
     private static String getClientHead() throws SerializerException {
         if (clientHead == null) {
-            String clientConfJSON = ServerConf.defaultSerializer.serialize(
-                ServerConf.getClientConf(request()));
+            String clientConfPayload =
+                ServerConf.getConfiguration(request()).serialize(
+                    ServerConf.defaultSerializer);
             clientHead = ClientConf.HEAD_ATTR + "=" +
-                "'" + clientConfJSON + "'";
+                "'" + clientConfPayload + "'";
         }
 
         return clientHead;

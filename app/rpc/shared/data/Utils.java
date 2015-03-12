@@ -148,8 +148,11 @@ public class Utils {
             if (map.isEmpty()) {
                 return map;
             } else {
-                if (isString(map.keySet().iterator().next()) != null &&
-                        isSerializableValue(map.values().iterator().next())) {
+                Object mapKey = map.keySet().iterator().next();
+                Object mapValue = map.values().iterator().next();
+
+                if ((isString(mapKey) != null || isEnum(mapKey) != null) &&
+                        isSerializableValue(mapValue)) {
                     return map;
                 }
             }
