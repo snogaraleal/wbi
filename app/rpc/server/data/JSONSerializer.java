@@ -133,10 +133,22 @@ public class JSONSerializer implements Serializer {
             for (Map.Entry<Object, Object> entry :
                     asSerializableMap.entrySet()) {
 
-                String key = (String) entry.getKey();
-                Object value = entry.getValue();
+                Object keyObject = entry.getKey();
+                Object valueObject = entry.getValue();
 
-                jsonObject.add(key, toJsonElement(value));
+                String key = null;
+
+                String keyAsString = Utils.isString(keyObject);
+                if (keyAsString != null) {
+                    key = keyAsString;
+                }
+
+                Enum keyAsEnum = Utils.isEnum(keyObject);
+                if (keyAsEnum != null) {
+                    key = keyAsEnum.toString();
+                }
+
+                jsonObject.add(key, toJsonElement(valueObject));
             }
 
             return jsonObject;
@@ -225,20 +237,32 @@ public class JSONSerializer implements Serializer {
             JsonObject asJsonObject = jsonElement.getAsJsonObject();
 
             if (expected.isMap()) {
-                Map<String, Object> map = new HashMap<String, Object>();
+                Map<Object, Object> map = new HashMap<Object, Object>();
 
                 Type keyType = expected.getParameterized(0);
                 Type valueType = expected.getParameterized(1);
 
-                if (!keyType.isString()) {
+                if (!(keyType.isString() || keyType.isEnum())) {
                     return null;
                 }
 
                 for (Map.Entry<String, JsonElement> entry :
                         asJsonObject.entrySet()) {
 
+                    String key = entry.getKey();
                     JsonElement value = entry.getValue();
-                    map.put(entry.getKey(), fromJsonElement(value, valueType));
+
+                    if (keyType.isString()) {
+                        map.put(
+                            entry.getKey(),
+                            fromJsonElement(value, valueType));
+                    }
+
+                    if (keyType.isEnum()) {
+                        map.put(
+                            Enum.valueOf((Class) keyType.getTypeClass(), key),
+                            fromJsonElement(value, valueType));
+                    }
                 }
 
                 return map;

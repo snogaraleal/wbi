@@ -137,10 +137,22 @@ public class JSONSerializer implements Serializer {
             for (Map.Entry<Object, Object> entry :
                     asSerializableMap.entrySet()) {
 
-                String key = (String) entry.getKey();
-                Object value = entry.getValue();
+                Object keyObject = entry.getKey();
+                Object valueObject = entry.getValue();
 
-                jsonObject.put(key, toJSONValue(value));
+                String key = null;
+
+                String keyAsString = Utils.isString(keyObject);
+                if (keyAsString != null) {
+                    key = keyAsString;
+                }
+
+                Enum keyAsEnum = Utils.isEnum(keyObject);
+                if (keyAsEnum != null) {
+                    key = keyAsEnum.toString();
+                }
+
+                jsonObject.put(key, toJSONValue(valueObject));
             }
 
             return jsonObject;
@@ -228,18 +240,27 @@ public class JSONSerializer implements Serializer {
         JSONObject asObject = jsonValue.isObject();
         if (asObject != null) {
             if (expected.isMap()) {
-                Map<String, Object> map = new HashMap<String, Object>();
+                Map<Object, Object> map = new HashMap<Object, Object>();
 
                 Type keyType = expected.getParameterized(0);
                 Type valueType = expected.getParameterized(1);
 
-                if (!keyType.isString()) {
+                if (!(keyType.isString() || keyType.isEnum())) {
                     return null;
                 }
 
                 for (String key : asObject.keySet()) {
                     JSONValue value = asObject.get(key);
-                    map.put(key, fromJSONValue(value, valueType));
+
+                    if (keyType.isString()) {
+                        map.put(key, fromJSONValue(value, valueType));
+                    }
+
+                    if (keyType.isEnum()) {
+                        map.put(
+                            Enum.valueOf((Class) keyType.getTypeClass(), key),
+                            fromJSONValue(value, valueType));
+                    }
                 }
 
                 return map;
