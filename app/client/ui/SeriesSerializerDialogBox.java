@@ -31,20 +31,51 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import client.managers.models.SeriesManager;
 import client.ui.components.MaterialButton;
 
+/**
+ * {@code DialogBox} displaying content provided by a
+ * {@link SeriesManager.Serializer}.
+ */
 public class SeriesSerializerDialogBox extends DialogBox {
+    /**
+     * Width of text area in characters.
+     */
     private static final int TEXT_AREA_WIDTH = 80;
+
+    /**
+     * Height of text area in lines.
+     */
     private static final int TEXT_AREA_HEIGHT = 24;
 
+    /**
+     * {@code TextArea} displaying serialized contents.
+     */
     private TextArea textArea = new TextArea();
 
+    /**
+     * Select all button.
+     */
     private MaterialButton selectAllButton =
         new MaterialButton("Select all", true);
+
+    /**
+     * Close button.
+     */
     private MaterialButton closeButton =
         new MaterialButton("Close", true);
 
+    /**
+     * {@code HorizontalPanel} containing buttons.
+     */
     private HorizontalPanel buttonsPanel = new HorizontalPanel();
+
+    /**
+     * {@code VerticalPanel} containing this {@code DialogBox} contents.
+     */
     private VerticalPanel mainPanel = new VerticalPanel();
 
+    /**
+     * Initialize {@code SeriesSerializerDialogBox}.
+     */
     public SeriesSerializerDialogBox() {
         super();
 
@@ -79,20 +110,45 @@ public class SeriesSerializerDialogBox extends DialogBox {
         });
     }
 
+    /**
+     * Show dialog with fade in animation.
+     */
     @Override
     public void center() {
         getElement().addClassName("fadein");
         super.center();
     }
 
+    /**
+     * Set the content of the displayed text area.
+     *
+     * @param content Text area content.
+     */
     public void setContent(String content) {
         textArea.setText(content);
     }
 
+    /**
+     * {@code ClickHandler} implementation for showing a
+     * {@link SeriesSerializerDialogBox}.
+     */
     public static class OpenClickHandler implements ClickHandler {
+        /**
+         * {@code SeriesManager} to get series data from.
+         */
         private SeriesManager manager;
+
+        /**
+         * {@code SeriesManager.Serializer} used to serialize series data.
+         */
         private SeriesManager.Serializer serializer;
 
+        /**
+         * Initialize {@code OpenClickHandler}.
+         *
+         * @param manager {@code SeriesManager} to get series data from.
+         * @param serializer {@code SeriesManager.Serializer} for serialization.
+         */
         public OpenClickHandler(
                 SeriesManager manager,
                 SeriesManager.Serializer serializer) {

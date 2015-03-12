@@ -23,27 +23,49 @@ package client.ui;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 
+/**
+ * Loading indicator that is always visible.
+ */
 public class GlobalLoadingIndicator extends FlowPanel {
+    /**
+     * Class name with loading style.
+     */
     public static final String CLASS_NAME_SPINNER = "spinner";
 
+    /**
+     * Initialize {@code GlobalLoadingIndicator}.
+     */
     private GlobalLoadingIndicator() {
         super();
         getElement().addClassName(CLASS_NAME_SPINNER);
         setVisible(false);
     }
 
+    /**
+     * Number of loading items.
+     */
     private static int count = 0;
 
+    /**
+     * Update indicator visibility according to the current number of
+     * loading items.
+     */
     private static void updateVisibility() {
         GlobalLoadingIndicator indicator = get();
         indicator.setVisible(count > 0);
     }
 
+    /**
+     * Start loading an item.
+     */
     public static void start() {
         count++;
         updateVisibility();
     }
 
+    /**
+     * Finish loading an item.
+     */
     public static void finish() {
         count--;
         updateVisibility();
