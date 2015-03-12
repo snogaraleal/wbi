@@ -282,7 +282,7 @@ public class Dashboard extends Composite {
     }
 
     /**
-     * Class name added to the {@code overlay} when scrollbars are enabled in
+     * Class name added to {@code overlay} when scrollbars are enabled in
      * the series tab panel.
      */
     private static final String CLASS_NAME_OVERLAY_SCROLL = "overlay-scroll";

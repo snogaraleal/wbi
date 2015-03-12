@@ -37,20 +37,34 @@ import models.Series;
 import client.managers.models.SeriesManager;
 import client.ui.components.VectorMap;
 
+/**
+ * {@link SeriesView} displaying a {@link VectorMap}.
+ */
 public class MapSeriesView extends SeriesView {
     public interface MapSeriesViewUiBinder
         extends UiBinder<Widget, MapSeriesView> {}
     private static MapSeriesViewUiBinder uiBinder =
         GWT.create(MapSeriesViewUiBinder.class);
 
+    /**
+     * {@code VectorMap} displaying series data.
+     */
     @UiField
     public VectorMap vectorMap;
 
+    /**
+     * Initialize {@code MapSeriesView}.
+     */
     public MapSeriesView() {
         super();
         initWidget(uiBinder.createAndBindUi(this));
     }
 
+    /**
+     * Initialize {@code MapSeriesView} with {@link VectorMap.Visual}.
+     *
+     * @param visual Map to display.
+     */
     public MapSeriesView(VectorMap.Visual visual) {
         this();
         vectorMap.setVisual(visual);

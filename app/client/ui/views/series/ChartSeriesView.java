@@ -38,21 +38,40 @@ import models.Series;
 import client.managers.models.SeriesManager;
 import client.ui.components.Chart;
 
+/**
+ * {@link SeriesView} displaying a {@link Chart}.
+ */
 public class ChartSeriesView extends SeriesView {
     public interface ChartSeriesViewUiBinder
         extends UiBinder<Widget, ChartSeriesView> {}
     private static ChartSeriesViewUiBinder uiBinder =
         GWT.create(ChartSeriesViewUiBinder.class);
 
+    /**
+     * {@code Chart.Series} by {@code SeriesManager.Row}.
+     */
     private Map<SeriesManager.Row, Chart.Series> map =
         new HashMap<SeriesManager.Row, Chart.Series>();
 
+    /**
+     * {@code Chart} displaying series data.
+     */
     @UiField
     public Chart chart;
 
+    /**
+     * Time required after data changes to redraw the chart.
+     */
     private static final int REDRAW_DELAY = 20;
+
+    /**
+     * Timer for redrawing the chart.
+     */
     private Timer redrawTimer;
 
+    /**
+     * Initialize {@code ChartSeriesView}.
+     */
     public ChartSeriesView() {
         super();
         initWidget(uiBinder.createAndBindUi(this));
@@ -65,6 +84,9 @@ public class ChartSeriesView extends SeriesView {
         };
     }
 
+    /**
+     * Schedule a redraw.
+     */
     private void scheduleRedraw() {
         redrawTimer.cancel();
         redrawTimer.schedule(REDRAW_DELAY);

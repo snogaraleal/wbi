@@ -44,16 +44,32 @@ import models.Country;
 
 import client.managers.models.SeriesManager;
 
+/**
+ * {@link SeriesView} displaying a {@code CellTable}.
+ */
 public class TableSeriesView extends SeriesView
     implements ColumnSortEvent.Handler {
 
+    /**
+     * {@code TextColumn} displaying the name of a country.
+     */
     public static class CountryNameColumn
             extends TextColumn<SeriesManager.Row> {
 
-        public static String HEADER = "Country";
-        public static String NONE = "Unknown";
+        /**
+         * Column header.
+         */
+        public static final String HEADER = "Country";
 
-        public CountryNameColumn() {
+        /**
+         * Text displayed when no value is specified.
+         */
+        public static final String NONE = "Unknown";
+
+        /**
+         * Initialize {@code CountryNameColumn}.
+         */
+        private CountryNameColumn() {
             super();
             setSortable(true);
             setDefaultSortAscending(true);
@@ -69,6 +85,10 @@ public class TableSeriesView extends SeriesView
             }
         }
 
+        /*
+         * Singleton
+         */
+
         private static CountryNameColumn column;
 
         public static CountryNameColumn get() {
@@ -79,18 +99,41 @@ public class TableSeriesView extends SeriesView
         }
     }
 
+    /**
+     * {@code TextColumn} displaying the value of a point in a specific year.
+     */
     public static class YearColumn extends TextColumn<SeriesManager.Row> {
+        /**
+         * Text displayed when no value is specified.
+         */
         private static final String NONE = "";
+
+        /**
+         * Resolution of {@code Point} values.
+         */
         private static final Double RES = 10.0;
 
+        /**
+         * Year displayed.
+         */
         private int year;
 
-        public YearColumn(int year) {
+        /**
+         * Initialize {@code YearColumn}.
+         *
+         * @param year Year to display.
+         */
+        private YearColumn(int year) {
             super();
             this.year = year;
             setSortable(true);
         }
 
+        /**
+         * Get year displayed.
+         *
+         * @return Year displayed.
+         */
         public int getYear() {
             return year;
         }
@@ -105,9 +148,19 @@ public class TableSeriesView extends SeriesView
             }
         }
 
+        /*
+         * Unique instances
+         */
+
         private static Map<Integer, YearColumn> columns =
             new HashMap<Integer, YearColumn>();
 
+        /**
+         * Get a {@code YearColumn} for the specified year.
+         *
+         * @param year Year to display.
+         * @return {@code YearColumn} instance.
+         */
         public static YearColumn get(int year) {
             YearColumn column = columns.get(year);
             if (column == null) {
@@ -118,11 +171,22 @@ public class TableSeriesView extends SeriesView
         }
     }
 
+    /**
+     * {@code CellTable} displaying {@link SeriesManager.Row} objects.
+     */
     public static class Table extends CellTable<SeriesManager.Row> {
+        /**
+         * Initialize {@code Table}.
+         */
         public Table() {
             super();
         }
 
+        /**
+         * Initialize {@code Table} with a specific page size.
+         *
+         * @param pageSize Page size.
+         */
         public Table(int pageSize) {
             super(pageSize);
         }
@@ -133,17 +197,36 @@ public class TableSeriesView extends SeriesView
     private static TableSeriesViewUiBinder uiBinder =
         GWT.create(TableSeriesViewUiBinder.class);
 
+    /**
+     * Table container.
+     */
     @UiField
     public FlowPanel container;
 
+    /**
+     * {@code Table} displaying series data.
+     */
     private Table table;
+
+    /**
+     * {@code SelectionModel} for table.
+     */
     private SelectionModel<SeriesManager.Row> selectionModel;
 
+    /**
+     * Initialize {@code TableSeriesView}.
+     */
     public TableSeriesView() {
         super();
         initWidget(uiBinder.createAndBindUi(this));
     }
 
+    /**
+     * Update list of sorted columns.
+     *
+     * @param columnSortList Table {@code ColumnSortList}.
+     * @param ordering Ordering criteria.
+     */
     private void updateColumnSortList(
             ColumnSortList columnSortList,
             SeriesManager.Ordering ordering) {

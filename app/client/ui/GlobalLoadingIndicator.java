@@ -32,16 +32,6 @@ public class GlobalLoadingIndicator extends FlowPanel {
         setVisible(false);
     }
 
-    private static GlobalLoadingIndicator indicator;
-
-    public static GlobalLoadingIndicator get() {
-        if (indicator == null) {
-            indicator = new GlobalLoadingIndicator();
-        }
-
-        return indicator;
-    }
-
     private static int count = 0;
 
     private static void updateVisibility() {
@@ -57,5 +47,19 @@ public class GlobalLoadingIndicator extends FlowPanel {
     public static void finish() {
         count--;
         updateVisibility();
+    }
+
+    /*
+     * Singleton
+     */
+
+    private static GlobalLoadingIndicator indicator;
+
+    public static GlobalLoadingIndicator get() {
+        if (indicator == null) {
+            indicator = new GlobalLoadingIndicator();
+        }
+
+        return indicator;
     }
 }

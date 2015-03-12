@@ -111,6 +111,10 @@ public class GlobalSerializableFactoryProvider
             });
     }
 
+    /*
+     * Singleton
+     */
+
     private static GlobalSerializableFactoryProvider provider = null;
 
     public static GlobalSerializableFactoryProvider get() {

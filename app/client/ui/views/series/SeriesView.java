@@ -31,13 +31,21 @@ import com.google.gwt.user.client.ui.Widget;
 
 import client.managers.models.SeriesManager;
 
+/**
+ * Base view implementing {@link SeriesManager.View}.
+ */
 public abstract class SeriesView extends Composite
     implements SeriesManager.View, SeriesManager.Listener {
 
+    /**
+     * {@code SeriesManager} this view is currently attached to.
+     */
     protected SeriesManager manager;
 
-    public SeriesView() {
-    }
+    /**
+     * Initialize {@code SeriesView}.
+     */
+    public SeriesView() {}
 
     @Override
     public void onUpdate(
@@ -71,9 +79,26 @@ public abstract class SeriesView extends Composite
         return this;
     }
 
+    @Override
+    public SeriesManager getCurrentManager() {
+        return manager;
+    }
+
+    /**
+     * Class name added to this widget when scrollbars are enabled.
+     */
     private static final String CLASS_NAME_SCROLL = "series-scroll";
+
+    /**
+     * Delay before enabling scrollbars.
+     */
     private static final int SCROLL_DELAY = 300;
 
+    /**
+     * Set whether scrollbars are enabled.
+     *
+     * @param enabled Whether scrollbars are enabled.
+     */
     public void setScrollEnabled(final boolean enabled) {
         final Element element = (Element) getElement().getFirstChild();
         boolean scrollEnabled = element.hasClassName(CLASS_NAME_SCROLL);
@@ -90,10 +115,5 @@ public abstract class SeriesView extends Composite
                 element.removeClassName(CLASS_NAME_SCROLL);
             }
         }
-    }
-
-    @Override
-    public SeriesManager getCurrentManager() {
-        return manager;
     }
 }
