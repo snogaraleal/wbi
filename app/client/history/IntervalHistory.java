@@ -49,6 +49,8 @@ public class IntervalHistory extends HistoryManager.BaseHistory
 
         this.manager = manager;
         this.manager.addListener(this);
+
+        HistoryManager.get().addListener(this);
     }
 
     /**
@@ -59,6 +61,8 @@ public class IntervalHistory extends HistoryManager.BaseHistory
 
         this.manager.removeListener(this);
         this.manager = null;
+
+        HistoryManager.get().removeListener(this);
     }
 
     /**

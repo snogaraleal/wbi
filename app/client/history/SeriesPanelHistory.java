@@ -62,6 +62,8 @@ public class SeriesPanelHistory extends HistoryManager.BaseHistory
         this.coordinator = coordinator;
         this.handlerRegistration =
             coordinator.getPanel().addSelectionHandler(this);
+
+        HistoryManager.get().addListener(this);
     }
 
     /**
@@ -72,6 +74,8 @@ public class SeriesPanelHistory extends HistoryManager.BaseHistory
 
         this.handlerRegistration.removeHandler();
         this.coordinator = null;
+
+        HistoryManager.get().removeListener(this);
     }
 
     /**

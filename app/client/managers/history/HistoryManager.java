@@ -102,7 +102,7 @@ public class HistoryManager implements Manager, ValueChangeHandler<String> {
     /**
      * Initialize {@code HistoryManager}.
      */
-    public HistoryManager() {
+    private HistoryManager() {
         History.addValueChangeHandler(this);
         currentState = HistoryState.fromHistoryToken(History.getToken());
     }
@@ -166,5 +166,19 @@ public class HistoryManager implements Manager, ValueChangeHandler<String> {
                 listener.onChange(currentState);
             }
         }
+    }
+
+    /*
+     * Singleton
+     */
+
+    private static HistoryManager manager;
+
+    public static HistoryManager get() {
+        if (manager == null) {
+            manager = new HistoryManager();
+        }
+
+        return manager;
     }
 }

@@ -38,7 +38,6 @@ import client.history.CountryHistory;
 import client.history.IndicatorHistory;
 import client.history.IntervalHistory;
 import client.history.SeriesPanelHistory;
-import client.managers.history.HistoryManager;
 import client.managers.models.CountryManager;
 import client.managers.models.IndicatorManager;
 import client.managers.models.IntervalManager;
@@ -110,10 +109,9 @@ public class Dashboard extends Composite {
     @UiField
     public FlowPanel seriesAnchors;
 
-    // History manager
-    private HistoryManager historyManager = new HistoryManager();
-
-    // Model managers
+    /*
+     * Model managers
+     */
     private IntervalManager intervalManager = new IntervalManager();
     private IndicatorManager indicatorManager = new IndicatorManager();
     private CountryManager countryManager = new CountryManager();
@@ -165,10 +163,7 @@ public class Dashboard extends Composite {
 
         intervalCoordinator.setView(seriesInterval);
 
-        IntervalHistory intervalHistory = new IntervalHistory();
-        intervalHistory.connect(intervalManager);
-
-        historyManager.addListener(intervalHistory);
+        new IntervalHistory().connect(intervalManager);
 
         // Select the last interval option by default
         if (intervalManager.getSelectedOption() == null) {
@@ -188,10 +183,7 @@ public class Dashboard extends Composite {
         indicatorTabCoordinator.addTab(
             "search", "Indicators", new IndicatorSelector());
 
-        IndicatorHistory indicatorHistory = new IndicatorHistory();
-        indicatorHistory.connect(indicatorManager);
-
-        historyManager.addListener(indicatorHistory);
+        new IndicatorHistory().connect(indicatorManager);
     }
 
     /**
@@ -204,10 +196,7 @@ public class Dashboard extends Composite {
         countryTabCoordinator.addTab(
             "search", "Countries", new CountrySelector());
 
-        CountryHistory countryHistory = new CountryHistory();
-        countryHistory.connect(countryManager);
-
-        historyManager.addListener(countryHistory);
+        new CountryHistory().connect(countryManager);
     }
 
     /**
@@ -244,10 +233,7 @@ public class Dashboard extends Composite {
          * Tabs
          */
 
-        SeriesPanelHistory seriesPanelHistory = new SeriesPanelHistory();
-        seriesPanelHistory.connect(seriesTabCoordinator);
-
-        historyManager.addListener(seriesPanelHistory);
+        new SeriesPanelHistory().connect(seriesTabCoordinator);
 
         autoEnableScroll(seriesTabCoordinator, seriesPanel.getSelectedIndex());
 
