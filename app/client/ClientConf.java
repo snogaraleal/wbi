@@ -43,45 +43,22 @@ public class ClientConf {
         /**
          * Application start page.
          */
-        INDEX_URL("index"),
+        INDEX_URL,
 
         /**
          * Static assets URL.
          */
-        ASSETS_URL("assets"),
+        ASSETS_URL,
 
         /**
          * RPC HTTP dispatcher URL.
          */
-        RPC_SERVICE_HTTP_URL("http"),
+        RPC_SERVICE_HTTP_URL,
 
         /**
          * RPC WebSocket dispatcher URL.
          */
-        RPC_SERVICE_WS_URL("ws");
-
-        /**
-         * Setting name.
-         */
-        private String name;
-
-        /**
-         * Initialize {@code Setting}.
-         *
-         * @param name Setting name.
-         */
-        private Setting(String name) {
-            this.name = name;
-        }
-
-        /**
-         * Get setting name.
-         *
-         * @return Setting name.
-         */
-        public String getName() {
-            return name;
-        }
+        RPC_SERVICE_WS_URL;
     }
 
     /**
