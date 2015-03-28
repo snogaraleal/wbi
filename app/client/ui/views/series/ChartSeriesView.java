@@ -30,6 +30,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 import models.Country;
@@ -52,6 +53,12 @@ public class ChartSeriesView extends SeriesView {
      */
     private Map<SeriesManager.Row, Chart.Series> map =
         new HashMap<SeriesManager.Row, Chart.Series>();
+
+    /**
+     * {@code Label} displayed when there is no data.
+     */
+    @UiField
+    public Label label;
 
     /**
      * {@code Chart} displaying series data.
@@ -79,7 +86,15 @@ public class ChartSeriesView extends SeriesView {
         redrawTimer = new Timer() {
             @Override
             public void run() {
-                chart.setSeries(map.values());
+                if (map.isEmpty()) {
+                    label.setVisible(true);
+                    chart.setVisible(false);
+                } else {
+                    label.setVisible(false);
+                    chart.setVisible(true);
+
+                    chart.setSeries(map.values());
+                }
             }
         };
     }

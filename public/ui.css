@@ -777,8 +777,20 @@ html, body, button, a, input {
   padding-right: 20px;
 }
 
-.series.series-chart > *,
-.series.series-chart > * > * {
+.series.series-chart > .gwt-Label {
+  color: #AAA;
+  font-size: 14pt;
+  text-align: center;
+
+  position: absolute;
+  top: 46%;
+  left: 50%;
+  width: 200px;
+  margin-left: -100px;
+}
+
+.series.series-chart > .chart,
+.series.series-chart > .chart > * {
   width: 100%;
   height: 100%;
 }

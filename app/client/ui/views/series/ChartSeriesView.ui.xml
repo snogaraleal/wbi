@@ -5,7 +5,10 @@
 
   <g:FlowPanel>
     <g:FlowPanel addStyleNames="component series series-chart">
-      <w:Chart ui:field="chart"/>
+      <g:Label ui:field="label">
+        Select indicator and country to display chart
+      </g:Label>
+      <w:Chart ui:field="chart" addStyleNames="chart"/>
     </g:FlowPanel>
   </g:FlowPanel>
 </ui:UiBinder>
