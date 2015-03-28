@@ -25,6 +25,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class WebSocket {
+    public static boolean CONFIGURED = false;
+
     public static interface Listener {
         void onOpen(WebSocket socket);
         void onMessage(WebSocket socket, String message);
@@ -81,6 +83,7 @@ public abstract class WebSocket {
     }
 
     public static boolean isSupported() {
-        return TrueWebSocket.isSupported() || FlashWebSocket.isSupported();
+        return CONFIGURED &&
+            (TrueWebSocket.isSupported() || FlashWebSocket.isSupported());
     }
 }

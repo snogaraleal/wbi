@@ -136,6 +136,8 @@ public class IndicatorManager implements Manager {
 
                 if (selectedIndicator.equals(indicator)) {
                     if (!selectedIndicator.isReady() && indicator.isReady()) {
+                        selectedIndicator = indicator;
+
                         for (Listener listener : listeners) {
                             listener.onSelect(indicator);
                         }
