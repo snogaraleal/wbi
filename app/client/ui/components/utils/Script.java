@@ -23,6 +23,8 @@ package client.ui.components.utils;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.List;
+import java.util.ArrayList;
 
 import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.ScriptInjector;
@@ -90,6 +92,11 @@ public class Script {
         private Status status = Status.NEW;
 
         /**
+         * List of {@code Runnable} to call when ready.
+         */
+        private List<Runnable> callbacks = new ArrayList<Runnable>();
+
+        /**
          * Initialize {@code Loader}.
          *
          * @param script Path to script.
@@ -117,9 +124,11 @@ public class Script {
         public void load(final Runnable callback) {
             switch (status) {
                 case NEW:
+                    callbacks.add(callback);
                     break;
 
                 case LOADING:
+                    callbacks.add(callback);
                     return;
 
                 case READY:
@@ -144,7 +153,11 @@ public class Script {
 
                         status = Status.READY;
 
-                        callback.run();
+                        for (Runnable callback : callbacks) {
+                            callback.run();
+                        }
+
+                        callbacks.clear();
                     }
                 };
 
