@@ -343,6 +343,10 @@ html, body, button, a, input {
           box-shadow: 0 0 10px -2px gray;
 }
 
+.header span {
+  font-weight: bold;
+}
+
 .container {
   position: absolute;
   width: 100%;
