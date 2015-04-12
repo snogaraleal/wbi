@@ -6,7 +6,7 @@
 
   <g:FlowPanel styleName="viewport" ui:field="viewport">
     <g:HTMLPanel styleName="header slidedown">
-      <span>ENDEO</span> Indicator Explorer
+      Indicator Explorer
     </g:HTMLPanel>
 
     <g:FlowPanel ui:field="overlay" styleName="overlay">
