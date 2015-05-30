@@ -3,12 +3,17 @@
   xmlns:g="urn:import:com.google.gwt.user.client.ui"
   xmlns:w="urn:import:client.ui.components">
 
-  <g:FlowPanel>
-    <g:FlowPanel addStyleNames="component series series-chart">
-      <g:Label ui:field="label">
-        Select indicator and country to display chart
-      </g:Label>
-      <w:Chart ui:field="chart" addStyleNames="chart"/>
-    </g:FlowPanel>
-  </g:FlowPanel>
+  <g:DockLayoutPanel unit="PX">
+    <g:center>
+
+      <g:FlowPanel addStyleNames="component series series-chart">
+        <g:Label ui:field="label">
+          Select indicator and country to display chart
+        </g:Label>
+        <w:Chart ui:field="chart" addStyleNames="chart"/>
+      </g:FlowPanel>
+
+    </g:center>
+  </g:DockLayoutPanel>
+
 </ui:UiBinder>

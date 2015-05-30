@@ -3,9 +3,14 @@
   xmlns:g="urn:import:com.google.gwt.user.client.ui"
   xmlns:w="urn:import:client.ui.components">
 
-  <g:FlowPanel>
-    <g:FlowPanel addStyleNames="component series series-map">
-      <w:VectorMap ui:field="vectorMap"/>
-    </g:FlowPanel>
-  </g:FlowPanel>
+  <g:DockLayoutPanel unit="PX">
+    <g:center>
+
+      <g:FlowPanel addStyleNames="component series series-map">
+        <w:VectorMap ui:field="vectorMap"/>
+      </g:FlowPanel>
+
+    </g:center>
+  </g:DockLayoutPanel>
+
 </ui:UiBinder>

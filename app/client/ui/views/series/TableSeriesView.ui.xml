@@ -2,9 +2,15 @@
   xmlns:ui="urn:ui:com.google.gwt.uibinder"
   xmlns:g="urn:import:com.google.gwt.user.client.ui">
 
-  <g:FlowPanel>
-    <g:FlowPanel addStyleNames="component series series-table">
-      <g:FlowPanel ui:field="container"></g:FlowPanel>
-    </g:FlowPanel>
-  </g:FlowPanel>
+  <g:DockLayoutPanel unit="PX">
+    <g:center>
+
+      <g:FlowPanel
+          ui:field="container"
+          addStyleNames="component series series-table">
+      </g:FlowPanel>
+
+    </g:center>
+  </g:DockLayoutPanel>
+
 </ui:UiBinder>

@@ -87,7 +87,7 @@ public abstract class SeriesView extends Composite
     /**
      * Class name added to this widget when scrollbars are enabled.
      */
-    private static final String CLASS_NAME_SCROLL = "series-scroll";
+    private static final String CLASS_NAME_SCROLL = "scroll";
 
     /**
      * Delay before enabling scrollbars.
@@ -100,7 +100,7 @@ public abstract class SeriesView extends Composite
      * @param enabled Whether scrollbars are enabled.
      */
     public void setScrollEnabled(final boolean enabled) {
-        final Element element = (Element) getElement().getFirstChild();
+        final Element element = getElement();
         boolean scrollEnabled = element.hasClassName(CLASS_NAME_SCROLL);
 
         if ((scrollEnabled && !enabled) || (!scrollEnabled && enabled)) {

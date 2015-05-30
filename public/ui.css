@@ -377,7 +377,6 @@ html, body, button, a, input {
   background-color: white;
   width: 100%;
   box-sizing: border-box;
-  margin-bottom: 10px;
 
   -webkit-box-shadow: 0 2px 8px -4px #AAA;
      -moz-box-shadow: 0 2px 8px -4px #AAA;
@@ -421,8 +420,12 @@ html, body, button, a, input {
 }
 
 .gwt-TabLayoutPanelContent {
-  padding: 10px;
   background-color: #EFEFEF;
+}
+
+.gwt-TabLayoutPanelContent > * {
+  margin: 10px;
+  overflow: visible !important;
 }
 
 
@@ -566,7 +569,6 @@ html, body, button, a, input {
 
 .selector {
   height: 100%;
-  box-sizing: border-box;
 }
 
 .selector-indicator {
@@ -577,7 +579,6 @@ html, body, button, a, input {
 
 .selector .results {
   overflow-y: scroll !important;
-  height: calc(100% - 55px);
   padding: 0;
 }
 
@@ -724,7 +725,7 @@ html, body, button, a, input {
   padding-top: 90px;
 }
 
-.series.series-scroll {
+.scroll .series {
   overflow-y: scroll;
 }
 
@@ -789,8 +790,8 @@ html, body, button, a, input {
   position: absolute;
   top: 46%;
   left: 50%;
-  width: 200px;
-  margin-left: -100px;
+  width: 220px;
+  margin-left: -110px;
 }
 
 .series.series-chart > .chart,
