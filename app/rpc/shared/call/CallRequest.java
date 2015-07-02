@@ -25,18 +25,50 @@ import java.util.List;
 
 import rpc.shared.UUID;
 
+/**
+ * RPC request. Serialized and then sent by the client,
+ * deserialized and then dispatched by the server.
+ */
 public class CallRequest {
+    /**
+     * Server-side deserialization.
+     */
     public static interface ServerSerializer {
+        /**
+         * Deserialize the specified payload.
+         *
+         * @param payload Request payload.
+         * @return Deserialized {@code CallRequest}.
+         * @throws InvalidPayload
+         */
         CallRequest deserialize(String payload) throws InvalidPayload;
     }
 
+    /**
+     * Client-side serialization.
+     */
     public static interface ClientSerializer {
+        /**
+         * Serialize the specified {@code CallRequest}.
+         *
+         * @param request {@code CallRequest} to serialize.
+         * @return Request payload.
+         */
         String serialize(CallRequest request);
     }
 
+    /**
+     * Description of a request message.
+     */
     public static class Message {
+        /*
+         * Size of the request array.
+         */
         public static int SIZE = 4;
 
+        /*
+         * Positions of values in request array.
+         */
         public static int POSITION_CLASS_NAME = 0;
         public static int POSITION_METHOD_NAME = 1;
         public static int POSITION_TOKEN = 2;
@@ -48,6 +80,14 @@ public class CallRequest {
     private String token;
     private List<String> argumentPayloadList;
 
+    /**
+     * Initialize {@code CallRequest}.
+     *
+     * @param className Service class name.
+     * @param methodName Service class method.
+     * @param argumentPayloadList List of serialized arguments.
+     * @param token Unique token for request identification.
+     */
     public CallRequest(
             String className, String methodName,
             List<String> argumentPayloadList, String token) {
@@ -58,6 +98,13 @@ public class CallRequest {
         this.token = token;
     }
 
+    /**
+     * Initialize {@code CallRequest}.
+     *
+     * @param className Service class name.
+     * @param methodName Service class method.
+     * @param argumentPayloadList List of serialized arguments.
+     */
     public CallRequest(
             String className, String methodName,
             List<String> argumentPayloadList) {
@@ -65,22 +112,47 @@ public class CallRequest {
         this(className, methodName, argumentPayloadList, generateToken());
     }
 
+    /**
+     * Get service class name.
+     *
+     * @return Service class name.
+     */
     public String getClassName() {
         return className;
     }
 
+    /**
+     * Get service method name.
+     *
+     * @return Service method name.
+     */
     public String getMethodName() {
         return methodName;
     }
 
+    /**
+     * Generate unique token for request identification.
+     *
+     * @return Request identification.
+     */
     private static String generateToken() {
         return UUID.uuid();
     }
 
+    /**
+     * Get unique token for request identification.
+     *
+     * @return Request identification.
+     */
     public String getToken() {
         return token;
     }
 
+    /**
+     * Get list of serialized arguments.
+     *
+     * @return List of serialized arguments.
+     */
     public List<String> getArgumentPayloadList() {
         return argumentPayloadList;
     }

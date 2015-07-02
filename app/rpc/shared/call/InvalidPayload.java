@@ -21,6 +21,10 @@
 
 package rpc.shared.call;
 
+/**
+ * Exception during deserialization of a {@code CallRequest} or
+ * {@code CallResponse}.
+ */
 @SuppressWarnings("serial")
 public class InvalidPayload extends Exception {
     public InvalidPayload() {

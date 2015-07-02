@@ -21,21 +21,45 @@
 
 package rpc.shared.data;
 
+/**
+ * Exception during serialization or deserialization of a
+ * {@code Serializable} object.
+ */
 @SuppressWarnings("serial")
 public class SerializerException extends Exception {
+    /**
+     * Kind of serialization error.
+     */
     public static enum Error {
         NOT_SERIALIZABLE,
         NOT_DESERIALIZABLE
     }
 
+    /**
+     * Initialize {@code SerializerException}.
+     *
+     * @param error Kind of {@link SerializerException.Error}.
+     */
     public SerializerException(Error error) {
         super(getMessage(error));
     }
 
+    /**
+     * Initialize {@code SerializerException}.
+     *
+     * @param error Kind of {@link SerializerException.Error}.
+     * @param caught Wrapped {@code Throwable}.
+     */
     public SerializerException(Error error, Throwable caught) {
         super(getMessage(error) + " (" + caught.toString() + ")");
     }
 
+    /**
+     * Get message describing the kind of error.
+     *
+     * @param error Kind of error.
+     * @return Error description.
+     */
     public static String getMessage(Error error) {
         switch (error) {
             case NOT_SERIALIZABLE:

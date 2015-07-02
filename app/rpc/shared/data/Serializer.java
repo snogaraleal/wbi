@@ -21,9 +21,29 @@
 
 package rpc.shared.data;
 
+/**
+ * {@code Serializer} capable of serializing and deserializing
+ * {@code Serializable} objects.
+ */
 public interface Serializer {
+    /**
+     * Serialize the specified object.
+     *
+     * @param object Object to serialize.
+     * @return Serialized payload.
+     * @throws SerializerException
+     */
     String serialize(Object object)
         throws SerializerException;
+
+    /**
+     * Deserialize the specified payload.
+     *
+     * @param payload Payload to deserialize.
+     * @param expected Expected object type.
+     * @return Deserialized object.
+     * @throws SerializerException
+     */
     Object deserialize(String payload, Type expected)
         throws SerializerException;
 }

@@ -23,8 +23,36 @@ package rpc.shared.data;
 
 import java.util.Map;
 
+import rpc.shared.call.CallRequest;
+import rpc.shared.call.CallResponse;
+
+/**
+ * Object that can be serialized.
+ *
+ * Only {@code Serializable} objects can be sent as arguments of a
+ * {@link CallRequest} and as a result of a {@link CallResponse}.
+ */
 public interface Serializable {
+    /**
+     * Get the value of the specified field.
+     *
+     * @param field Field name.
+     * @return Field value.
+     */
     public Object get(String field);
+
+    /**
+     * Set the value of the specified field.
+     *
+     * @param field Field name.
+     * @param value Field value.
+     */
     public void set(String field, Object value);
+
+    /**
+     * Get specification of fields.
+     *
+     * @return Specification of fields.
+     */
     public Map<String, Type> fields();
 }
