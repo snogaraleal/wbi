@@ -36,6 +36,9 @@ import rpc.shared.call.InvalidPayload;
 import rpc.shared.data.Serializer;
 import rpc.shared.data.SerializerException;
 
+/**
+ * HTTP implementation of {@link Client}.
+ */
 public class HTTPClient extends Client implements RequestCallback {
     private RequestBuilder builder;
 
@@ -44,6 +47,12 @@ public class HTTPClient extends Client implements RequestCallback {
     private Map<Request, ClientRequest<?>> pendingByRequest =
         new HashMap<Request, ClientRequest<?>>();
 
+    /**
+     * Initialize {@code HTTPClient}.
+     *
+     * @param serializer Global serializer.
+     * @param url HTTP endpoint.
+     */
     public HTTPClient(Serializer serializer, String url) {
         super(serializer);
 
@@ -116,7 +125,7 @@ public class HTTPClient extends Client implements RequestCallback {
             String reason = response.getStatusText();
             clientRequest.finish(new ClientRequest.Error(reason));
         }
-    };
+    }
 
     @Override
     public void onError(Request request, Throwable exception) {
@@ -126,5 +135,5 @@ public class HTTPClient extends Client implements RequestCallback {
         pendingByRequest.remove(request);
 
         clientRequest.finish(new ClientRequest.Error(exception));
-    };
+    }
 }

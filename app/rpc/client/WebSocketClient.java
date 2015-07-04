@@ -32,6 +32,9 @@ import rpc.shared.call.InvalidPayload;
 import rpc.shared.data.Serializer;
 import rpc.shared.data.SerializerException;
 
+/**
+ * WebSocket implementation of {@link Client}.
+ */
 public class WebSocketClient extends Client implements WebSocket.Listener {
     private WebSocket socket;
 
@@ -40,6 +43,12 @@ public class WebSocketClient extends Client implements WebSocket.Listener {
     private Map<String, ClientRequest<?>> pendingByToken =
         new HashMap<String, ClientRequest<?>>();
 
+    /**
+     * Initialize {@code WebSocketClient}.
+     *
+     * @param serializer Global serializer.
+     * @param url WebSocket endpoint.
+     */
     public WebSocketClient(Serializer serializer, String url) {
         super(serializer);
 
@@ -47,6 +56,11 @@ public class WebSocketClient extends Client implements WebSocket.Listener {
         socket.addListener(this);
     }
 
+    /**
+     * Get whether this implementation of {@code Client} is supported.
+     *
+     * @return Whether {@code WebSocketClient} is supported.
+     */
     public static boolean isSupported() {
         return WebSocket.isSupported();
     }

@@ -34,8 +34,14 @@ import rpc.shared.data.SerializerException;
 import rpc.shared.data.Type;
 
 /**
- * Highest-level client-side RPC class providing
+ * RPC client.
+ *
+ * This is the highest-level class of the client-side package.
+ *
+ * Derived classes provide an appropriate implementation of the
  * {@link #send(ClientRequest)} and {@link #cancel(ClientRequest)} methods.
+ *
+ * @see {@link HTTPClient} and {@link WebSocketClient}.
  */
 public abstract class Client {
     /**
@@ -154,15 +160,42 @@ public abstract class Client {
 
     protected Serializer serializer;
 
+    /**
+     * Initialize {@code Client}.
+     */
     public Client() {}
 
+    /**
+     * Initialize {@code Client} with the specified object serializer.
+     *
+     * @param serializer {@link Serializer}.
+     */
     public Client(Serializer serializer) {
         this.serializer = serializer;
     }
 
+    /**
+     * Send the specified {@link ClientRequest}.
+     *
+     * @param clientRequest RPC request.
+     */
     public abstract void send(ClientRequest<?> clientRequest);
+
+    /**
+     * Cancel the specified {@link ClientRequest}.
+     *
+     * @param clientRequest RPC request.
+     */
     public abstract void cancel(ClientRequest<?> clientRequest);
 
+    /**
+     * Build a low-level serializable {@link CallRequest} from a high-level
+     * {@link ClientRequest}.
+     *
+     * @param clientRequest RPC request.
+     * @return Serializable {@link CallRequest}.
+     * @throws SerializerException
+     */
     protected CallRequest buildCallRequest(ClientRequest<?> clientRequest)
         throws SerializerException {
 
@@ -178,16 +211,37 @@ public abstract class Client {
             argumentPayloadList);
     }
 
+    /**
+     * Serialize {@link CallRequest} to be sent.
+     *
+     * @param callRequest {@code CallRequest} to serialize.
+     * @return Serialized request.
+     */
     protected String toRequestMessage(CallRequest callRequest) {
         return requestSerializer.serialize(callRequest);
     }
 
+    /**
+     * Deserialize received {@link CallResponse}.
+     *
+     * @param message Serialized response.
+     * @return Deserialized {@code CallResponse}.
+     * @throws InvalidPayload
+     */
     protected CallResponse fromResponseMessage(String message)
         throws InvalidPayload {
 
         return responseSerializer.deserialize(message);
     }
 
+    /**
+     * Deserialize {@link Serializable} object.
+     *
+     * @param payload Serialized contents.
+     * @param expected Expected object type.
+     * @return Deserialized {@code Serializable} object.
+     * @throws SerializerException
+     */
     protected Object deserialize(String payload, Type expected)
         throws SerializerException {
 
