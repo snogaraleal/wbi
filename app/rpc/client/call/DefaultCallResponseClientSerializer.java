@@ -29,9 +29,15 @@ import com.google.gwt.json.client.JSONString;
 import rpc.shared.call.CallResponse;
 import rpc.shared.call.InvalidPayload;
 
+/**
+ * Default implementation of a {@link CallResponse.ClientSerializer}.
+ */
 public class DefaultCallResponseClientSerializer
     implements CallResponse.ClientSerializer {
 
+    /**
+     * Initialize {@code DefaultCallResponseClientSerializer}.
+     */
     public DefaultCallResponseClientSerializer() {}
 
     @Override

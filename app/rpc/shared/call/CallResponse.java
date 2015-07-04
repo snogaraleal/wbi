@@ -27,7 +27,7 @@ package rpc.shared.call;
  */
 public class CallResponse {
     /**
-     * Server-side serialization.
+     * Server-side serialization of a {@link CallResponse}.
      */
     public static interface ServerSerializer {
         /**
@@ -40,7 +40,7 @@ public class CallResponse {
     }
 
     /**
-     * Client-side deserialization.
+     * Client-side deserialization of a {@link CallResponse}.
      */
     public static interface ClientSerializer {
         /**

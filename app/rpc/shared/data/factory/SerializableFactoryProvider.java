@@ -27,28 +27,64 @@ import java.util.Map;
 import rpc.shared.data.Serializable;
 import rpc.shared.data.Type;
 
+/**
+ * Registry of factories providing {@link Serializable} object instances.
+ */
 public class SerializableFactoryProvider {
-    private DefaultSerializableFactory defaultFactory;
+    /**
+     * Registered {@code SerializableFactory} objects.
+     */
     private Map<Type, SerializableFactory> factoryMap =
         new HashMap<Type, SerializableFactory>();
 
-    public SerializableFactoryProvider() {
-    }
+    /**
+     * {@code DefaultSerializableFactory} used when no
+     * {@code SerializableFactory} is found.
+     */
+    private DefaultSerializableFactory defaultFactory;
 
+    /**
+     * Initialize {@code SerializableFactoryProvider}.
+     */
+    public SerializableFactoryProvider() {}
+
+    /**
+     * Initialize {@code SerializableFactoryProvider}.
+     *
+     * @param defaultFactory Default factory.
+     */
     public SerializableFactoryProvider(
             DefaultSerializableFactory defaultFactory) {
         this();
         setDefaultFactory(defaultFactory);
     }
 
+    /**
+     * Register the specified {@link SerializableFactory}.
+     *
+     * @param type Type of object provided by the factory.
+     * @param factory Factory to register.
+     */
     public void addFactory(Type type, SerializableFactory factory) {
         factoryMap.put(type, factory);
     }
 
+    /**
+     * Replace the current {@link DefaultSerializableFactory}.
+     *
+     * @param defaultFactory Default factory.
+     */
     public void setDefaultFactory(DefaultSerializableFactory defaultFactory) {
         this.defaultFactory = defaultFactory;
     }
 
+    /**
+     * Make a new {@link Serializable} object of the specified type.
+     *
+     * @param type Type of object.
+     * @return New instance.
+     * @throws NoSuitableSerializableFactory
+     */
     public Serializable make(Type type) throws NoSuitableSerializableFactory {
         SerializableFactory factory = factoryMap.get(type);
 

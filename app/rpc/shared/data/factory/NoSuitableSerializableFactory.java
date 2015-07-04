@@ -23,14 +23,29 @@ package rpc.shared.data.factory;
 
 import rpc.shared.data.Type;
 
+/**
+ * Exception when no suitable {@link SerializableFactory} is found for
+ * creating a {@link Serializable} object.
+ */
 @SuppressWarnings("serial")
 public class NoSuitableSerializableFactory extends Exception {
+    /**
+     * Default error message.
+     */
     private static String message = "Serializable factory provider required";
 
+    /**
+     * Initialize {@code NoSuitableSerializableFactory}.
+     *
+     * @param type Type of object for which a factory was not found.
+     */
     public NoSuitableSerializableFactory(Type type) {
         super(type.toString());
     }
 
+    /**
+     * Initialize {@code NoSuitableSerializableFactory} with default message.
+     */
     public NoSuitableSerializableFactory() {
         super(message);
     }

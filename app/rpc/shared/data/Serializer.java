@@ -23,7 +23,7 @@ package rpc.shared.data;
 
 /**
  * {@code Serializer} capable of serializing and deserializing
- * {@code Serializable} objects.
+ * {@link Serializable} objects.
  */
 public interface Serializer {
     /**

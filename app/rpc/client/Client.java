@@ -33,12 +33,37 @@ import rpc.shared.data.Serializer;
 import rpc.shared.data.SerializerException;
 import rpc.shared.data.Type;
 
+/**
+ * Highest-level client-side RPC class providing
+ * {@link #send(ClientRequest)} and {@link #cancel(ClientRequest)} methods.
+ */
 public abstract class Client {
+    /**
+     * Client configuration.
+     */
     public static class Configuration {
+        /**
+         * Global {@link Serializer}.
+         */
         private Serializer serializer;
+
+        /**
+         * HTTP endpoint.
+         */
         private String httpURL;
+
+        /**
+         * WebSocket endpoint.
+         */
         private String wsURL;
 
+        /**
+         * Initialize {@link Client.Configuration}.
+         *
+         * @param serializer Global {@link Serializer}.
+         * @param httpURL HTTP endpoint.
+         * @param wsURL WebSocket endpoint.
+         */
         public Configuration(
                 Serializer serializer,
                 String httpURL, String wsURL) {
@@ -48,25 +73,53 @@ public abstract class Client {
             this.wsURL = wsURL;
         }
 
+        /**
+         * Get global serializer.
+         *
+         * @return Global serializer.
+         */
         public Serializer getSerializer() {
             return serializer;
         }
 
+        /**
+         * Get HTTP endpoint.
+         *
+         * @return HTTP endpoint.
+         */
         public String httpURL() {
             return httpURL;
         }
 
+        /**
+         * Get WebSocket endpoint.
+         *
+         * @return WebSocket endpoint.
+         */
         public String wsURL() {
             return wsURL;
         }
     }
 
+    /**
+     * Current client configuration.
+     */
     private static Configuration configuration;
 
+    /**
+     * Set {@link Client.Configuration}.
+     *
+     * @param config Client configuration.
+     */
     public static void setConfiguration(Configuration config) {
         configuration = config;
     }
 
+    /**
+     * Load {@link Client} class.
+     *
+     * @return New {@code Client} object.
+     */
     private static Client load() {
         if (WebSocketClient.isSupported()) {
             return new WebSocketClient(
@@ -81,6 +134,11 @@ public abstract class Client {
 
     private static Client client;
 
+    /**
+     * Get the single {@link Client} instance.
+     *
+     * @return {@code Client} instance.
+     */
     public static Client get() {
         if (client == null) {
             client = load();
@@ -96,8 +154,7 @@ public abstract class Client {
 
     protected Serializer serializer;
 
-    public Client() {
-    }
+    public Client() {}
 
     public Client(Serializer serializer) {
         this.serializer = serializer;

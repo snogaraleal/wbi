@@ -24,6 +24,16 @@ package rpc.shared.data.factory;
 import rpc.shared.data.Serializable;
 import rpc.shared.data.Type;
 
+/**
+ * Factory providing instances of different types of
+ * {@link Serializable} objects.
+ */
 public interface DefaultSerializableFactory {
+    /**
+     * Create a new {@link Serializable} object.
+     *
+     * @param type Type of object.
+     * @return New instance of {@code Serializable} object.
+     */
     public Serializable make(Type type);
 }

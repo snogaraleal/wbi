@@ -43,17 +43,33 @@ import rpc.shared.data.Utils;
 import rpc.shared.data.factory.NoSuitableSerializableFactory;
 import rpc.shared.data.factory.SerializableFactoryProvider;
 
+/**
+ * Client-side JSON {@link Serializer}.
+ */
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class JSONSerializer implements Serializer {
     private SerializableFactoryProvider provider;
 
-    public JSONSerializer() {
-    }
+    /**
+     * Initialize {@code JSONSerializer}.
+     */
+    public JSONSerializer() {}
 
+    /**
+     * Initialize {@code JSONSerializer}.
+     *
+     * @param provider Provider of {@code Serializable} object instances.
+     */
     public JSONSerializer(SerializableFactoryProvider provider) {
         this.provider = provider;
     }
 
+    /**
+     * Produce a {@code JSONValue} from the specified {@code Object}.
+     *
+     * @param object {@code Object}.
+     * @return {@code JSONValue}.
+     */
     private JSONValue toJSONValue(Object object) {
         // Null
         if (object == null) {
@@ -178,6 +194,15 @@ public class JSONSerializer implements Serializer {
         return jsonValue.toString();
     }
 
+    /**
+     * Produce a new {@code Object} instance from the specified
+     * {@code JSONValue}.
+     *
+     * @param jsonValue {@code JSONValue}.
+     * @param expected Expected object {@link Type}.
+     * @return New {@code Object}.
+     * @throws NoSuitableSerializableFactory
+     */
     private Object fromJSONValue(JSONValue jsonValue, Type expected)
         throws NoSuitableSerializableFactory {
 

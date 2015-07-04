@@ -21,9 +21,17 @@
 
 package rpc.client.websocket;
 
+/**
+ * Native {@link WebSocket} implemented by the browser.
+ */
 public class TrueWebSocket extends WebSocket {
     private String url;
 
+    /**
+     * Initialize {@code TrueWebSocket}.
+     *
+     * @param url {@link WebSocket} URL.
+     */
     public TrueWebSocket(String url) {
         super();
         this.url = url;
@@ -32,11 +40,17 @@ public class TrueWebSocket extends WebSocket {
         bind();
     }
 
+    /**
+     * Initialize {@code WebSocket} object.
+     */
     private native void init() /*-{
         var url = this.@rpc.client.websocket.TrueWebSocket::url;
         this.socket = new WebSocket(url);
     }-*/;
 
+    /**
+     * Bind event handlers.
+     */
     private native void bind() /*-{
         var that = this;
 
@@ -70,6 +84,11 @@ public class TrueWebSocket extends WebSocket {
         this.socket.close();
     }-*/;
 
+    /**
+     * Get whether {@link TrueWebSocket} is supported by the browser.
+     *
+     * @return Whether {@code TrueWebSocket} is supported.
+     */
     public native static boolean isSupported() /*-{
         return 'WebSocket' in $wnd;
     }-*/;

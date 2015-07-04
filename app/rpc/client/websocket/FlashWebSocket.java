@@ -21,19 +21,30 @@
 
 package rpc.client.websocket;
 
+/**
+ * Adobe Flash {@link WebSocket} emulation.
+ */
 public class FlashWebSocket extends WebSocket {
+    /**
+     * Initialize {@code FlashWebSocket}.
+     *
+     * @param url {@link WebSocket} URL.
+     */
     public FlashWebSocket(String url) {
         super();
     }
 
     @Override
-    public void send(String message) {
-    }
+    public void send(String message) {}
 
     @Override
-    public void close() {
-    }
+    public void close() {}
 
+    /**
+     * Get whether {@link FlashWebSocket} is supported by the browser.
+     *
+     * @return Whether {@code FlashWebSocket} is supported.
+     */
     public static boolean isSupported() {
         return false;
     }

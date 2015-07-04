@@ -31,7 +31,7 @@ import rpc.shared.UUID;
  */
 public class CallRequest {
     /**
-     * Server-side deserialization.
+     * Server-side deserialization of a {@link CallRequest}.
      */
     public static interface ServerSerializer {
         /**
@@ -45,7 +45,7 @@ public class CallRequest {
     }
 
     /**
-     * Client-side serialization.
+     * Client-side serialization of a {@link CallRequest}.
      */
     public static interface ClientSerializer {
         /**

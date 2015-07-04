@@ -29,7 +29,7 @@ import rpc.shared.call.CallResponse;
 /**
  * Object that can be serialized.
  *
- * Only {@code Serializable} objects can be sent as arguments of a
+ * Only {@code Serializable} objects can be sent as arguments for a
  * {@link CallRequest} and as a result of a {@link CallResponse}.
  */
 public interface Serializable {
