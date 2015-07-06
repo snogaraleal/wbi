@@ -29,6 +29,9 @@ import rpc.server.data.Reflect;
 import rpc.server.invoke.Invokable;
 import rpc.shared.data.Type;
 
+/**
+ * Loaded method belonging to a {@link RegistryService}.
+ */
 public class RegistryServiceMethod implements Invokable {
     private RegistryService registryService;
 
@@ -37,6 +40,12 @@ public class RegistryServiceMethod implements Invokable {
 
     private List<Type> argumentTypeList;
 
+    /**
+     * Initialize {@code RegistryServiceMethod}.
+     *
+     * @param registryService {@link RegistryService}.
+     * @param serviceMethodName Method name.
+     */
     public RegistryServiceMethod(
             RegistryService registryService,
             String serviceMethodName) {
@@ -45,14 +54,30 @@ public class RegistryServiceMethod implements Invokable {
         this.serviceMethodName = serviceMethodName;
     }
 
+    /**
+     * Get service.
+     *
+     * @return Registry service.
+     */
     public RegistryService getRegistryService() {
         return registryService;
     }
 
+    /**
+     * Get method name.
+     *
+     * @return Method name.
+     */
     public String getServiceMethodName() {
         return serviceMethodName;
     }
 
+    /**
+     * Load service method via reflection.
+     *
+     * @return Service method.
+     * @throws RegistryException
+     */
     private Method loadServiceMethod() throws RegistryException {
         Class<?> serviceClass = registryService.getServiceClass();
 
@@ -80,6 +105,12 @@ public class RegistryServiceMethod implements Invokable {
             this, RegistryException.Reason.SERVICE_METHOD_NOT_FOUND);
     }
 
+    /**
+     * Get service method.
+     *
+     * @return Service method.
+     * @throws RegistryException
+     */
     public Method getServiceMethod() throws RegistryException {
         if (serviceMethod == null) {
             serviceMethod = loadServiceMethod();
@@ -87,6 +118,10 @@ public class RegistryServiceMethod implements Invokable {
 
         return serviceMethod;
     }
+
+    /*
+     * Implementation of {@code Invokable}.
+     */
 
     @Override
     public List<Type> getArgumentTypeList() throws Exception {

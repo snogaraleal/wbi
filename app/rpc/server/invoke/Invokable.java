@@ -26,7 +26,7 @@ import java.util.List;
 import rpc.shared.data.Type;
 
 /**
- * Object that can be invoked by the RPC system.
+ * Object that can be invoked.
  */
 public interface Invokable {
     /**

@@ -21,5 +21,7 @@
 
 package rpc.server;
 
-public interface Service {
-}
+/**
+ * Interface implemented by all service classes.
+ */
+public interface Service {}

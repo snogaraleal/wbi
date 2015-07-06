@@ -61,8 +61,8 @@ public class Reflect {
     }
 
     /**
-     * Get list of {@link Type} specifying the required arguments for a
-     * {@code Method} obtained via reflection.
+     * Get a list containing a {@link Type} for each argument of the specified
+     * method obtained via reflection.
      *
      * @param method Method.
      * @return List of argument types.

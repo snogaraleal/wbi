@@ -22,8 +22,13 @@
 package rpc.shared.call;
 
 /**
- * RPC response. Serialized and then sent by the server,
- * deserialized and then handled by the client.
+ * RPC response.
+ *
+ * <ol>
+ *   <li>Produced and serialized by the server.</li>
+ *   <li>Sent from server to client.</li>
+ *   <li>Deserialized and handled by the client.</li>
+ * </ol>
  */
 public class CallResponse {
     /**

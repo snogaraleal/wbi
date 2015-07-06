@@ -24,18 +24,32 @@ package rpc.server.registry;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Registry of service classes.
+ */
 public class Registry {
     private Map<String, RegistryService> registryServices =
         new HashMap<String, RegistryService>();
 
-    private Registry() {
-    }
+    /**
+     * Initialize {@code Registry}.
+     */
+    private Registry() {}
 
+    /**
+     * Get a {@link RegistryService} for the specified class name.
+     *
+     * @param name Service class name.
+     * @return {@code RegistryService}.
+     * @throws RegistryException
+     */
     public RegistryService getService(String name) throws RegistryException {
         RegistryService registryService = registryServices.get(name);
 
         if (registryService == null) {
             registryService = new RegistryService(name);
+
+            // Load service class
             registryService.getServiceClass();
         }
 
@@ -43,8 +57,16 @@ public class Registry {
         return registryService;
     }
 
+    /**
+     * Single instance.
+     */
     private static Registry instance;
 
+    /**
+     * Get single instance of {@code Registry}.
+     *
+     * @return {@code Registry} instance.
+     */
     public static Registry get() {
         if (instance == null) {
             instance = new Registry();
@@ -53,6 +75,15 @@ public class Registry {
         return instance;
     }
 
+    /**
+     * Obtain a {@link RegistryServiceMethod} for the specified
+     * service class name and method name.
+     *
+     * @param className Service class name.
+     * @param methodName Method name.
+     * @return {@code RegistryServiceMethod}.
+     * @throws RegistryException
+     */
     public static RegistryServiceMethod get(
             String className, String methodName) throws RegistryException {
 

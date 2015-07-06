@@ -27,6 +27,9 @@ import java.util.Map;
 
 import rpc.server.Service;
 
+/**
+ * Service class in the {@link Registry}.
+ */
 public class RegistryService {
     private String serviceClassName;
     private Class<?> serviceClass;
@@ -34,14 +37,30 @@ public class RegistryService {
     private Map<String, RegistryServiceMethod> registryServiceMethods =
         new HashMap<String, RegistryServiceMethod>();
 
+    /**
+     * Initialize {@code RegistryService}.
+     *
+     * @param serviceClassName Service class name.
+     */
     public RegistryService(String serviceClassName) {
         this.serviceClassName = serviceClassName;
     }
 
+    /**
+     * Get service class name.
+     *
+     * @return Service class name.
+     */
     public String getServiceClassName() {
         return serviceClassName;
     }
 
+    /**
+     * Load service class via reflection.
+     *
+     * @return Service class.
+     * @throws RegistryException
+     */
     private Class<?> loadServiceClass() throws RegistryException {
         try {
             serviceClass = Class.forName(serviceClassName);
@@ -62,6 +81,12 @@ public class RegistryService {
         }
     }
 
+    /**
+     * Get service class.
+     *
+     * @return Service class.
+     * @throws RegistryException
+     */
     public Class<?> getServiceClass() throws RegistryException {
         if (serviceClass == null) {
             serviceClass = loadServiceClass();
@@ -70,6 +95,13 @@ public class RegistryService {
         return serviceClass;
     }
 
+    /**
+     * Get method from service.
+     *
+     * @param name Method name.
+     * @return {@link RegistryServiceMethod}.
+     * @throws RegistryException
+     */
     public RegistryServiceMethod getMethod(String name)
         throws RegistryException {
 
@@ -78,6 +110,8 @@ public class RegistryService {
 
         if (registryServiceMethod == null) {
             registryServiceMethod = new RegistryServiceMethod(this, name);
+
+            // Load method
             registryServiceMethod.getServiceMethod();
         }
 

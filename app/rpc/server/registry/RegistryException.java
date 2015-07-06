@@ -23,8 +23,14 @@ package rpc.server.registry;
 
 import rpc.server.Service;
 
+/**
+ * {@link Registry} exception.
+ */
 @SuppressWarnings("serial")
 public class RegistryException extends Exception {
+    /**
+     * Exception reason.
+     */
     public static enum Reason {
         SERVICE_CLASS_NOT_FOUND,
         SERVICE_CLASS_NOT_ENABLED,
@@ -33,6 +39,12 @@ public class RegistryException extends Exception {
         SERVICE_METHOD_NOT_PUBLIC
     }
 
+    /**
+     * Initialize {@code RegistryException}.
+     *
+     * @param registryService {@link RegistryService}.
+     * @param reason Reason.
+     */
     public RegistryException(
             RegistryService registryService,
             Reason reason) {
@@ -40,6 +52,12 @@ public class RegistryException extends Exception {
         super(getMessage(registryService, null, reason));
     }
 
+    /**
+     * Initialize {@code RegistryException}.
+     *
+     * @param registryServiceMethod {@link RegistryServiceMethod}.
+     * @param reason {@link RegistryException.Reason}.
+     */
     public RegistryException(
             RegistryServiceMethod registryServiceMethod,
             Reason reason) {
@@ -49,6 +67,13 @@ public class RegistryException extends Exception {
             registryServiceMethod, reason));
     }
 
+    /**
+     * Initialize {@code RegistryException}.
+     *
+     * @param registryServiceMethod {@link RegistryServiceMethod}.
+     * @param reason {@link RegistryException.Reason}.
+     * @param caught Throwable.
+     */
     public RegistryException(
             RegistryServiceMethod registryServiceMethod,
             Reason reason,
@@ -60,6 +85,13 @@ public class RegistryException extends Exception {
                 "(" + caught.toString() + ")");
     }
 
+    /**
+     * Initialize {@code RegistryException}.
+     *
+     * @param registryService {@link RegistryService}.
+     * @param reason {@link RegistryException.Reason}.
+     * @param caught Throwable.
+     */
     public RegistryException(
             RegistryService registryService,
             Reason reason,
@@ -71,6 +103,14 @@ public class RegistryException extends Exception {
 
     private static String GENERIC_MESSAGE = "Registry exception";
 
+    /**
+     * Get message.
+     *
+     * @param registryService {@link RegistryService}.
+     * @param registryServiceMethod {@link RegistryServiceMethod}.
+     * @param reason {@link RegistryException.Reason}.
+     * @return Message.
+     */
     private static String getMessage(
             RegistryService registryService,
             RegistryServiceMethod registryServiceMethod,

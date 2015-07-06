@@ -29,13 +29,27 @@ import rpc.server.registry.RegistryServiceMethod;
 import rpc.shared.call.CallRequest;
 import rpc.shared.call.CallResponse;
 
+/**
+ * Shortcut class for handling requests.
+ */
 public class GlobalHandler {
     protected static Invoker defaultInvoker;
 
+    /**
+     * Set underlying invoker.
+     *
+     * @param invoker Invoker.
+     */
     public static void setDefaultInvoker(Invoker invoker) {
         defaultInvoker = invoker;
     }
 
+    /**
+     * Handle the specified {@link CallRequest}.
+     *
+     * @param request {@code CallRequest} to handle.
+     * @return {@link CallResponse}.
+     */
     public static CallResponse handle(CallRequest request) {
         boolean success;
         String payload;

@@ -26,8 +26,13 @@ import java.util.List;
 import rpc.shared.UUID;
 
 /**
- * RPC request. Serialized and then sent by the client,
- * deserialized and then dispatched by the server.
+ * RPC request.
+ *
+ * <ol>
+ *   <li>Produced and serialized by the client.</li>
+ *   <li>Sent from client to server.</li>
+ *   <li>Deserialized and handled by the server.</li>
+ * <ol>
  */
 public class CallRequest {
     /**
