@@ -41,7 +41,7 @@ public class TrueWebSocket extends WebSocket {
     }
 
     /**
-     * Initialize {@code WebSocket} object.
+     * Initialize underlying {@code WebSocket}.
      */
     private native void init() /*-{
         var url = this.@rpc.client.websocket.TrueWebSocket::url;

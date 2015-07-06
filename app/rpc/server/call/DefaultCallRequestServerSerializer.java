@@ -31,11 +31,17 @@ import com.google.gson.JsonParser;
 import rpc.shared.call.CallRequest;
 import rpc.shared.call.InvalidPayload;
 
+/**
+ * Default implementation of a {@link CallRequest.ServerSerializer}.
+ */
 public class DefaultCallRequestServerSerializer
     implements CallRequest.ServerSerializer {
 
     private static JsonParser parser = new JsonParser();
 
+    /**
+     * Initialize {@code DefaultCallRequestServerSerializer}.
+     */
     public DefaultCallRequestServerSerializer() {}
 
     @Override

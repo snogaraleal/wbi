@@ -21,10 +21,16 @@
 
 package rpc.server.invoke;
 
+/**
+ * Exception during {@code Invokable} call.
+ */
 @SuppressWarnings("serial")
 public class InvokerException extends Exception {
     private static String GENERIC_MESSAGE = "Exception during invocation";
 
+    /**
+     * Exception reason.
+     */
     public static enum Reason {
         INCOMPATIBLE_ARGUMENTS,
         INVALID_PAYLOAD,
@@ -32,14 +38,32 @@ public class InvokerException extends Exception {
         UNSUPPORTED_RETURN_VALUE
     }
 
+    /**
+     * Initialize {@code InvokerException} with a {@link Reason}.
+     *
+     * @param reason Reason.
+     */
     public InvokerException(Reason reason) {
         super(getMessage(reason));
     }
 
+    /**
+     * Initialize {@code InvokerException} with a {@link Reason} and a
+     * {@code Throwable} providing more details.
+     *
+     * @param reason Reason.
+     * @param caught Throwable.
+     */
     public InvokerException(Reason reason, Throwable caught) {
         super(getMessage(reason) + " (" + caught + ")");
     }
 
+    /**
+     * Get reason message.
+     *
+     * @param reason Reason.
+     * @return Message.
+     */
     private static String getMessage(Reason reason) {
         switch (reason) {
             case INCOMPATIBLE_ARGUMENTS:

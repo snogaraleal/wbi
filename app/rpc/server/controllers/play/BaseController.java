@@ -28,6 +28,9 @@ import rpc.server.call.DefaultCallResponseServerSerializer;
 import rpc.shared.call.CallRequest;
 import rpc.shared.call.CallResponse;
 
+/**
+ * Base class for Play Framework controllers.
+ */
 public class BaseController extends Controller {
     protected static CallRequest.ServerSerializer requestSerializer =
         new DefaultCallRequestServerSerializer();

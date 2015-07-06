@@ -25,7 +25,24 @@ import java.util.List;
 
 import rpc.shared.data.Type;
 
+/**
+ * Object that can be invoked by the RPC system.
+ */
 public interface Invokable {
+    /**
+     * Get required argument types.
+     *
+     * @return List of argument types.
+     * @throws Exception
+     */
     List<Type> getArgumentTypeList() throws Exception;
+
+    /**
+     * Invoke this {@code Invokable}.
+     *
+     * @param arguments Arguments.
+     * @return Return value.
+     * @throws Exception
+     */
     Object invoke(Object... arguments) throws Exception;
 }

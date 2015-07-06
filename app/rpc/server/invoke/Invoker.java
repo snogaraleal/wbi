@@ -28,13 +28,29 @@ import rpc.shared.data.Serializer;
 import rpc.shared.data.SerializerException;
 import rpc.shared.data.Type;
 
+/**
+ * Layer for calling an {@link Invokable} with serialized values.
+ */
 public class Invoker {
     private Serializer serializer;
 
+    /**
+     * Initialize {@code Invoker}.
+     *
+     * @param serializer Serializer.
+     */
     public Invoker(Serializer serializer) {
         this.serializer = serializer;
     }
 
+    /**
+     * Get required argument types for calling an {@code Invokable} or raise
+     * an {@link InvokerException} if not possible.
+     *
+     * @param invokable Invokable.
+     * @return List of argument types.
+     * @throws InvokerException
+     */
     private List<Type> getArgumentTypeList(Invokable invokable)
         throws InvokerException {
 
@@ -50,6 +66,15 @@ public class Invoker {
         return argumentTypeList;
     }
 
+    /**
+     * Deserialize arguments for calling an {@code Invokable} or raise
+     * an {@link InvokerException} if not possible.
+     *
+     * @param argumentPayloadList Serialized arguments.
+     * @param argumentTypeList Required argument types.
+     * @return Deserialized arguments.
+     * @throws InvokerException
+     */
     private List<Object> getArgumentList(
             List<String> argumentPayloadList,
             List<Type> argumentTypeList) throws InvokerException {
@@ -86,10 +111,17 @@ public class Invoker {
         return argumentList;
     }
 
+    /**
+     * Invoke an {@link Invokable}.
+     *
+     * @param invokable Invokable to invoke.
+     * @param argumentPayloadList Serialized arguments.
+     * @return Serialized return value.
+     * @throws InvokerException
+     */
     public String invoke(
             Invokable invokable,
-            List<String> argumentPayloadList)
-        throws InvokerException {
+            List<String> argumentPayloadList) throws InvokerException {
 
         List<Object> argumentList = getArgumentList(
             argumentPayloadList, getArgumentTypeList(invokable));

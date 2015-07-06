@@ -30,7 +30,15 @@ import rpc.shared.call.CallRequest;
 import rpc.shared.call.CallResponse;
 import rpc.shared.call.InvalidPayload;
 
+/**
+ * HTTP controller.
+ */
 public class BaseHTTPController extends BaseController {
+    /**
+     * Handle RPC request.
+     *
+     * @return Response.
+     */
     public static Result call() {
         JsonNode json = request().body().asJson();
         if (json == null) {

@@ -32,7 +32,13 @@ import rpc.server.GlobalHandler;
 import rpc.shared.call.CallRequest;
 import rpc.shared.call.CallResponse;
 
+/**
+ * WebSocket controller.
+ */
 public class BaseWebSocketController extends BaseController {
+    /**
+     * Actor handling WebSocket messages.
+     */
     public static class WebSocketActor extends UntypedActor {
         public static Props props(ActorRef out) {
             return Props.create(WebSocketActor.class, out);
@@ -40,10 +46,18 @@ public class BaseWebSocketController extends BaseController {
 
         private final ActorRef out;
 
+        /**
+         * Initialize {@code WebSocketActor}.
+         *
+         * @param out Actor reference handling replies from this actor.
+         */
         public WebSocketActor(ActorRef out) {
             this.out = out;
         }
 
+        /**
+         * Handle RPC request.
+         */
         @Override
         public void onReceive(Object message) throws Exception {
             if (message instanceof String) {
@@ -58,6 +72,11 @@ public class BaseWebSocketController extends BaseController {
         }
     }
 
+    /**
+     * Start WebSocket session.
+     *
+     * @return {@code WebSocket}.
+     */
     public static WebSocket<String> socket() {
         return WebSocket.withActor(new F.Function<ActorRef, Props>() {
             @Override

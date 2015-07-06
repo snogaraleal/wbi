@@ -26,9 +26,15 @@ import com.google.gson.JsonPrimitive;
 
 import rpc.shared.call.CallResponse;
 
+/**
+ * Default implementation of a {@link CallResponse.ServerSerializer}.
+ */
 public class DefaultCallResponseServerSerializer
     implements CallResponse.ServerSerializer {
 
+    /**
+     * Initialize {@code DefaultCallResponseServerSerializer}.
+     */
     public DefaultCallResponseServerSerializer() {}
 
     @Override

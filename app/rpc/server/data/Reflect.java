@@ -28,7 +28,16 @@ import java.util.List;
 
 import rpc.shared.data.Type;
 
+/**
+ * Reflection utilities.
+ */
 public class Reflect {
+    /**
+     * Get {@link Type} from the specified {@link java.lang.reflect.Type}.
+     *
+     * @param reflectType Reflection type.
+     * @return RPC type.
+     */
     public static Type getType(java.lang.reflect.Type reflectType) {
         Type[] parameterized = null;
 
@@ -51,6 +60,13 @@ public class Reflect {
         return Type.get((Class<?>) reflectType, parameterized);
     }
 
+    /**
+     * Get list of {@link Type} specifying the required arguments for a
+     * {@code Method} obtained via reflection.
+     *
+     * @param method Method.
+     * @return List of argument types.
+     */
     public static List<Type> getArgumentTypeList(Method method) {
         List<Type> argumentTypeList = new ArrayList<Type>();
 
