@@ -46,7 +46,7 @@ public class WorldBank {
         public static String PATH_INDICATOR = "/countries/indicators/:ident";
 
         public static String PER_PAGE = "per_page";
-        public static int PER_PAGE_MAX = 30000;
+        public static int PER_PAGE_MAX = 15000;
     }
 
     public static class Schema {
